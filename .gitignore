@@ -1,0 +1,6 @@
+# Ignore python cache folder
+__pycache__/
+
+# Datasets
+flipkart_furniture_dataset/
+merged_files/

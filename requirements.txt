@@ -1,0 +1,6 @@
+flask
+collections
+spacy
+torch
+transformers
+nltk
