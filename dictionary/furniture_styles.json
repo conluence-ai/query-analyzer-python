@@ -1,0 +1,56 @@
+{
+    "Rustic":
+    [
+        "country", "cottage", "farmhouse", "rural",
+        "woodland", "barnyard", "cabin"
+    ],
+    "Contemporary":
+    [
+        "cutting-edge", "state-of-the-art", "avant-garde"
+    ],
+    "Mid-Century":
+    [
+        "midcentury modern", "MCM", "1950s style",
+        "post-war modern", "atomic age"
+    ],
+    "Bohemian":
+    [
+        "boho", "eclectic", "gypsy",
+        "artsy", "free-spirited", "nomadic"
+    ],
+    "Minimalistic":
+    [
+        "minimalist", "clean", "streamlined",
+        "pared-down", "simplicity", "essential"
+    ],
+    "Scandinavian":
+    [
+        "Scandi", "Nordic", "Scando", "Danish modern",
+        "Finnish style", "Swedish design"
+    ],
+    "Art Deco":
+    [
+        "jazz age", "machine age", "streamline moderne",
+        "Deco", "20s glamour", "Roaring Twenties style"
+    ],
+    "Classical":
+    [
+        "traditional", "timeless", "formal",
+        "historical", "elegant", "academical"
+    ],
+    "NeoClassic":
+    [
+        "neoclassical", "revival", "Empire style",
+        "classical revival", "18th-century style"
+    ],
+    "Modern": 
+    [
+        "present-day", "state-of-the-art",
+        "up-to-the-minute", "new-fangled", "modern"
+    ],
+    "Industrial": 
+    [
+        "factory", "warehouse", "urban loft",
+        "raw", "mechanical"
+    ]
+}

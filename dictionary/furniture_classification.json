@@ -1,0 +1,8 @@
+{
+    "VariantType":
+    [
+        "1 Seater", "2 Seater", "3 Seater", "4 Seater",
+        "Compact", "Standard", "Oversized", "Small",
+        "Medium", "Large", "Extra Large"
+    ]
+}

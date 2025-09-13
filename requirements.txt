@@ -1,5 +1,19 @@
+# requirements.txt
+
+# Web framework and server
 flask
+flask_cors
+uvicorn
+gunicorn
+
+# NLP and ML libraries
 spacy
 torch
 transformers
-nltk
+rapidfuzz
+Levenshtein
+pyspellchecker
+
+# Data handling
+numpy
+pandas

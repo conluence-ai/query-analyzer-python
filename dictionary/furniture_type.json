@@ -1,0 +1,40 @@
+{
+    "Sofa": 
+        [ 
+            "couch", "loveseat", "settee", "divan", "davenport",
+            "chesterfield", "sectional", "fainting couch"
+        ],
+    "Armchair": 
+        [
+            "chair", "easy chair", "wing chair", "recliner", 
+            "club chair", "tub chair", "slipper chair"
+        ],
+    "Ottoman":
+        [
+            "footstool", "pouf", "pouffe", "storage ottoman", "ottoman bench",
+            "cocktail ottoman", "footrest", "ottoman seat", "low stool",
+            "living room stool", "sofa stool", "cube ottoman", "padded stool",
+            "floor cushion", "upholstered stool", "ottoman table", "coffee table ottoman",
+            "shoe bench", "lounge ottoman", "round ottoman", "square ottoman",
+            "rectangle ottoman", "decorative stool", "multi-purpose stool", "accent stool"
+        ],
+    "Chaise Lounge":
+        [
+            "lounge chair", "reclining chair", "fainting couch", "daybed",
+            "sunbed", "deck chair", "divan", "sofa lounger", "recliner lounge",
+            "chaise sofa", "outdoor lounger", "indoor lounger", "patio lounger",
+            "beach lounger", "long chair", "modern lounger", "lazy lounger",
+            "comfort lounger", "curved lounge", "adjustable lounger", "studio lounger",
+            "relaxation bed", "stretch chair", "oversized lounger", "media lounger"
+        ],
+    "Lounge Chair":
+        [
+            "lounger", "accent chair", "reading chair", "indoor recliner",
+            "poolside chair", "deck chair", "relaxing chair", "easy chair",
+            "leisure chair", "balcony chair", "patio chair", "low recliner",
+            "casual chair", "modern recliner", "comfort chair", "TV chair",
+            "plush chair", "living room chair", "den chair", "arm-less recliner",
+            "slanted chair", "sofa recliner", "lounge seat", "lazy chair",
+            "sunroom chair"
+        ] 
+}

@@ -1,7 +1,7 @@
 # Import necessary libraries
 import re
 from collections import Counter
-from datasets.data import PriceRange
+from config.config import PriceRange
 from typing import List, Tuple, Optional
 from config.constants import CURRENCY_PATTERNS, PRICE_PATTERNS, NUMBER_PATTERNS, CONTEXT_WORDS
 
@@ -47,18 +47,18 @@ class PriceExtractor:
             price_results.append(('pattern', pattern_result, 0.8))
         
         # Number extraction + context
-        context_result = self._extract_using_context(text_lower, currency)
+        context_result = self._extractUsingContext(text_lower, currency)
         if context_result:
             price_results.append(('context', context_result, 0.6))
         
         # ML-based extraction (simplified)
-        ml_result = self._extract_using_ml(text_lower, currency)
+        ml_result = self._extractUsingMl(text_lower, currency)
         if ml_result:
             price_results.append(('ml', ml_result, 0.7))
         
         # Combine results using weighted voting
         if price_results:
-            return self._combine_price_results(price_results)
+            return self._combinePriceResults(price_results)
         
         return None
     
@@ -81,9 +81,9 @@ class PriceExtractor:
                 score += matches
             currency_scores[currency] = score
         
-        # Default to INR if no currency detected or if rupees mentioned
+        # Default to EUR if no currency detected or if rupees mentioned
         if not currency_scores or max(currency_scores.values()) == 0:
-            return 'INR'
+            return 'EUR'
         
         return max(currency_scores, key=currency_scores.get)
     
@@ -94,13 +94,13 @@ class PriceExtractor:
             if matches:
                 if isinstance(matches[0], tuple) and len(matches[0]) == 2:
                     # Range pattern
-                    min_val = self._parse_number(matches[0][0])
-                    max_val = self._parse_number(matches[0][1])
+                    min_val = self._parseNumber(matches[0][0])
+                    max_val = self._parseNumber(matches[0][1])
                     if min_val and max_val:
                         return PriceRange(min=min_val, max=max_val, currency=currency, confidence=0.8)
                 else:
                     # Single value pattern
-                    price_val = self._parse_number(matches[0])
+                    price_val = self._parseNumber(matches[0])
                     if price_val:
                         # Determine if it's min or max based on context
                         if any(word in text for word in CONTEXT_WORDS['max']):
@@ -114,14 +114,14 @@ class PriceExtractor:
         
         return None
     
-    def _extract_using_context(self, text: str, currency: str) -> Optional[PriceRange]:
+    def _extractUsingContext(self, text: str, currency: str) -> Optional[PriceRange]:
         """Extract price using context analysis"""
         # Find all numbers in text
         numbers = []
         for pattern in self.number_patterns:
             matches = re.findall(pattern, text, re.IGNORECASE)
             for match in matches:
-                parsed_num = self._parse_number(match)
+                parsed_num = self._parseNumber(match)
                 if parsed_num and 100 <= parsed_num <= 10000000:  # Reasonable furniture price range
                     numbers.append(parsed_num)
         
@@ -143,7 +143,7 @@ class PriceExtractor:
         else:
             return PriceRange(min=None, max=price_val, currency=currency, confidence=0.5)
     
-    def _extract_using_ml(self, text: str, currency: str) -> Optional[PriceRange]:
+    def _extractUsingMl(self, text: str, currency: str) -> Optional[PriceRange]:
         """
             Extract price using ML approach (simplified)
             
@@ -160,7 +160,7 @@ class PriceExtractor:
         # Simple heuristic: look for largest reasonable number
         numbers = re.findall(r'\d+(?:,\d+)*(?:\.\d+)?', text)
         if numbers:
-            parsed_numbers = [self._parse_number(num) for num in numbers]
+            parsed_numbers = [self._parseNumber(num) for num in numbers]
             valid_numbers = [n for n in parsed_numbers if n and 100 <= n <= 10000000]
             
             if valid_numbers:
@@ -169,7 +169,7 @@ class PriceExtractor:
         
         return None
     
-    def _parse_number(self, num_str: str) -> Optional[float]:
+    def _parseNumber(self, num_str: str) -> Optional[float]:
         """
             Parse number string to float
             
@@ -183,24 +183,53 @@ class PriceExtractor:
             return None
         
         try:
-            # Handle special cases
-            if 'k' in num_str.lower() or 'thousand' in num_str.lower():
-                base_num = float(re.sub(r'[^\d.]', '', num_str))
-                return base_num * 1000
-            elif 'l' in num_str.lower() or 'lakh' in num_str.lower() or 'lac' in num_str.lower():
-                base_num = float(re.sub(r'[^\d.]', '', num_str))
-                return base_num * 100000
-            elif 'cr' in num_str.lower() or 'crore' in num_str.lower():
-                base_num = float(re.sub(r'[^\d.]', '', num_str))
-                return base_num * 10000000
+            # Clean up the input - remove extra spaces and convert to lowercase
+            num_str_clean = re.sub(r'\s+', ' ', num_str.lower().strip())
+            
+            # Handle special cases - check BEFORE removing characters
+            # Pattern to extract number and suffix with optional space
+            suffix_pattern = r'(\d+(?:\.\d+)?)\s*(k|thousand|l|lakh|lac|cr|crore)?'
+            match = re.search(suffix_pattern, num_str_clean)
+            
+            if match:
+                base_num_str = match.group(1)
+                suffix = match.group(2) if match.group(2) else None
+                
+                try:
+                    base_num = float(base_num_str)
+                except ValueError:
+                    return None
+                
+                # Apply multiplier based on suffix
+                if suffix in ['k', 'thousand']:
+                    return base_num * 1000
+                elif suffix in ['l', 'lakh', 'lac']:
+                    return base_num * 100000
+                elif suffix in ['cr', 'crore']:
+                    return base_num * 10000000
+                else:
+                    # No suffix, check if it's a regular number
+                    # Remove commas and currency symbols
+                    clean_num = re.sub(r'[,\s₹$€£]', '', num_str)
+                    clean_num = re.sub(r'[^\d.]', '', clean_num)
+                    if clean_num:
+                        return float(clean_num)
+                    else:
+                        return base_num
+            
             else:
-                # Regular number
-                clean_num = re.sub(r'[,\s]', '', num_str)
-                return float(clean_num)
-        except ValueError:
+                # Fallback: try to parse as regular number
+                clean_num = re.sub(r'[,\s₹$€£]', '', num_str)
+                clean_num = re.sub(r'[^\d.]', '', clean_num)
+                if clean_num:
+                    return float(clean_num)
+        
+        except (ValueError, AttributeError):
             return None
+        
+        return None
     
-    def _combine_price_results(self, results: List[Tuple]) -> PriceRange:
+    def _combinePriceResults(self, results: List[Tuple]) -> PriceRange:
         """
             Combine multiple price extraction results
 
@@ -237,7 +266,7 @@ class PriceExtractor:
         
         # Most confident currency
         currency_counts = Counter(curr for curr, _ in currencies)
-        final_currency = currency_counts.most_common(1)[0][0] if currencies else 'INR'
+        final_currency = currency_counts.most_common(1)[0][0] if currencies else 'EUR'
 
         if final_min is not None:
             final_min = round(final_min, 2)
