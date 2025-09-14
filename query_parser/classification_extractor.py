@@ -258,8 +258,6 @@ class StyleClassification:
         Returns:
             Dict[str, List[str]]: Dictionary with classification categories and their values
         """
-        logger.info(f"Extracting classification from: '{query}'")
-        
         # Step 1: Preprocess the query
         preprocessed = self._preprocess_query(query)
         logger.debug(f"Preprocessed query: '{preprocessed}'")

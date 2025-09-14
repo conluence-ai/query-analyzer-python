@@ -345,7 +345,7 @@ class FurnitureParser:
             features=features,
             price_range=price_range,
             location="",
-            confidence_score=0,
+            confidence_score=product_confidence[0],
             styles=styles,
             classification_summary=classfications,
             extras=[],

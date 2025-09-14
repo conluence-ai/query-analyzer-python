@@ -6,14 +6,9 @@ flask_cors
 gunicorn
 
 # NLP and ML libraries
---extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.2.*
-transformers[sentencepiece]==4.41.2
-rapidfuzz
 Levenshtein
 pyspellchecker
-transformers[sentencepiece]==4.41.2
 
 # Data handling
 pandas
-numpy<2
+numpy
