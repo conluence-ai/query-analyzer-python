@@ -324,7 +324,7 @@ class FurnitureParser:
         logger.info(f"ML parsing query: {query}")
         
         # Classify product type using zero-shot
-        product_type, product_confidence = self.product_extractor.classifyProductType(query)
+        product_types, product_confidence = self.product_extractor.classifyProductType(query)
 
         # Extract features using hybrid approach
         features = self._extractFeatures(query)
@@ -339,7 +339,7 @@ class FurnitureParser:
         price_range = self.price_extractor.extractPriceRange(query)
 
         result = ParserResult(
-            product_type=product_type if product_type != "Unknown" else [],
+            product_type=product_types if product_types != ["Unknown"] else [],
             brand_name=[],
             product_name=[],
             features=features,

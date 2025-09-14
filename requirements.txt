@@ -3,17 +3,17 @@
 # Web framework and server
 flask
 flask_cors
-uvicorn
 gunicorn
 
 # NLP and ML libraries
-spacy
-torch
-transformers
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.2.*
+transformers[sentencepiece]==4.41.2
 rapidfuzz
 Levenshtein
 pyspellchecker
+transformers[sentencepiece]==4.41.2
 
 # Data handling
-numpy
 pandas
+numpy<2

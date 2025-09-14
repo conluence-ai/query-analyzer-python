@@ -257,12 +257,6 @@ class StyleClassification:
             
         Returns:
             Dict[str, List[str]]: Dictionary with classification categories and their values
-            
-        Example:
-            >>> classifier = StyleClassification()
-            >>> result = classifier.extractClassification("I want three seater modern sofa")
-            >>> print(result)
-            {'VariantType': ['3 Seater']}
         """
         logger.info(f"Extracting classification from: '{query}'")
         
@@ -311,5 +305,4 @@ class StyleClassification:
         # Step 6: Validate and clean results
         validated_classifications = self._validate_classifications(final_classifications)
         
-        logger.info(f"Final classifications: {validated_classifications}")
         return validated_classifications

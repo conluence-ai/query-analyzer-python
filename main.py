@@ -3,6 +3,7 @@
 # Import necessary libraries
 import time
 import logging
+import datetime
 import warnings
 from flask_cors import CORS
 from flask import Flask, request, jsonify
@@ -65,6 +66,16 @@ def analyzeQuery():
     except Exception as e:
         logger.exception("Error in analyzeQuery")
         return jsonify({"success": False, "error": f"Server error: {str(e)}"}), 500
+    
+# Health Check Endpoints
+@app.route("/health", methods=["Get"])
+async def healthCheck():
+    """Basic health check"""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "service": "query-parser-api"
+    }
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8432)
