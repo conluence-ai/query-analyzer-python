@@ -68,7 +68,7 @@ def analyzeQuery():
         return jsonify({"success": False, "error": f"Server error: {str(e)}"}), 500
     
 # Health Check Endpoints
-@app.route("/health", methods=["Get"])
+@app.route("/health", methods=["GET"])
 async def healthCheck():
     """Basic health check"""
     return {
