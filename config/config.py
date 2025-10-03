@@ -13,8 +13,8 @@ class PriceRange:
 @dataclass
 class ParserResult:
     product_type: List[str]
-    brand_name: Optional[List[str]]
-    product_name: Optional[List[str]]
+    brand_name: Optional[str]
+    product_name: Optional[str]
     features: List[str]
     styles: List[str]
     price_range: Optional[PriceRange]

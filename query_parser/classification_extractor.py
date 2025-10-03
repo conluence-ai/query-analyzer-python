@@ -1,88 +1,29 @@
-"""
-StyleClassification - Standalone module for extracting variant classifications
-Save this as: query_parser/style_classification.py
-"""
-
+# Import necessary libraries
 import re
 import logging
 from typing import Dict, List, Optional
 from difflib import SequenceMatcher
+import Levenshtein
+from spellchecker import SpellChecker
 
-# Optional imports for better performance
-try:
-    import Levenshtein
-except ImportError:
-    Levenshtein = None
-    
-try:
-    from spellchecker import SpellChecker
-except ImportError:
-    SpellChecker = None
+# Import constants and mappings
+from config.constants import (
+    FURNITURE_CLASSIFICATION,
+    NUMBER_WORDS,
+    SEATER_PATTERNS
+)
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
 class StyleClassification:
-    """Extract classification information from furniture queries with fuzzy matching and spell correction"""
+    """ Extract classification information from furniture queries with fuzzy matching and spell correction """
     
     def __init__(self):
         """Initialize the style classification extractor"""
         
         # Classification mappings with synonyms and variations
-        self.classification_mappings = {
-            "VariantType": {
-                # Seater variations
-                "1 Seater": [
-                    "1 seater", "single seater", "one seater", "1-seater", "single seat",
-                    "solo", "individual", "personal", "single person", "1 person", "single"
-                ],
-                "2 Seater": [
-                    "2 seater", "two seater", "double seater", "2-seater", "two seat",
-                    "double seat", "couple", "loveseat", "love seat", "2 person",
-                    "two person", "dual", "pair", "double sofa", "double"
-                ],
-                "3 Seater": [
-                    "3 seater", "three seater", "triple seater", "3-seater", "three seat",
-                    "triple seat", "3 person", "three person", "triple", "3 people",
-                    "three people", "family", "triple sofa", "three"
-                ],
-                "4 Seater": [
-                    "4 seater", "four seater", "quad seater", "4-seater", "four seat",
-                    "quad seat", "4 person", "four person", "quad", "4 people",
-                    "four people", "large family", "quad sofa", "four"
-                ],
-                
-                # Size variations
-                "Compact": [
-                    "compact", "small", "mini", "tiny", "petite", "space saving",
-                    "apartment size", "studio", "small space", "narrow", "slim"
-                ],
-                "Standard": [
-                    "standard", "regular", "normal", "medium", "average", "typical",
-                    "standard size", "regular size", "medium size"
-                ],
-                "Oversized": [
-                    "oversized", "extra large", "xl", "xxl", "jumbo", "huge",
-                    "massive", "big", "large size", "super size", "king size"
-                ],
-                "Small": [
-                    "small", "little", "mini", "compact", "petite", "tiny",
-                    "space efficient", "small size"
-                ],
-                "Medium": [
-                    "medium", "mid", "middle", "moderate", "average size",
-                    "medium size", "mid size", "standard"
-                ],
-                "Large": [
-                    "large", "big", "spacious", "roomy", "generous", "wide",
-                    "large size", "big size", "family size"
-                ],
-                "Extra Large": [
-                    "extra large", "xl", "very large", "super large", "oversized",
-                    "jumbo", "king size", "queen size", "massive"
-                ]
-            }
-        }
+        self.classification_mappings = FURNITURE_CLASSIFICATION
         
         # Fuzzy matching threshold
         self.fuzzy_threshold = 0.9
@@ -97,13 +38,6 @@ class StyleClassification:
         self.synonym_to_classification = {}
         self.all_synonyms = set()
         self._build_reverse_mappings()
-        
-        # Number word mappings
-        self.number_words = {
-            "one": "1", "two": "2", "three": "3", "four": "4", "five": "5",
-            "six": "6", "seven": "7", "eight": "8", "nine": "9", "ten": "10",
-            "single": "1", "double": "2", "triple": "3", "quad": "4"
-        }
     
     def _build_reverse_mappings(self):
         """Build reverse mappings from synonyms to classifications"""
@@ -125,7 +59,7 @@ class StyleClassification:
         query = query.lower().strip()
         
         # Handle number words
-        for word, digit in self.number_words.items():
+        for word, digit in NUMBER_WORDS.items():
             query = re.sub(rf'\b{word}\b', digit, query)
         
         # Handle common patterns
@@ -212,16 +146,7 @@ class StyleClassification:
         """Extract using regex patterns for common contexts"""
         classifications = {}
         
-        # Seater patterns
-        seater_patterns = [
-            (r'\b(\d+)[\s-]?seater?\b', lambda m: f"{m.group(1)} Seater"),
-            (r'\b(\d+)[\s-]?seat\b', lambda m: f"{m.group(1)} Seater"),
-            (r'\b(\d+)[\s-]?person\b', lambda m: f"{m.group(1)} Seater"),
-            (r'\b(\d+)[\s-]?people\b', lambda m: f"{m.group(1)} Seater"),
-            (r'\bfor[\s-]?(\d+)\b', lambda m: f"{m.group(1)} Seater"),
-        ]
-        
-        for pattern, converter in seater_patterns:
+        for pattern, converter in SEATER_PATTERNS:
             matches = re.finditer(pattern, text, re.IGNORECASE)
             for match in matches:
                 classification = converter(match)
@@ -271,23 +196,7 @@ class StyleClassification:
         
         # Step 4: Extract using contextual patterns
         pattern_classifications = self._extract_contextual_patterns(spell_corrected)
-        
-        # Step 5: Merge results
-        # final_classifications = {}
-        # all_categories = set(text_classifications.keys()) | set(pattern_classifications.keys())
-        
-        # for category in all_categories:
-        #     final_classifications[category] = []
-            
-        #     # Add from text extraction
-        #     if category in text_classifications:
-        #         final_classifications[category].extend(text_classifications[category])
-            
-        #     # Add from pattern extraction (avoid duplicates)
-        #     if category in pattern_classifications:
-        #         for item in pattern_classifications[category]:
-        #             if item not in final_classifications[category]:
-        #                 final_classifications[category].append(item)
+
         final_classifications = {}
         all_categories = set(text_classifications.keys()) | set(pattern_classifications.keys())
 
@@ -300,7 +209,7 @@ class StyleClassification:
                 if item not in final_classifications[category]:
                     final_classifications[category].append(item)
         
-        # Step 6: Validate and clean results
+        # Step 5: Validate and clean results
         validated_classifications = self._validate_classifications(final_classifications)
         
         return validated_classifications

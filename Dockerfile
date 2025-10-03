@@ -1,31 +1,33 @@
+# Builder stage
 FROM python:3.10-slim AS builder
-
 WORKDIR /app
 
-# Install system deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
     curl \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 
+# Install packages system-wide
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
+# Final stage
 FROM python:3.10-slim
-
 WORKDIR /app
 
-# Copy installed packages only
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+# Copy everything from builder
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
 COPY . .
 
-EXPOSE 8432
+ENV PATH=/usr/local/bin:$PATH
 
+EXPOSE 8432
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8432/health || exit 1
 

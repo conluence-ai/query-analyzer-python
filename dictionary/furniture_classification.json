@@ -1,8 +1,145 @@
 {
-    "VariantType":
-    [
-        "1 Seater", "2 Seater", "3 Seater", "4 Seater",
-        "Compact", "Standard", "Oversized", "Small",
-        "Medium", "Large", "Extra Large"
-    ]
+    "VariantType": {
+        "1 Seater": [
+            "1 seater",
+            "single seater",
+            "one seater",
+            "1-seater",
+            "single seat",
+            "solo",
+            "individual",
+            "personal",
+            "single person",
+            "1 person",
+            "single"
+        ],
+        "2 Seater": [
+            "2 seater",
+            "two seater",
+            "double seater",
+            "2-seater",
+            "two seat",
+            "double seat",
+            "couple",
+            "loveseat",
+            "love seat",
+            "2 person",
+            "two person",
+            "dual",
+            "pair",
+            "double sofa",
+            "double"
+        ],
+        "3 Seater": [
+            "3 seater",
+            "three seater",
+            "triple seater",
+            "3-seater",
+            "three seat",
+            "triple seat",
+            "3 person",
+            "three person",
+            "triple",
+            "3 people",
+            "three people",
+            "family",
+            "triple sofa",
+            "three"
+        ],
+        "4 Seater": [
+            "4 seater",
+            "four seater",
+            "quad seater",
+            "4-seater",
+            "four seat",
+            "quad seat",
+            "4 person",
+            "four person",
+            "quad",
+            "4 people",
+            "four people",
+            "large family",
+            "quad sofa",
+            "four"
+        ],
+        "Compact": [
+            "compact",
+            "small",
+            "mini",
+            "tiny",
+            "petite",
+            "space saving",
+            "apartment size",
+            "studio",
+            "small space",
+            "narrow",
+            "slim"
+        ],
+        "Standard": [
+            "standard",
+            "regular",
+            "normal",
+            "medium",
+            "average",
+            "typical",
+            "standard size",
+            "regular size",
+            "medium size"
+        ],
+        "Oversized": [
+            "oversized",
+            "extra large",
+            "xl",
+            "xxl",
+            "jumbo",
+            "huge",
+            "massive",
+            "big",
+            "large size",
+            "super size",
+            "king size"
+        ],
+        "Small": [
+            "small",
+            "little",
+            "mini",
+            "compact",
+            "petite",
+            "tiny",
+            "space efficient",
+            "small size"
+        ],
+        "Medium": [
+            "medium",
+            "mid",
+            "middle",
+            "moderate",
+            "average size",
+            "medium size",
+            "mid size",
+            "standard"
+        ],
+        "Large": [
+            "large",
+            "big",
+            "spacious",
+            "roomy",
+            "generous",
+            "wide",
+            "large size",
+            "big size",
+            "family size"
+        ],
+        "Extra Large": [
+            "extra large",
+            "xl",
+            "very large",
+            "super large",
+            "oversized",
+            "jumbo",
+            "king size",
+            "queen size",
+            "massive"
+        ]
+    }
 }

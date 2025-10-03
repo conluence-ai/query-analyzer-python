@@ -10,14 +10,14 @@ from config.constants import FURNITURE_TYPE
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-class ProductExtractor:
+class ProductTypeExtractor:
     def __init__(self):
         self.confidence_threshold = 0.7
         self.fuzzy_threshold = 0.8  # for fuzzy matching
         self._preparePatterns()
         self._buildVectorSearch()
         self._handleAmbiguousTerms()
-        logger.info("✅ Lightweight furniture product extractor initialized")
+        logger.info("Lightweight furniture product extractor initialized")
 
     def _handleAmbiguousTerms(self):
         """Handle terms that appear in multiple categories"""

@@ -122,13 +122,14 @@ class PriceExtractor:
             matches = re.findall(pattern, text, re.IGNORECASE)
             for match in matches:
                 parsed_num = self._parseNumber(match)
-                if parsed_num and 100 <= parsed_num <= 10000000:  # Reasonable furniture price range
+                # Increased minimum to 500 to avoid small numbers like 101
+                if parsed_num and 500 <= parsed_num <= 10000000:
                     numbers.append(parsed_num)
         
         if not numbers:
             return None
         
-        price_type = 'max'  # Default
+        price_type = 'max'
         for p_type, words in CONTEXT_WORDS.items():
             if any(word in text for word in words):
                 price_type = p_type
@@ -161,14 +162,15 @@ class PriceExtractor:
         numbers = re.findall(r'\d+(?:,\d+)*(?:\.\d+)?', text)
         if numbers:
             parsed_numbers = [self._parseNumber(num) for num in numbers]
-            valid_numbers = [n for n in parsed_numbers if n and 100 <= n <= 10000000]
+            # Increased minimum to 500
+            valid_numbers = [n for n in parsed_numbers if n and 500 <= n <= 10000000]
             
             if valid_numbers:
                 max_price = max(valid_numbers)
                 return PriceRange(min=None, max=max_price, currency=currency, confidence=0.4)
         
         return None
-    
+        
     def _parseNumber(self, num_str: str) -> Optional[float]:
         """
             Parse number string to float

@@ -49,3 +49,6 @@ data/processed/*
 
 # Docker
 .dockerignore
+
+# macOS Finder files
+.DS_Store

@@ -10,13 +10,19 @@ import Levenshtein  # pip install python-Levenshtein
 from spellchecker import SpellChecker  # pip install pyspellchecker
 
 # Import custom modules
-from query_parser.product_extractor import ProductExtractor
+from query_parser.product_type_extractor import ProductTypeExtractor
 from query_parser.price_extractor import PriceExtractor
 from query_parser.style_extractor import StyleExtractor
 from query_parser.classification_extractor import StyleClassification
+from query_parser.brand_product_extraction import BrandProductExtractor
 
 # Import constants and mappings
-from config.constants import FURNITURE_CATEGORY
+from config.constants import (
+    FURNITURE_CATEGORY,
+    CATEGORY_MAPPINGS,
+    FEATURE_CONTEXTUAL_PATTERNS,
+    FUZZY_PATTERNS
+)
 
 # Configure logging
 logging.basicConfig(
@@ -35,10 +41,11 @@ class FurnitureParser:
             Initialize the furniture parser
         """
         # Load Extraction models
-        self.product_extractor = ProductExtractor()
+        self.product_type_extractor = ProductTypeExtractor()
         self.price_extractor = PriceExtractor()
         self.style_extractor = StyleExtractor()
         self.classification_extractor = StyleClassification()
+        self.brand_product_extractor = BrandProductExtractor()
 
         # Fuzzy matching threshold
         self.fuzzy_threshold = 0.95
@@ -51,74 +58,6 @@ class FurnitureParser:
         self.synonym_to_feature = {}
         self.feature_to_category = {}
         
-        # Category mappings for better organization
-        self.category_mappings = {
-            'Metal Legs': 'Legs',
-            'Straight Legs': 'Legs', 
-            'Planar Legs': 'Legs',
-            'Wooden plinth': 'Base',
-            'Metal plinth': 'Base',
-            'upholstered base': 'Base',
-            'Heavy Base': 'Base',
-            'Upholstered Plinth': 'Base',
-            'With Armrest': 'Arms',
-            'Without Armrest': 'Arms',
-            'Squared Arms': 'Arms',
-            'roundedArms': 'Arms',
-            'Rounded Arms': 'Arms',
-            'Flat Arms': 'Arms',
-            'Flared arms': 'Arms',
-            'Sinuous Curve Arms': 'Arms',
-            'Sloping Arms': 'Arms',
-            'Folded Arms': 'Arms',
-            'Sleek Arms': 'Arms',
-            'Splayed Arms': 'Arms',
-            'Floor Length Arms': 'Arms',
-            'Modular Arm': 'Arms',
-            'armsWithMetalDetail': 'Arms',
-            'Armrest Height Aligned with Backrest': 'Arms',
-            'Armrest integrated with Structure': 'Arms',
-            'Fixed Arms': 'Arms',
-            'Low Back': 'Back',
-            'Mid Back': 'Back',
-            'Flared High Back': 'Back',
-            'LowBack': 'Back',
-            'Plain Back without division': 'Back',
-            'Piping on Back': 'Back',
-            'Grid Tufted Back': 'Back',
-            'Cylindrical Back': 'Back',
-            'Angular Back': 'Back',
-            'Pleated Back': 'Back',
-            'Quilted Back': 'Back',
-            'Adjustable Back': 'Back',
-            'BackCushionsIntegral': 'Back',
-            'Leather Back Covering': 'Back',
-            'Split Seat': 'Seat',
-            'Non-Uniform Seat Division': 'Seat',
-            'Fabric': 'Material',
-            'Leather Piping': 'Details',
-            'Braid Piping': 'Details',
-            'Flat Piping': 'Details',
-            'Piping Follows Structure': 'Details',
-            'Metal detail': 'Details',
-            'Metal Structure': 'Structure',
-            'Metal Wire Frame': 'Structure',
-            'Continuous Structure': 'Structure',
-            'upholstered structure': 'Structure',
-            'Tubular Hollow Wooden Frame': 'Structure',
-            'Integrated Arms & Legs': 'Structure',
-            'Upholstered Shell': 'Structure',
-            'Curved': 'Shape',
-            'Organic Shape': 'Shape',
-            'Sinuous': 'Shape',
-            'LShape': 'Shape',
-            'Bean': 'Shape',
-            'Chesterfield': 'Style',
-            'Horizontal Tufting': 'Style',
-            'WithOptionalLooseCushions': 'Accessories',
-            'Wooden Legs': 'Legs',
-        }
-
         # Build mappings from your FURNITURE_CATEGORY
         self._buildFeatureMappings()
 
@@ -136,7 +75,7 @@ class FurnitureParser:
                 self.all_synonyms.add(synonym_lower)
             
             # Assign category
-            category = self.category_mappings.get(main_feature, 'Other')
+            category = CATEGORY_MAPPINGS.get(main_feature, 'Other')
             self.feature_to_category[main_feature] = category
 
     def _fuzzy_match(self, phrase: str, candidates: Set[str]) -> Optional[str]:
@@ -213,67 +152,19 @@ class FurnitureParser:
         """Extract features using contextual phrase matching with fuzzy support"""
         detected = []
         
-        # Define contextual patterns that might not be exact matches
-        contextual_patterns = [
-            # Leg patterns
-            (r'\b(wooden|wood)\s+(leg|legs)\b', 'Wooden Legs'),
-            (r'\b(metal|steel|chrome)\s+(leg|legs)\b', 'Metal Legs'),
-            (r'\b(straight|vertical)\s+(leg|legs)\b', 'Straight Legs'),
-            
-            # Arm patterns
-            (r'\b(no|without|armless)\s+(arm|arms)\b', 'Without Armrest'),
-            (r'\b(with|having)\s+(arm|arms|armrest)\b', 'With Armrest'),
-            (r'\b(rounded|curved|circular)\s+(arm|arms)\b', 'Rounded Arms'),
-            (r'\b(square|squared|rectangular)\s+(arm|arms)\b', 'Squared Arms'),
-            (r'\b(flat|slab)\s+(arm|arms)\b', 'Flat Arms'),
-            
-            # Back patterns
-            (r'\b(low|short)\s+(back|backrest)\b', 'Low Back'),
-            (r'\b(high|tall)\s+(back|backrest)\b', 'Flared High Back'),
-            (r'\b(curved|cylindrical|round)\s+(back|backrest)\b', 'Cylindrical Back'),
-            
-            # Material patterns
-            (r'\b(leather|genuine\s+leather|real\s+leather)\b', 'Leather'),
-            (r'\b(fabric|cloth|textile|upholstery)\b', 'Fabric'),
-            
-            # Structure patterns
-            (r'\b(metal|steel|iron)\s+(frame|structure)\b', 'Metal Structure'),
-            (r'\b(wire|wireframe)\s+(frame|structure)\b', 'Metal Wire Frame'),
-            
-            # Shape patterns
-            (r'\b(l[\s-]?shaped|corner)\b', 'LShape'),
-            (r'\b(curved|organic|flowing)\b', 'Curved'),
-            
-            # Style patterns
-            (r'\b(chesterfield|tufted|buttoned)\b', 'Chesterfield'),
-            (r'\b(bean|bean[\s-]?bag)\b', 'Bean'),
-        ]
-        
-        # Fuzzy pattern matching for common misspellings
-        fuzzy_patterns = [
-            # Common misspellings for materials
-            (r'\b(lether|leater|leathr)\b', 'Leather'),
-            (r'\b(fabrik|febric|fabic)\b', 'Fabric'),
-            (r'\b(mettal|metel|matel)\b', 'Metal'),
-            
-            # Common misspellings for furniture parts
-            (r'\b(cussion|cushon|cushin)\b', 'cushion'),
-            (r'\b(armrest|armrst|armest)\b', 'armrest'),
-        ]
-        
         # Apply regular patterns
-        for pattern, feature in contextual_patterns:
+        for pattern, feature in FEATURE_CONTEXTUAL_PATTERNS:
             if re.search(pattern, text, re.IGNORECASE):
                 if feature not in detected:
                     detected.append(feature)
         
         # Apply fuzzy patterns
-        for pattern, corrected_word in fuzzy_patterns:
+        for pattern, corrected_word in FUZZY_PATTERNS:
             matches = re.finditer(pattern, text, re.IGNORECASE)
             for match in matches:
                 # Replace the misspelled word and recheck patterns
                 corrected_text = text.replace(match.group(), corrected_word)
-                for context_pattern, feature in contextual_patterns:
+                for context_pattern, feature in FEATURE_CONTEXTUAL_PATTERNS:
                     if re.search(context_pattern, corrected_text, re.IGNORECASE):
                         if feature not in detected:
                             detected.append(feature)
@@ -312,47 +203,138 @@ class FurnitureParser:
         return unique_features
     
     def structureQuery(self, query: str) -> ParserResult:
-        """
-            Enhanced parsing with ML models
-
-            Args:
-                query (str): Input text to parse
-
-            Returns:
-                ParserResult: Parsed result with product type, features, price range, location, and confidence    
-        """
+        """Enhanced parsing with ML models"""
         logger.info(f"ML parsing query: {query}")
         
-        # Classify product type using zero-shot
-        product_types, product_confidence = self.product_extractor.classifyProductType(query)
-
-        # Extract features using hybrid approach
+        # STEP 1: Extract brand/product FIRST (before anything else)
+        data = self.brand_product_extractor.extract(query)
+        
+        # Safely extract brand name
+        brand_name = data['brand']['name'] if data and data.get('brand') else None
+        logger.info(f"Extracted brand: {brand_name}")
+        
+        # Verify and extract product name
+        product_name = None
+        if data and data.get('product'):
+            extracted_product = data['product']['name']
+            if self._verify_product_in_query(extracted_product, query):
+                product_name = extracted_product
+                logger.info(f"Verified product: {product_name}")
+            else:
+                logger.info(f"Product '{extracted_product}' not verified in query")
+        
+        # STEP 2: Create cleaned query for price extraction
+        # Remove brand and product names to prevent number confusion
+        cleaned_query_for_price = query
+        
+        if brand_name:
+            # Remove brand name (case-insensitive)
+            cleaned_query_for_price = re.sub(
+                rf'\b{re.escape(brand_name)}\b', 
+                '', 
+                cleaned_query_for_price, 
+                flags=re.IGNORECASE
+            )
+            logger.info(f"Cleaned query after removing brand: {cleaned_query_for_price}")
+        
+        if product_name:
+            # Remove product name (case-insensitive)
+            cleaned_query_for_price = re.sub(
+                rf'\b{re.escape(product_name)}\b', 
+                '', 
+                cleaned_query_for_price, 
+                flags=re.IGNORECASE
+            )
+            logger.info(f"Cleaned query after removing product: {cleaned_query_for_price}")
+        
+        # STEP 3: Extract other features from ORIGINAL query
+        product_types, product_confidence = self.product_type_extractor.classifyProductType(query)
         features = self._extractFeatures(query)
-
-        # Extract styles using hybrid approach
         styles = self.style_extractor.extractStyles(query)
-
-        # Extract styles using hybrid approach
-        classfications = self.classification_extractor.extractClassification(query)
-
-        # Extract price range using ML model
-        price_range = self.price_extractor.extractPriceRange(query)
+        classifications = self.classification_extractor.extractClassification(query)
+        
+        # STEP 4: Extract price from CLEANED query only
+        price_range = self.price_extractor.extractPriceRange(cleaned_query_for_price)
+        
+        # STEP 5: Validate price range
+        # If price was extracted and matches a number in the original brand/product name, invalidate it
+        if price_range and price_range.max:
+            should_invalidate = False
+            
+            # Check if price matches any number in brand name
+            if brand_name and any(char.isdigit() for char in brand_name):
+                brand_numbers = re.findall(r'\d+', brand_name)
+                for num_str in brand_numbers:
+                    if float(num_str) == price_range.max or float(num_str) == price_range.min:
+                        logger.warning(f"Price {price_range.max or price_range.min} matches brand number '{num_str}', invalidating")
+                        should_invalidate = True
+                        break
+            
+            # Check if price matches any number in product name
+            if product_name and any(char.isdigit() for char in product_name):
+                product_numbers = re.findall(r'\d+', product_name)
+                for num_str in product_numbers:
+                    if float(num_str) == price_range.max or float(num_str) == price_range.min:
+                        logger.warning(f"Price {price_range.max or price_range.min} matches product number '{num_str}', invalidating")
+                        should_invalidate = True
+                        break
+            
+            if should_invalidate:
+                price_range = None
 
         result = ParserResult(
             product_type=product_types if product_types != ["Unknown"] else [],
-            brand_name=[],
-            product_name=[],
+            brand_name=brand_name,
+            product_name=product_name,
             features=features,
             price_range=price_range,
             location="",
-            confidence_score=product_confidence[0],
+            confidence_score=product_confidence[0] if product_confidence else 0.0,
             styles=styles,
-            classification_summary=classfications,
+            classification_summary=classifications,
             extras=[],
             original_query=query
         )
         
         return result
+    
+    def _verify_product_in_query(self, product_name: str, query: str) -> bool:
+        """
+        Verify if a product name is actually mentioned in the query
+        
+        Args:
+            product_name: The extracted product name
+            query: The original query text
+            
+        Returns:
+            bool: True if product name appears in query
+        """
+        if not product_name:
+            return False
+        
+        # Normalize both strings for comparison
+        query_lower = query.lower()
+        product_lower = product_name.lower()
+        
+        # Check if the full product name appears
+        if product_lower in query_lower:
+            return True
+        
+        # Check if significant words from product name appear (at least 70% of words)
+        product_words = set(product_lower.split())
+        query_words = set(query_lower.split())
+        
+        # Remove common words
+        common_words = {'the', 'a', 'an', 'and', 'or', 'of', 'in', 'on', 'at'}
+        product_words = product_words - common_words
+        
+        if not product_words:
+            return False
+        
+        matching_words = product_words & query_words
+        match_ratio = len(matching_words) / len(product_words)
+        
+        return match_ratio >= 0.7  # At least 70% of product name words must appear
     
     def analyzeQueryText(self, query: str) -> ParserResult:
         """

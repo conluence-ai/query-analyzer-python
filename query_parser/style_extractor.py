@@ -1,63 +1,23 @@
 """Style Extractor for furniture queries with fuzzy matching and spell correction"""
 
+# Import necessary libraries
 import re
 from typing import List, Set, Optional
 from difflib import SequenceMatcher
 import Levenshtein  # pip install python-Levenshtein
 from spellchecker import SpellChecker  # pip install pyspellchecker
 
+# Import constants and mappings
+from config.constants import (
+    FURNITURE_STYLES,
+    STYLE_CONTEXTUAL_PATTERNS
+)
+
 class StyleExtractor:
     """Extract furniture styles from text using fuzzy matching and spell correction"""
     
     def __init__(self):
         """Initialize the style extractor"""
-        # Style dictionary
-        self.styles_dict = {
-            "Rustic": [
-                "country", "cottage", "farmhouse", "rural",
-                "woodland", "barnyard", "cabin"
-            ],
-            "Contemporary": [
-                "cutting-edge", "state-of-the-art", "avant-garde"
-            ],
-            "Mid-Century": [
-                "midcentury modern", "MCM", "1950s style",
-                "post-war modern", "atomic age"
-            ],
-            "Bohemian": [
-                "boho", "eclectic", "gypsy",
-                "artsy", "free-spirited", "nomadic"
-            ],
-            "Minimalistic": [
-                "minimalist", "clean", "streamlined",
-                "pared-down", "simplicity", "essential"
-            ],
-            "Scandinavian": [
-                "Scandi", "Nordic", "Scando", "Danish modern",
-                "Finnish style", "Swedish design"
-            ],
-            "Art Deco": [
-                "jazz age", "machine age", "streamline moderne",
-                "Deco", "20s glamour", "Roaring Twenties style"
-            ],
-            "Classical": [
-                "traditional", "timeless", "formal",
-                "historical", "elegant", "academical"
-            ],
-            "NeoClassic": [
-                "neoclassical", "revival", "Empire style",
-                "classical revival", "18th-century style"
-            ],
-            "Modern": [
-                "present-day", "state-of-the-art",
-                "up-to-the-minute", "new-fangled", "modern"
-            ],
-            "Industrial": [
-                "factory", "warehouse", "urban loft",
-                "raw", "mechanical"
-            ]
-        }
-        
         # Fuzzy matching threshold
         self.fuzzy_threshold = 0.8
         
@@ -71,7 +31,7 @@ class StyleExtractor:
     
     def _build_style_mappings(self):
         """Build reverse mapping from synonyms to main styles"""
-        for main_style, synonyms in self.styles_dict.items():
+        for main_style, synonyms in FURNITURE_STYLES.items():
             # Map the main style name to itself (case-insensitive)
             main_style_lower = main_style.lower()
             self.synonym_to_style[main_style_lower] = main_style
@@ -163,34 +123,7 @@ class StyleExtractor:
         detected_styles = []
         text_lower = text.lower()
         
-        # Define contextual patterns for better style detection
-        contextual_patterns = [
-            # Modern variations
-            (r'\b(modern|contemporary|current|latest|new)\s+(style|design|look)\b', 'Modern'),
-            (r'\b(sleek|minimal|clean)\s+(design|style|look)\b', 'Minimalistic'),
-            
-            # Traditional variations  
-            (r'\b(traditional|classic|formal|elegant)\s+(style|design|look)\b', 'Classical'),
-            (r'\b(vintage|retro|antique)\s+(style|design|look)\b', 'Classical'),
-            
-            # Rustic variations
-            (r'\b(rustic|country|farmhouse|cottage)\s+(style|design|look)\b', 'Rustic'),
-            (r'\b(wooden|wood|natural)\s+(rustic|country|farmhouse)\b', 'Rustic'),
-            
-            # Industrial variations
-            (r'\b(industrial|factory|warehouse|urban)\s+(style|design|look)\b', 'Industrial'),
-            (r'\b(metal|steel|iron)\s+(industrial|modern)\b', 'Industrial'),
-            
-            # Scandinavian variations
-            (r'\b(scandinavian|nordic|danish|swedish|finnish)\s+(style|design|look)\b', 'Scandinavian'),
-            (r'\b(scandi|hygge)\b', 'Scandinavian'),
-            
-            # Bohemian variations
-            (r'\b(bohemian|boho|eclectic|artsy)\s+(style|design|look)\b', 'Bohemian'),
-            (r'\b(colorful|artistic|free[\s-]?spirited)\b', 'Bohemian'),
-        ]
-        
-        for pattern, style in contextual_patterns:
+        for pattern, style in STYLE_CONTEXTUAL_PATTERNS:
             if re.search(pattern, text_lower):
                 if style not in detected_styles:
                     detected_styles.append(style)
@@ -241,7 +174,7 @@ class StyleExtractor:
         Returns:
             Optional[List[str]]: List of synonyms or None if not found
         """
-        return self.styles_dict.get(style_name)
+        return FURNITURE_STYLES.get(style_name)
     
     def get_all_styles(self) -> List[str]:
         """
@@ -250,4 +183,4 @@ class StyleExtractor:
         Returns:
             List[str]: List of all main style names
         """
-        return list(self.styles_dict.keys())
+        return list(FURNITURE_STYLES.keys())

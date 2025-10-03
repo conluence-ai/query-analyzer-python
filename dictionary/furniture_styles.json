@@ -1,18 +1,84 @@
 {
-    "modern": ["current", "new-age"],
-    "contemporary": ["of-the-moment", "trendy"],
-    "scandinavian": ["nordic", "danish modern"],
-    "classic": ["traditional", "timeless", "heritage"],
-    "mid century": ["mid-century", "retro", "1950s style"],
-    "minimalistic": ["minimalist", "simple", "clean-lined"],
-    "art deco": ["deco", "1920s style", "glamorous"],
-    "mid century modern": ["mid-century", "retro-modern", "MCM"],
-    "eclectic": ["mixed style", "varied", "boho-chic"],
-    "transitional": ["hybrid", "bridge style", "blend style"],
-    "victorian": ["ornate", "decorative", "19th century style"],
-    "rustic": ["country", "farmhouse", "primitive"],
-    "bohemian": ["boho", "free-spirited", "artsy"],
-    "neo classical": ["neoclassical", "revival", "classical revival"],
-    "chesterfield": ["tufted", "english", "rolled arm"]
+    "Rustic": [
+        "country",
+        "cottage",
+        "farmhouse",
+        "rural",
+        "woodland",
+        "barnyard",
+        "cabin"
+    ],
+    "Contemporary": [
+        "cutting-edge",
+        "state-of-the-art",
+        "avant-garde"
+    ],
+    "Mid-Century": [
+        "midcentury modern",
+        "MCM",
+        "1950s style",
+        "post-war modern",
+        "atomic age"
+    ],
+    "Bohemian": [
+        "boho",
+        "eclectic",
+        "gypsy",
+        "artsy",
+        "free-spirited",
+        "nomadic"
+    ],
+    "Minimalistic": [
+        "minimalist",
+        "clean",
+        "streamlined",
+        "pared-down",
+        "simplicity",
+        "essential"
+    ],
+    "Scandinavian": [
+        "Scandi",
+        "Nordic",
+        "Scando",
+        "Danish modern",
+        "Finnish style",
+        "Swedish design"
+    ],
+    "Art Deco": [
+        "jazz age",
+        "machine age",
+        "streamline moderne",
+        "Deco",
+        "20s glamour",
+        "Roaring Twenties style"
+    ],
+    "Classical": [
+        "traditional",
+        "timeless",
+        "formal",
+        "historical",
+        "elegant",
+        "academical"
+    ],
+    "NeoClassic": [
+        "neoclassical",
+        "revival",
+        "Empire style",
+        "classical revival",
+        "18th-century style"
+    ],
+    "Modern": [
+        "present-day",
+        "state-of-the-art",
+        "up-to-the-minute",
+        "new-fangled",
+        "modern"
+    ],
+    "Industrial": [
+        "factory",
+        "warehouse",
+        "urban loft",
+        "raw",
+        "mechanical"
+    ]
 }
-

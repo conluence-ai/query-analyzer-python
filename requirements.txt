@@ -12,3 +12,7 @@ pyspellchecker
 # Data handling
 pandas
 numpy
+
+# Database
+psycopg2-binary
+dotenv
