@@ -1,11 +1,11 @@
-"""Style Extractor for furniture queries with fuzzy matching and spell correction"""
+""" Style Extractor for furniture queries """
 
 # Import necessary libraries
 import re
-from typing import List, Set, Optional
-from difflib import SequenceMatcher
-import Levenshtein  # pip install python-Levenshtein
-from spellchecker import SpellChecker  # pip install pyspellchecker
+from typing import List, Optional
+
+# Import custom modules
+from utils.helpers import spellCorrect, fuzzyMatch
 
 # Import constants and mappings
 from config.constants import (
@@ -14,23 +14,18 @@ from config.constants import (
 )
 
 class StyleExtractor:
-    """Extract furniture styles from text using fuzzy matching and spell correction"""
+    """ Extract furniture styles from text using fuzzy matching and spell correction """
     
     def __init__(self):
-        """Initialize the style extractor"""
-        # Fuzzy matching threshold
-        self.fuzzy_threshold = 0.8
-        
-        # Spell checker
-        self.spell = SpellChecker(distance=2)
-        
+        """ Initialize the style extractor """
+
         # Build mappings for efficient lookup
         self.synonym_to_style = {}
         self.all_style_terms = set()
-        self._build_style_mappings()
+        self._buildStyleMappings()
     
-    def _build_style_mappings(self):
-        """Build reverse mapping from synonyms to main styles"""
+    def _buildStyleMappings(self):
+        """ Build reverse mapping from synonyms to main styles """
         for main_style, synonyms in FURNITURE_STYLES.items():
             # Map the main style name to itself (case-insensitive)
             main_style_lower = main_style.lower()
@@ -42,38 +37,17 @@ class StyleExtractor:
                 synonym_lower = synonym.lower()
                 self.synonym_to_style[synonym_lower] = main_style
                 self.all_style_terms.add(synonym_lower)
-    
-    def _spell_correct(self, text: str) -> str:
-        """Apply spell correction to text"""
-        corrected = []
-        for word in text.split():
-            if len(word) > 2:  # Don't correct very short words
-                corrected_word = self.spell.correction(word)
-                corrected.append(corrected_word if corrected_word else word)
-            else:
-                corrected.append(word)
-        return " ".join(corrected)
-    
-    def _fuzzy_match(self, phrase: str, candidates: Set[str]) -> Optional[str]:
-        """Find the best fuzzy match for a phrase"""
-        best_match = None
-        best_score = 0
         
-        for candidate in candidates:
-            try:
-                # Use Levenshtein distance if available, otherwise SequenceMatcher
-                similarity = Levenshtein.ratio(phrase.lower(), candidate.lower())
-            except (ImportError, NameError):
-                similarity = SequenceMatcher(None, phrase.lower(), candidate.lower()).ratio()
-            
-            if similarity > best_score and similarity >= self.fuzzy_threshold:
-                best_score = similarity
-                best_match = candidate
-        
-        return best_match
-    
-    def _extract_direct_matches(self, text: str) -> List[str]:
-        """Extract styles using direct keyword matching"""
+    def _extractDirectMatches(self, text: str) -> List[str]:
+        """
+            Extracts design styles from the input text using direct keyword matching.
+
+            Args:
+                text (str): The raw text string (e.g., a search query) to scan for style keywords.
+
+            Returns:
+                List[str]: A list of unique, standardized style labels detected in the text.
+        """
         detected_styles = []
         text_lower = text.lower()
         
@@ -90,10 +64,20 @@ class StyleExtractor:
         
         return detected_styles
     
-    def _extract_fuzzy_matches(self, text: str) -> List[str]:
-        """Extract styles using fuzzy matching for misspellings"""
+    def _extractFuzzyMatches(self, text: str) -> List[str]:
+        """
+            Extracts styles from the input text using fuzzy matching
+
+            Args:
+                text (str): The raw text string (e.g., a search query) to scan for 
+                            potentially misspelled style keywords.
+
+            Returns:
+                List[str]: A list of unique, standardized style labels detected via fuzzy 
+                        matching.
+        """
         detected_styles = []
-        corrected_text = self._spell_correct(text)
+        corrected_text = spellCorrect(text)
         words = corrected_text.lower().split()
         
         # Try different window sizes for phrase matching
@@ -110,7 +94,12 @@ class StyleExtractor:
                     continue
                 
                 # Try fuzzy matching
-                fuzzy_match = self._fuzzy_match(phrase, self.all_style_terms)
+                fuzzy_match = ""
+                result = fuzzyMatch(phrase, self.all_style_terms, threshold=0.8)
+                if result:
+                    fuzzy_match = result[0]
+                else:
+                    pass
                 if fuzzy_match and fuzzy_match in self.synonym_to_style:
                     style = self.synonym_to_style[fuzzy_match]
                     if style not in detected_styles:
@@ -118,8 +107,18 @@ class StyleExtractor:
         
         return detected_styles
     
-    def _extract_contextual_patterns(self, text: str) -> List[str]:
-        """Extract styles using contextual patterns and common phrases"""
+    def _extractContextualStylePatterns(self, text: str) -> List[str]:
+        """
+            Extracts design styles from the input text by matching against predefined 
+            regular expression patterns and contextual phrases.
+
+            Args:
+                text (str): The raw text string (e.g., a search query) to scan for 
+                            contextual style patterns.
+
+            Returns:
+                List[str]: A list of unique, standardized style labels derived from successful pattern matches.
+        """
         detected_styles = []
         text_lower = text.lower()
         
@@ -130,28 +129,49 @@ class StyleExtractor:
         
         return detected_styles
     
+    def _getStyleInfo(self, style_name: str) -> Optional[List[str]]:
+        """
+            Get synonyms for a specific style
+            
+            Args:
+                style_name (str): Style name to look up
+                
+            Returns:
+                Optional[List[str]]: List of synonyms or None if not found
+        """
+        return FURNITURE_STYLES.get(style_name)
+    
+    def _getAllStyles(self) -> List[str]:
+        """
+        Get all available style names
+        
+        Returns:
+            List[str]: List of all main style names
+        """
+        return list(FURNITURE_STYLES.keys())
+    
     def extractStyles(self, text: str) -> List[str]:
         """
-        Main method to extract styles from text
-        
-        Args:
-            text (str): Input text to analyze
+            Main method to extract styles from text
             
-        Returns:
-            List[str]: List of detected style names
+            Args:
+                text (str): Input text to analyze
+                
+            Returns:
+                List[str]: List of detected style names
         """
         detected_styles = []
         
         # Method 1: Direct exact matching
-        direct_matches = self._extract_direct_matches(text)
+        direct_matches = self._extractDirectMatches(text)
         detected_styles.extend(direct_matches)
         
         # Method 2: Fuzzy matching with spell correction
-        fuzzy_matches = self._extract_fuzzy_matches(text)
+        fuzzy_matches = self._extractFuzzyMatches(text)
         detected_styles.extend(fuzzy_matches)
         
         # Method 3: Contextual pattern matching
-        contextual_matches = self._extract_contextual_patterns(text)
+        contextual_matches = self._extractContextualStylePatterns(text)
         detected_styles.extend(contextual_matches)
         
         # Remove duplicates while preserving order
@@ -163,24 +183,3 @@ class StyleExtractor:
                 seen.add(style)
         
         return unique_styles
-    
-    def get_style_info(self, style_name: str) -> Optional[List[str]]:
-        """
-        Get synonyms for a specific style
-        
-        Args:
-            style_name (str): Style name to look up
-            
-        Returns:
-            Optional[List[str]]: List of synonyms or None if not found
-        """
-        return FURNITURE_STYLES.get(style_name)
-    
-    def get_all_styles(self) -> List[str]:
-        """
-        Get all available style names
-        
-        Returns:
-            List[str]: List of all main style names
-        """
-        return list(FURNITURE_STYLES.keys())

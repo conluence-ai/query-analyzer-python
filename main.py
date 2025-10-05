@@ -1,4 +1,4 @@
-"""Main entry point for the Furniture Parser API using Flask."""
+""" Main entry point for the Furniture Parser API using Flask. """
 
 # Import necessary libraries
 import time
@@ -35,7 +35,7 @@ logger.info("Models loaded successfully.")
 
 @app.route('/query/analyze', methods=['POST'])
 def analyzeQuery():
-    """Main processing endpoint"""
+    """ Main processing endpoint """
     try:
         query = request.json.get('query')
         if not query:
@@ -70,7 +70,7 @@ def analyzeQuery():
 # Health Check Endpoints
 @app.route("/health", methods=["GET"])
 async def healthCheck():
-    """Basic health check"""
+    """ Basic health check """
     return {
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat(),

@@ -12,15 +12,15 @@ class DatabaseManager:
     
     def __init__(self):
         """
-        Initialize the DatabaseManager with configuration from environment variables.
-        
-        Loads database credentials from .env file and sets up connection parameters.
-        Environment variables required:
-            - DB_HOST: Database host address
-            - DB_PORT: Database port (default: 5432)
-            - DB_USERNAME: Database username
-            - DB_PASSWORD: Database password
-            - DB_DATABASE: Database name
+            Initialize the DatabaseManager with configuration from environment variables.
+            
+            Loads database credentials from .env file and sets up connection parameters.
+            Environment variables required:
+                - DB_HOST: Database host address
+                - DB_PORT: Database port (default: 5432)
+                - DB_USERNAME: Database username
+                - DB_PASSWORD: Database password
+                - DB_DATABASE: Database name
         """
         # Load environment variables from .env file
         load_dotenv()
@@ -47,7 +47,7 @@ class DatabaseManager:
             dbname=self.dbname,
         )
     
-    def fetchData(self, column: str, table: str, where_clause: Optional[str] = None) -> List[Any]:
+    def _fetchData(self, column: str, table: str, where_clause: Optional[str] = None) -> List[Any]:
         """
             Fetch data from a specified column and table in the database.
             
@@ -96,7 +96,7 @@ class DatabaseManager:
             Returns:
                 List[str]: List of brand names
         """
-        return self.fetchData(COLUMN_NAME, BRAND_TABLE)
+        return self._fetchData(COLUMN_NAME, BRAND_TABLE)
     
     def fetchProductNames(self) -> List[str]:
         """
@@ -105,4 +105,4 @@ class DatabaseManager:
             Returns:
                 List[str]: List of product names
         """
-        return self.fetchData(COLUMN_NAME, PRODUCT_TABLE)
+        return self._fetchData(COLUMN_NAME, PRODUCT_TABLE)

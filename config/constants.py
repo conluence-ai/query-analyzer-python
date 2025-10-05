@@ -26,6 +26,18 @@ with open(os.path.join(BASE_DIR, "dictionary", "furniture_styles.json")) as f:
 with open(os.path.join(BASE_DIR, "dictionary", "furniture_classification.json")) as f:
     FURNITURE_CLASSIFICATION = json.load(f)
 
+# Product extraction constants
+
+# Priority rules for disambiguation
+DISAMBIGUATION_RULES = {
+    "chair": ["Armchair", "Lounge Chair", "Chaise Lounge"],  # Prefer Armchair for generic "chair"
+    "recliner": ["Armchair", "Lounge Chair"],  # Could be either
+    "deck chair": ["Chaise Lounge", "Lounge Chair"],  # Prefer Chaise Lounge
+    "easy chair": ["Armchair", "Lounge Chair"],  # Could be either
+    "divan": ["Sofa", "Chaise Lounge"],  # Could be either
+    "fainting couch": ["Sofa", "Chaise Lounge"]  # Could be either
+}
+
 # Feature extratction constants
 
 # Category mappings for better organization

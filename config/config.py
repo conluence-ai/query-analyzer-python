@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class PriceRange:
-    """Price range model"""
+    """ Price range model """
     min: Optional[float]
     max: Optional[float]
     currency: str = 'EUR'
@@ -12,6 +12,7 @@ class PriceRange:
 
 @dataclass
 class ParserResult:
+    """ Represents the structured, extracted, and classified data derived from user input. """
     product_type: List[str]
     brand_name: Optional[str]
     product_name: Optional[str]

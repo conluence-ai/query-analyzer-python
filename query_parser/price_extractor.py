@@ -1,12 +1,23 @@
+""" Price Range Extractor for furniture queries """
+
 # Import necessary libraries
 import re
 from collections import Counter
-from config.config import PriceRange
 from typing import List, Tuple, Optional
-from config.constants import CURRENCY_PATTERNS, PRICE_PATTERNS, NUMBER_PATTERNS, CONTEXT_WORDS
+
+# Import custom modules
+from config.config import PriceRange
+
+# Import constants and mappings
+from config.constants import (
+    CURRENCY_PATTERNS,
+    PRICE_PATTERNS,
+    NUMBER_PATTERNS,
+    CONTEXT_WORDS
+)
 
 class PriceExtractor:
-    """Advanced price extraction using multiple methods"""
+    """ Price extraction using multiple methods """
     
     def __init__(self):
         """
@@ -22,45 +33,6 @@ class PriceExtractor:
         
         # Duckling-like number extraction patterns
         self.number_patterns = NUMBER_PATTERNS
-    
-    def extractPriceRange(self, text: str) -> Optional[PriceRange]:
-        """
-            Extract price range using hybrid approach
-            
-            Args:
-                text (str): Input text to analyze
-            
-            Returns:
-                Optional[PriceRange]: Extracted price range with currency and confidence
-        """
-        text_lower = text.lower()
-        
-        # Detect currency
-        currency = self._detectCurrency(text_lower)
-        
-        # Extract price values using multiple methods
-        price_results = []
-        
-        # Pattern matching
-        pattern_result = self._extractUsingPatterns(text_lower, currency)
-        if pattern_result:
-            price_results.append(('pattern', pattern_result, 0.8))
-        
-        # Number extraction + context
-        context_result = self._extractUsingContext(text_lower, currency)
-        if context_result:
-            price_results.append(('context', context_result, 0.6))
-        
-        # ML-based extraction (simplified)
-        ml_result = self._extractUsingMl(text_lower, currency)
-        if ml_result:
-            price_results.append(('ml', ml_result, 0.7))
-        
-        # Combine results using weighted voting
-        if price_results:
-            return self._combinePriceResults(price_results)
-        
-        return None
     
     def _detectCurrency(self, text: str) -> str:
         """
@@ -88,7 +60,19 @@ class PriceExtractor:
         return max(currency_scores, key=currency_scores.get)
     
     def _extractUsingPatterns(self, text: str, currency: str) -> Optional[PriceRange]:
-        """Extract price using regex patterns"""
+        """
+            Extracts a price or price range from the input text using predefined regular 
+            expression patterns and contextual keywords.
+
+            Args:
+                text (str): The raw input text (e.g., a search query) to analyze for prices.
+                currency (str): The default currency symbol or code to assign to the 
+                                extracted price (e.g., '$', 'EUR').
+
+            Returns:
+                Optional[PriceRange]: A PriceRange object containing the extracted min/max 
+                        values, currency, and confidence score, or `None` if no price pattern is matched.
+        """
         for pattern in self.price_patterns:
             matches = re.findall(pattern, text, re.IGNORECASE)
             if matches:
@@ -115,7 +99,18 @@ class PriceExtractor:
         return None
     
     def _extractUsingContext(self, text: str, currency: str) -> Optional[PriceRange]:
-        """Extract price using context analysis"""
+        """
+            Extract price using context analysis
+        
+            Args:
+                text (str): The raw input text (e.g., a search query) to analyze for prices.
+                currency (str): The default currency symbol or code to assign to the 
+                                extracted price (e.g., '$', 'EUR').
+
+            Returns:
+                Optional[PriceRange]: A PriceRange object containing the extracted min/max 
+                        values, currency, and confidence score, or `None` if no price pattern is matched.
+        """
         # Find all numbers in text
         numbers = []
         for pattern in self.number_patterns:
@@ -281,3 +276,42 @@ class PriceExtractor:
             currency=final_currency,
             confidence=min(total_confidence / len(results), 1.0)
         )
+    
+    def extractPriceRange(self, text: str) -> Optional[PriceRange]:
+        """
+            Extract price range using hybrid approach
+            
+            Args:
+                text (str): Input text to analyze
+            
+            Returns:
+                Optional[PriceRange]: Extracted price range with currency and confidence
+        """
+        text_lower = text.lower()
+        
+        # Detect currency
+        currency = self._detectCurrency(text_lower)
+        
+        # Extract price values using multiple methods
+        price_results = []
+        
+        # Pattern matching
+        pattern_result = self._extractUsingPatterns(text_lower, currency)
+        if pattern_result:
+            price_results.append(('pattern', pattern_result, 0.8))
+        
+        # Number extraction + context
+        context_result = self._extractUsingContext(text_lower, currency)
+        if context_result:
+            price_results.append(('context', context_result, 0.6))
+        
+        # ML-based extraction (simplified)
+        ml_result = self._extractUsingMl(text_lower, currency)
+        if ml_result:
+            price_results.append(('ml', ml_result, 0.7))
+        
+        # Combine results using weighted voting
+        if price_results:
+            return self._combinePriceResults(price_results)
+        
+        return None

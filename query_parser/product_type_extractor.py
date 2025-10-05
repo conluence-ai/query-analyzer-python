@@ -1,3 +1,6 @@
+""" Product Type Extractor for furniture queries """
+
+# Import necessary libraries
 import re
 import logging
 import numpy as np
@@ -5,22 +8,31 @@ from functools import lru_cache
 from typing import Dict, List, Tuple, Set
 from difflib import SequenceMatcher
 
-from config.constants import FURNITURE_TYPE
+# Import constants and mappings
+from config.constants import FURNITURE_TYPE, DISAMBIGUATION_RULES
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 class ProductTypeExtractor:
+    """ Extract furniture type from text using fuzzy matching and spell correction """
+
     def __init__(self):
+        """ Initialize the style extractor """
+
+        # Fuzzy and vector matching threshold
         self.confidence_threshold = 0.7
+        
+        # Fuzzy matching threshold
         self.fuzzy_threshold = 0.8  # for fuzzy matching
+
         self._preparePatterns()
         self._buildVectorSearch()
         self._handleAmbiguousTerms()
         logger.info("Lightweight furniture product extractor initialized")
 
     def _handleAmbiguousTerms(self):
-        """Handle terms that appear in multiple categories"""
+        """ Handle terms that appear in multiple categories """
         self.ambiguous_terms = {}
         
         # Find terms that appear in multiple categories
@@ -36,19 +48,9 @@ class ProductTypeExtractor:
         for term, categories in term_categories.items():
             if len(categories) > 1:
                 self.ambiguous_terms[term] = categories
-                
-        # Priority rules for disambiguation
-        self.disambiguation_rules = {
-            "chair": ["Armchair", "Lounge Chair", "Chaise Lounge"],  # Prefer Armchair for generic "chair"
-            "recliner": ["Armchair", "Lounge Chair"],  # Could be either
-            "deck chair": ["Chaise Lounge", "Lounge Chair"],  # Prefer Chaise Lounge
-            "easy chair": ["Armchair", "Lounge Chair"],  # Could be either
-            "divan": ["Sofa", "Chaise Lounge"],  # Could be either
-            "fainting couch": ["Sofa", "Chaise Lounge"]  # Could be either
-        }
 
     def _preparePatterns(self):
-        """Build regex patterns and term mappings"""
+        """ Build regex patterns and term mappings """
         self.category_patterns = {}
         self.term_to_category = {}
         self.all_terms = set()
@@ -70,7 +72,7 @@ class ProductTypeExtractor:
             self.category_patterns[main_category] = patterns
 
     def _buildVectorSearch(self):
-        """Build simple character-based vectors for fuzzy matching"""
+        """ Build simple character-based vectors for fuzzy matching """
         self.term_vectors = {}
         self.term_list = list(self.all_terms)
         
@@ -79,7 +81,18 @@ class ProductTypeExtractor:
             self.term_vectors[term] = self._getCharVector(term)
 
     def _getCharVector(self, text: str, max_chars: int = 26) -> np.ndarray:
-        """Create a simple character frequency vector"""
+        """
+            Creates a simple character frequency vector (histogram) from the input text.
+
+            Args:
+                text (str): The input string to convert into a character frequency vector.
+                max_chars (int, optional): The length of the resulting vector, assumed 
+                                        to be 26 (for 'a' to 'z'). Defaults to 26.
+
+            Returns:
+                np.ndarray: A NumPy array representing the normalized character 
+                            frequency distribution of the text.
+        """
         text = text.lower()
         vector = np.zeros(max_chars)
         
@@ -94,7 +107,16 @@ class ProductTypeExtractor:
         return vector
 
     def _cosineSimilarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
-        """Calculate cosine similarity between two vectors"""
+        """
+            Calculates the cosine similarity between two NumPy vectors.
+
+            Args:
+                vec1 (np.ndarray): The first vector (NumPy array).
+                vec2 (np.ndarray): The second vector (NumPy array).
+
+            Returns:
+                float: The calculated cosine similarity score.
+        """
         dot_product = np.dot(vec1, vec2)
         norms = np.linalg.norm(vec1) * np.linalg.norm(vec2)
         
@@ -103,38 +125,18 @@ class ProductTypeExtractor:
         
         return dot_product / norms
 
-    @lru_cache(maxsize=2000)
-    def classifyProductType(self, text: str) -> Tuple[List[str], List[float]]:
-        """Main classification method with multiple fallback strategies"""
-        if not text or not text.strip():
-            return ["Unknown"], [0.0]
-
-        text_clean = text.lower().strip()
-        
-        # Strategy 1: Exact regex matching (highest confidence)
-        exact_matches = self._exactMatch(text_clean)
-        if exact_matches:
-            return exact_matches
-
-        # Strategy 2: Fuzzy string matching
-        fuzzy_matches = self._fuzzyMatch(text_clean)
-        if fuzzy_matches:
-            return fuzzy_matches
-
-        # Strategy 3: Vector similarity matching
-        vector_matches = self._vectorMatch(text_clean)
-        if vector_matches:
-            return vector_matches
-
-        # Strategy 4: Partial word matching
-        partial_matches = self._partialMatch(text_clean)
-        if partial_matches:
-            return partial_matches
-
-        return ["Unknown"], [0.0]
-
     def _exactMatch(self, text: str) -> Tuple[List[str], List[float]]:
-        """Exact regex pattern matching with disambiguation"""
+        """
+            Performs exact classification of product types by matching the input text
+
+            Args:
+                text (str): The cleaned, lowercased input string (e.g., a search query).
+
+            Returns:
+                Tuple[List[str], List[float]]: A tuple containing a list of matching standardized 
+                            category names and a corresponding list of confidence scores. 
+                            Returns `None` if no exact match is found.
+        """
         category_matches = {}
         
         for main_category, patterns in self.category_patterns.items():
@@ -146,8 +148,8 @@ class ProductTypeExtractor:
                     matched_terms.append(term)
                     
                     # Handle disambiguation for ambiguous terms
-                    if hasattr(self, 'disambiguation_rules') and term in self.disambiguation_rules:
-                        priority_cats = self.disambiguation_rules[term]
+                    if hasattr(self, 'disambiguation_rules') and term in DISAMBIGUATION_RULES:
+                        priority_cats = DISAMBIGUATION_RULES[term]
                         if category in priority_cats:
                             # Higher confidence for prioritized categories
                             priority_index = priority_cats.index(category)
@@ -172,7 +174,17 @@ class ProductTypeExtractor:
         return None
 
     def _fuzzyMatch(self, text: str) -> Tuple[List[str], List[float]]:
-        """Fuzzy string matching for spelling errors"""
+        """
+            Find the best fuzzy match for a phrase among candidates
+                
+            Args:
+                phrase (str): The phrase to match
+                candidates (Dict[str, str]): Dictionary mapping lowercase names to original names
+                threshold (float, optional): Similarity threshold (0-1)
+                    
+            Returns:
+                Optional[Tuple[List[str], List[float]]]: Tuple of ([matched_name], [similarity_score]) or None
+        """
         words = re.findall(r'\b\w{3,}\b', text)  # Extract words 3+ chars
         if not words:
             return None
@@ -207,7 +219,17 @@ class ProductTypeExtractor:
         return None
 
     def _vectorMatch(self, text: str) -> Tuple[List[str], List[float]]:
-        """Vector-based similarity matching"""
+        """
+            Performs product classification using character vector similarity matching.
+
+            Args:
+                text (str): The cleaned input string to be classified.
+
+            Returns:
+                Tuple[List[str], List[float]]: A tuple containing a list of matching standardized 
+                            category names and a corresponding list of confidence scores. 
+                            Returns `None` if no confident match is found.
+        """
         words = re.findall(r'\b\w{3,}\b', text)
         if not words:
             return None
@@ -242,7 +264,17 @@ class ProductTypeExtractor:
         return None
 
     def _partialMatch(self, text: str) -> Tuple[List[str], List[float]]:
-        """Partial substring matching as last resort"""
+        """
+            Performs classification using partial substring matching as a final, low-confidence resort.
+
+            Args:
+                text (str): The cleaned input string to be classified.
+
+            Returns:
+                Tuple[List[str], List[float]]: A tuple containing a list of matching standardized 
+                            category names and a corresponding list of low confidence scores. 
+                            Returns `None` if no partial match is found.
+        """
         category_scores = {}
         
         for main_category in FURNITURE_TYPE.keys():
@@ -270,3 +302,48 @@ class ProductTypeExtractor:
             return categories, confidences
         
         return None
+    
+    @lru_cache(maxsize=2000)
+    def classifyProductType(self, text: str) -> Tuple[List[str], List[float]]:
+        """
+            Main classification method that determines the product type from a text string 
+            using multiple fallback strategies, ordered by decreasing confidence.
+
+            The `@lru_cache` decorator ensures results for the same input text are 
+            cached, improving performance for repeated queries.
+
+            Args:
+                text (str): The raw input string (e.g., a search query) to classify.
+
+            Returns:
+                Tuple[List[str], List[float]]: A tuple where the first element is a list of 
+                            detected product types (e.g., ['Sofa', 'Chair']) and the second 
+                            is a corresponding list of confidence scores (e.g., [0.95, 0.88]). 
+                            Returns `["Unknown"], [0.0]` if no match is found.
+        """
+        if not text or not text.strip():
+            return ["Unknown"], [0.0]
+
+        text_clean = text.lower().strip()
+        
+        # Strategy 1: Exact regex matching (highest confidence)
+        exact_matches = self._exactMatch(text_clean)
+        if exact_matches:
+            return exact_matches
+
+        # Strategy 2: Fuzzy string matching
+        fuzzy_matches = self._fuzzyMatch(text_clean)
+        if fuzzy_matches:
+            return fuzzy_matches
+
+        # Strategy 3: Vector similarity matching
+        vector_matches = self._vectorMatch(text_clean)
+        if vector_matches:
+            return vector_matches
+
+        # Strategy 4: Partial word matching
+        partial_matches = self._partialMatch(text_clean)
+        if partial_matches:
+            return partial_matches
+
+        return ["Unknown"], [0.0]

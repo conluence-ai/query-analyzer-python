@@ -3,26 +3,15 @@
 # Import necessary libraries
 import re
 import logging
-from typing import Dict, List, Set, Optional
-from config.config import ParserResult
-from difflib import SequenceMatcher
-import Levenshtein  # pip install python-Levenshtein
-from spellchecker import SpellChecker  # pip install pyspellchecker
 
 # Import custom modules
+from config.config import ParserResult
 from query_parser.product_type_extractor import ProductTypeExtractor
+from query_parser.feature_extractor import FeatureExtractor
 from query_parser.price_extractor import PriceExtractor
 from query_parser.style_extractor import StyleExtractor
 from query_parser.classification_extractor import StyleClassification
-from query_parser.brand_product_extraction import BrandProductExtractor
-
-# Import constants and mappings
-from config.constants import (
-    FURNITURE_CATEGORY,
-    CATEGORY_MAPPINGS,
-    FEATURE_CONTEXTUAL_PATTERNS,
-    FUZZY_PATTERNS
-)
+from query_parser.brand_product_extractor import BrandProductExtractor
 
 # Configure logging
 logging.basicConfig(
@@ -34,7 +23,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class FurnitureParser:
-    """Furniture parser with ML/NLP models"""
+    """ Furniture parser with ML/NLP models """
     
     def __init__(self):
         """
@@ -46,168 +35,22 @@ class FurnitureParser:
         self.style_extractor = StyleExtractor()
         self.classification_extractor = StyleClassification()
         self.brand_product_extractor = BrandProductExtractor()
-
-        # Fuzzy matching threshold
-        self.fuzzy_threshold = 0.95
-        self.all_synonyms = set()  # For fuzzy matching
-
-        # Spell checker (optional, lightweight)
-        self.spell = SpellChecker(distance=2) 
-
-        # Feature dictionary and mappings
-        self.synonym_to_feature = {}
-        self.feature_to_category = {}
-        
-        # Build mappings from your FURNITURE_CATEGORY
-        self._buildFeatureMappings()
-
-    def _buildFeatureMappings(self):
-        """Build reverse mapping from synonyms to main features"""
-        for main_feature, synonyms in FURNITURE_CATEGORY.items():
-            # Map the main feature to itself
-            self.synonym_to_feature[main_feature.lower()] = main_feature
-            self.all_synonyms.add(main_feature.lower())
-            
-            # Map all synonyms to the main feature
-            for synonym in synonyms:
-                synonym_lower = synonym.lower()
-                self.synonym_to_feature[synonym_lower] = main_feature
-                self.all_synonyms.add(synonym_lower)
-            
-            # Assign category
-            category = CATEGORY_MAPPINGS.get(main_feature, 'Other')
-            self.feature_to_category[main_feature] = category
-
-    def _fuzzy_match(self, phrase: str, candidates: Set[str]) -> Optional[str]:
-        """Fuzzy match entire phrase against known synonyms"""
-        best_match, best_score = None, 0
-
-        for candidate in candidates:
-            try:
-                similarity = Levenshtein.ratio(phrase.lower(), candidate.lower())
-            except (ImportError, NameError):
-                similarity = SequenceMatcher(None, phrase.lower(), candidate.lower()).ratio()
-
-            if similarity > best_score and similarity >= self.fuzzy_threshold:
-                best_score, best_match = similarity, candidate
-
-        return best_match
-    
-    def _spell_correct(self, text: str) -> str:
-        """Optional spell correction before fuzzy matching"""
-        corrected = []
-        for w in text.split():
-            if len(w) > 2:  # avoid correcting very short tokens
-                corrected.append(self.spell.correction(w) or w)
-            else:
-                corrected.append(w)
-        return " ".join(corrected)
-
-    def getCategoriesFromText(self, text: str) -> List[str]:
-        """Extract features by direct keyword matching and fuzzy matching"""
-        detected = []
-        words = text.split()
-
-        # Step 0: Spell correction
-        corrected_text = self._spell_correct(text)
-        corrected_words = corrected_text.split()
-        
-        # First pass: Exact match
-        for window_size in [1, 2, 3]:
-            for i in range(len(corrected_words) - window_size + 1):
-                phrase = ' '.join(corrected_words[i:i + window_size])
-                if phrase in self.synonym_to_feature:
-                    main_feature = self.synonym_to_feature[phrase]
-                    if self._hasContextualMatch(phrase, corrected_words, i):
-                        if main_feature not in detected:
-                            detected.append(main_feature)
-
-        # Second pass: Fuzzy matching for n-grams
-        for window_size in [2, 3, 1]:  # prefer multi-word matches first
-            for i in range(len(corrected_words) - window_size + 1):
-                phrase = ' '.join(corrected_words[i:i + window_size])
-
-                if len(phrase) < 3:  # skip too-short phrases
-                    continue
-
-                if phrase not in self.synonym_to_feature:
-                    fuzzy_match = self._fuzzy_match(phrase, self.all_synonyms)
-                    if fuzzy_match:
-                        main_feature = self.synonym_to_feature[fuzzy_match]
-                        if self._hasContextualMatch(phrase, corrected_words, i):
-                            if main_feature not in detected:
-                                detected.append(main_feature)
-        
-        return detected
-    
-    def _hasContextualMatch(self, phrase: str, words: List[str], position: int) -> bool:
-        """Check if feature is contextually relevant"""
-        if "leather" in phrase:
-            context_window = words[max(0, position - 2):min(len(words), position + 3)]
-            furniture_parts = ['sofa', 'chair', 'back', 'seat', 'arm', 'cushion']
-            return any(part in ' '.join(context_window).lower() for part in furniture_parts)
-        return True
-    
-    def extractContextualCategories(self, text: str) -> List[str]:
-        """Extract features using contextual phrase matching with fuzzy support"""
-        detected = []
-        
-        # Apply regular patterns
-        for pattern, feature in FEATURE_CONTEXTUAL_PATTERNS:
-            if re.search(pattern, text, re.IGNORECASE):
-                if feature not in detected:
-                    detected.append(feature)
-        
-        # Apply fuzzy patterns
-        for pattern, corrected_word in FUZZY_PATTERNS:
-            matches = re.finditer(pattern, text, re.IGNORECASE)
-            for match in matches:
-                # Replace the misspelled word and recheck patterns
-                corrected_text = text.replace(match.group(), corrected_word)
-                for context_pattern, feature in FEATURE_CONTEXTUAL_PATTERNS:
-                    if re.search(context_pattern, corrected_text, re.IGNORECASE):
-                        if feature not in detected:
-                            detected.append(feature)
-        
-        return detected
-    
-    def _extractFeatures(self, text: str) -> List[str]:
-        """
-        Improved feature extraction returning a list directly
-        
-        Args:
-            text: Input text to extract features from
-            
-        Returns:
-            List of detected features (no duplicates)
-        """
-        detected_features = []
-        text_lower = text.lower()
-        
-        # Method 1: Direct keyword matching with fuzzy support
-        keyword_features = self.getCategoriesFromText(text_lower)
-        detected_features.extend(keyword_features)
-        
-        # Method 2: Contextual phrase matching
-        contextual_features = self.extractContextualCategories(text_lower)
-        detected_features.extend(contextual_features)
-        
-        # Remove duplicates while preserving order
-        unique_features = []
-        seen = set()
-        for feature in detected_features:
-            if feature not in seen:
-                unique_features.append(feature)
-                seen.add(feature)
-        
-        return unique_features
+        self.feature_extractor = FeatureExtractor()
     
     def structureQuery(self, query: str) -> ParserResult:
-        """Enhanced parsing with ML models"""
+        """
+            Enhanced parsing with ML models
+            
+            Args:
+                query (str): Input text to parse
+
+            Returns:
+                ParserResult: Parsed result with product type, features, price range, location, and confidence    
+        """
         logger.info(f"ML parsing query: {query}")
         
         # STEP 1: Extract brand/product FIRST (before anything else)
-        data = self.brand_product_extractor.extract(query)
+        data = self.brand_product_extractor.extractProductBrand(query)
         
         # Safely extract brand name
         brand_name = data['brand']['name'] if data and data.get('brand') else None
@@ -217,7 +60,7 @@ class FurnitureParser:
         product_name = None
         if data and data.get('product'):
             extracted_product = data['product']['name']
-            if self._verify_product_in_query(extracted_product, query):
+            if self._verifyProductInQuery(extracted_product, query):
                 product_name = extracted_product
                 logger.info(f"Verified product: {product_name}")
             else:
@@ -249,7 +92,7 @@ class FurnitureParser:
         
         # STEP 3: Extract other features from ORIGINAL query
         product_types, product_confidence = self.product_type_extractor.classifyProductType(query)
-        features = self._extractFeatures(query)
+        features = self.feature_extractor.extractFeatures(query)
         styles = self.style_extractor.extractStyles(query)
         classifications = self.classification_extractor.extractClassification(query)
         
@@ -298,16 +141,16 @@ class FurnitureParser:
         
         return result
     
-    def _verify_product_in_query(self, product_name: str, query: str) -> bool:
+    def _verifyProductInQuery(self, product_name: str, query: str) -> bool:
         """
-        Verify if a product name is actually mentioned in the query
-        
-        Args:
-            product_name: The extracted product name
-            query: The original query text
+            Verify if a product name is actually mentioned in the query
             
-        Returns:
-            bool: True if product name appears in query
+            Args:
+                product_name: The extracted product name
+                query: The original query text
+                
+            Returns:
+                bool: True if product name appears in query
         """
         if not product_name:
             return False
@@ -344,7 +187,7 @@ class FurnitureParser:
                 query (str): Input text to parse
 
             Returns:
-                ParserResult: Parsed result with product type, features, price range, location, and confidence    
+                ParserResult: Parsed result with product type, features, price range, location, and confidence
         """
         result = self.structureQuery(query)
         

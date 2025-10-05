@@ -1,15 +1,16 @@
-"""Brand and Product Extractor for furniture queries with fuzzy matching and spell correction"""
+""" Brand and Product Extractor for furniture queries """
 
 # Import necessary libraries
 import re
 import logging
 from typing import List, Dict, Optional, Tuple
 from difflib import SequenceMatcher
-import Levenshtein  # pip install python-Levenshtein
-from spellchecker import SpellChecker  # pip install pyspellchecker
+import Levenshtein
+from spellchecker import SpellChecker
 
-# Import database manager
+# Import custom module
 from config.database import DatabaseManager
+from utils.helpers import fuzzyMatch
 
 # Configure logging
 logging.basicConfig(
@@ -21,10 +22,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class BrandProductExtractor:
-    """Extract brand and product names from furniture queries using fuzzy matching and spell correction"""
+    """ Extract brand and product names from furniture queries using fuzzy matching and spell correction """
     
     def __init__(self):
-        """Initialize the brand and product extractor"""
+        """ Initialize the brand and product extractor """
         # Fuzzy matching thresholds
         self.fuzzy_threshold = 0.85
         self.loose_threshold = 0.70  # Lowered for better spell-corrected matching
@@ -38,14 +39,14 @@ class BrandProductExtractor:
         # Load product and brand data from database
         self.product_names = {}  # lowercase -> original name
         self.brand_names = {}    # lowercase -> original name
-        self._load_data_from_db()
+        self._loadDataFromDB()
         
         # Common prepositions and keywords that indicate brand/product relationships
         self.brand_indicators = ['by', 'from', 'of', 'made by', 'designed by', 'brand']
         self.product_indicators = ['product', 'item', 'piece', 'furniture', 'want', 'need', 'looking for']
     
-    def _load_data_from_db(self):
-        """Load product and brand names from database"""
+    def _loadDataFromDB(self):
+        """ Load product and brand names from database """
         try:
             # Fetch product names
             products = self.db.fetchProductNames()
@@ -71,28 +72,24 @@ class BrandProductExtractor:
             self.product_names = {}
             self.brand_names = {}
     
-    def refresh_data(self):
+    def _refreshData(self):
         """
-        Refresh product and brand data from database
-        
-        Use this method when database content has been updated
-        
-        Example:
-            >>> extractor = BrandProductExtractor()
-            >>> extractor.refresh_data()
-        """
-        self._load_data_from_db()
-    
-    def _calculate_similarity(self, str1: str, str2: str) -> float:
-        """
-        Calculate similarity score between two strings
-        
-        Args:
-            str1 (str): First string
-            str2 (str): Second string
+            Refresh product and brand data from database
             
-        Returns:
-            float: Similarity score between 0 and 1
+            Use this method when database content has been updated
+        """
+        self._loadDataFromDB()
+    
+    def _calculateSimilarity(self, str1: str, str2: str) -> float:
+        """
+            Calculate similarity score between two strings
+            
+            Args:
+                str1 (str): First string
+                str2 (str): Second string
+                
+            Returns:
+                float: Similarity score between 0 and 1
         """
         try:
             # Use Levenshtein distance if available (more accurate)
@@ -101,15 +98,15 @@ class BrandProductExtractor:
             # Fallback to SequenceMatcher
             return SequenceMatcher(None, str1.lower(), str2.lower()).ratio()
     
-    def _spell_correct_text(self, text: str) -> str:
+    def _spellCorrectText(self, text: str) -> str:
         """
-        Apply spell correction to text while preserving brand/product names
-        
-        Args:
-            text (str): Input text to correct
+            Apply spell correction to text while preserving brand/product names
             
-        Returns:
-            str: Spell-corrected text
+            Args:
+                text (str): Input text to correct
+                
+            Returns:
+                str: Spell-corrected text
         """
         corrected_words = []
         words = text.split()
@@ -152,59 +149,21 @@ class BrandProductExtractor:
         
         return ' '.join(corrected_words)
     
-    def _fuzzy_match(self, phrase: str, candidates: Dict[str, str], 
-                     threshold: Optional[float] = None) -> Optional[Tuple[str, float]]:
+    def _extractBrandWithIndicators(self, text: str) -> Optional[Tuple[str, float]]:
         """
-        Find the best fuzzy match for a phrase among candidates
-        
-        Args:
-            phrase (str): The phrase to match
-            candidates (Dict[str, str]): Dictionary mapping lowercase names to original names
-            threshold (float, optional): Similarity threshold (0-1)
+            Extract brand using contextual indicators like 'by', 'from', 'of'
             
-        Returns:
-            Optional[Tuple[str, float]]: Tuple of (matched_name, similarity_score) or None
-        """
-        if threshold is None:
-            threshold = self.fuzzy_threshold
-        
-        if not phrase or not candidates:
-            return None
-            
-        best_match = None
-        best_score = 0
-        phrase_lower = phrase.lower().strip()
-        
-        for candidate_lower, candidate_original in candidates.items():
-            similarity = self._calculate_similarity(phrase_lower, candidate_lower)
-            
-            if similarity > best_score and similarity >= threshold:
-                best_score = similarity
-                best_match = candidate_original
-        
-        return (best_match, best_score) if best_match else None
-    
-    def _extract_brand_with_indicators(self, text: str) -> Optional[Tuple[str, float]]:
-        """
-        Extract brand using contextual indicators like 'by', 'from', 'of'
-        
-        Args:
-            text (str): Input text to analyze
-            
-        Returns:
-            Optional[Tuple[str, float]]: Tuple of (brand_name, confidence_score) or None
-            
-        Example:
-            >>> extractor._extract_brand_with_indicators("I want sweet jane of Porro")
-            ('Porro', 1.0)
-            >>> extractor._extract_brand_with_indicators("I want sweet jane of Porro")  # with typo "Poro"
-            ('Porro', 0.95)
+            Args:
+                text (str): Input text to analyze
+                
+            Returns:
+                Optional[Tuple[str, float]]: Tuple of (brand_name, confidence_score) or None
         """
         # First, try with original text
         text_lower = text.lower()
         
         # Also try with spell-corrected text
-        corrected_text = self._spell_correct_text(text)
+        corrected_text = self._spellCorrectText(text)
         corrected_lower = corrected_text.lower()
         
         # Try both original and corrected versions
@@ -228,21 +187,21 @@ class BrandProductExtractor:
                         return (self.brand_names[potential_brand], 1.0)
                     
                     # Try fuzzy matching
-                    fuzzy_result = self._fuzzy_match(potential_brand, self.brand_names)
+                    fuzzy_result = fuzzyMatch(potential_brand, self.brand_names, threshold=0.85)
                     if fuzzy_result:
                         return fuzzy_result
         
         return None
     
-    def _extract_brand_direct(self, text: str) -> Optional[Tuple[str, float]]:
+    def _extractBrandDirect(self, text: str) -> Optional[Tuple[str, float]]:
         """
-        Extract brand by direct matching anywhere in text
-        
-        Args:
-            text (str): Input text to analyze
+            Extract brand by direct matching anywhere in text
             
-        Returns:
-            Optional[Tuple[str, float]]: Tuple of (brand_name, confidence_score) or None
+            Args:
+                text (str): Input text to analyze
+                
+            Returns:
+                Optional[Tuple[str, float]]: Tuple of (brand_name, confidence_score) or None
         """
         text_lower = text.lower()
         best_match = None
@@ -262,20 +221,20 @@ class BrandProductExtractor:
         
         return None
     
-    def _extract_product_with_window(self, text: str, brand_name: Optional[str] = None) -> Optional[Tuple[str, float]]:
+    def _extractProductWithWindow(self, text: str, brand_name: Optional[str] = None) -> Optional[Tuple[str, float]]:
         """
-        Extract product name using sliding window approach with spell correction
-        
-        Args:
-            text (str): Input text to analyze
-            brand_name (str, optional): Brand name to exclude from matching
+            Extract product name using sliding window approach with spell correction
             
-        Returns:
-            Optional[Tuple[str, float]]: Tuple of (product_name, confidence_score) or None
+            Args:
+                text (str): Input text to analyze
+                brand_name (str, optional): Brand name to exclude from matching
+                
+            Returns:
+                Optional[Tuple[str, float]]: Tuple of (product_name, confidence_score) or None
         """
         # Try both original and spell-corrected text
         original_lower = text.lower()
-        corrected_text = self._spell_correct_text(text)
+        corrected_text = self._spellCorrectText(text)
         corrected_lower = corrected_text.lower()
         
         best_overall_match = None
@@ -316,7 +275,7 @@ class BrandProductExtractor:
                         return (self.product_names[phrase], 1.0)
                     
                     # Try fuzzy matching
-                    fuzzy_result = self._fuzzy_match(phrase, self.product_names, 
+                    fuzzy_result = fuzzyMatch(phrase, self.product_names, 
                                                     threshold=self.loose_threshold)
                     if fuzzy_result and fuzzy_result[1] > best_overall_score:
                         best_overall_match = fuzzy_result[0]
@@ -324,20 +283,20 @@ class BrandProductExtractor:
         
         return (best_overall_match, best_overall_score) if best_overall_match else None
     
-    def _extract_brand_with_preprocessing(self, text: str) -> Optional[Tuple[str, float]]:
+    def _extractBrandWithPreprocessing(self, text: str) -> Optional[Tuple[str, float]]:
         """
-        Extract brand with preprocessing to handle typos in multi-word brands
-        
-        Args:
-            text (str): Input text to analyze
+            Extract brand with preprocessing to handle typos in multi-word brands
             
-        Returns:
-            Optional[Tuple[str, float]]: Tuple of (brand_name, confidence_score) or None
+            Args:
+                text (str): Input text to analyze
+                
+            Returns:
+                Optional[Tuple[str, float]]: Tuple of (brand_name, confidence_score) or None
         """
         text_lower = text.lower()
         
         # First, try with indicators (most reliable)
-        brand_with_indicators = self._extract_brand_with_indicators(text)
+        brand_with_indicators = self._extractBrandWithIndicators(text)
         if brand_with_indicators:
             return brand_with_indicators
         
@@ -360,7 +319,7 @@ class BrandProductExtractor:
                 
                 for i, query_word in enumerate(query_words):
                     # Calculate similarity
-                    similarity = self._calculate_similarity(brand_word, query_word)
+                    similarity = self._calculateSimilarity(brand_word, query_word)
                     
                     if similarity > best_word_score:
                         best_word_score = similarity
@@ -390,17 +349,61 @@ class BrandProductExtractor:
         
         return None
     
-    def extract(self, text: str) -> Dict[str, Optional[Dict[str, any]]]:
+    def _extractBrand(self, text: str) -> Optional[Dict[str, any]]:
         """
-        Extract both brand and product from query text
-        
-        Args:
-            text (str): Input query text
+            Extract only brand from query text
             
-        Returns:
-            Dict containing:
-                - brand: Dict with 'name' and 'confidence' keys or None
-                - product: Dict with 'name' and 'confidence' keys or None
+            Args:
+                text (str): Input query text
+                
+            Returns:
+                Dict with 'name' and 'confidence' keys or None
+        """
+        brand_result = self._extractBrandWithIndicators(text)
+        
+        if not brand_result:
+            brand_result = self._extractBrandDirect(text)
+        
+        if brand_result:
+            return {
+                'name': brand_result[0],
+                'confidence': brand_result[1]
+            }
+        
+        return None
+    
+    def _extractProduct(self, text: str, brand_name: Optional[str] = None) -> Optional[Dict[str, any]]:
+        """
+            Extract only product from query text
+            
+            Args:
+                text (str): Input query text
+                brand_name (str, optional): Known brand name to exclude from matching
+                
+            Returns:
+                Dict with 'name' and 'confidence' keys or None
+        """
+        product_result = self._extractProductWithWindow(text, brand_name)
+        
+        if product_result:
+            return {
+                'name': product_result[0],
+                'confidence': product_result[1]
+            }
+        
+        return None
+
+    def extractProductBrand(self, text: str) -> Dict[str, Optional[Dict[str, any]]]:
+        """
+            Extract both brand and product from query text
+            
+            Args:
+                text (str): Input query text
+                
+            Returns:
+                Dict containing:
+                    - brand: Dict with 'name' and 'confidence' keys or None
+                    - product: Dict with 'name' and 'confidence' keys or None
         """
         result = {
             'brand': None,
@@ -410,7 +413,7 @@ class BrandProductExtractor:
         logger.info(f'Inside product and brand extractor. Loaded brands: {len(self.brand_names)}, products: {len(self.product_names)}')
         
         # Extract brand
-        brand_result = self._extract_brand_with_preprocessing(text)
+        brand_result = self._extractBrandWithPreprocessing(text)
         
         if brand_result:
             result['brand'] = {
@@ -423,7 +426,7 @@ class BrandProductExtractor:
         
         # Extract product (exclude brand name from search)
         brand_name = brand_result[0] if brand_result else None
-        product_result = self._extract_product_with_window(text, brand_name)
+        product_result = self._extractProductWithWindow(text, brand_name)
         
         if product_result:
             result['product'] = {
@@ -432,59 +435,3 @@ class BrandProductExtractor:
             }
         
         return result
-    
-    def extract_brand(self, text: str) -> Optional[Dict[str, any]]:
-        """
-        Extract only brand from query text
-        
-        Args:
-            text (str): Input query text
-            
-        Returns:
-            Dict with 'name' and 'confidence' keys or None
-            
-        Example:
-            >>> extractor = BrandProductExtractor()
-            >>> brand = extractor.extract_brand("furniture by Porro")
-            >>> print(brand)
-            {'name': 'Porro', 'confidence': 1.0}
-        """
-        brand_result = self._extract_brand_with_indicators(text)
-        
-        if not brand_result:
-            brand_result = self._extract_brand_direct(text)
-        
-        if brand_result:
-            return {
-                'name': brand_result[0],
-                'confidence': brand_result[1]
-            }
-        
-        return None
-    
-    def extract_product(self, text: str, brand_name: Optional[str] = None) -> Optional[Dict[str, any]]:
-        """
-        Extract only product from query text
-        
-        Args:
-            text (str): Input query text
-            brand_name (str, optional): Known brand name to exclude from matching
-            
-        Returns:
-            Dict with 'name' and 'confidence' keys or None
-            
-        Example:
-            >>> extractor = BrandProductExtractor()
-            >>> product = extractor.extract_product("I want sweet jane", "Porro")
-            >>> print(product)
-            {'name': 'Sweet Jane', 'confidence': 0.95}
-        """
-        product_result = self._extract_product_with_window(text, brand_name)
-        
-        if product_result:
-            return {
-                'name': product_result[0],
-                'confidence': product_result[1]
-            }
-        
-        return None

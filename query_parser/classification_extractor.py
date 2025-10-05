@@ -1,10 +1,12 @@
+""" Classification Extractor for furniture queries """
+
 # Import necessary libraries
 import re
 import logging
 from typing import Dict, List, Optional
-from difflib import SequenceMatcher
-import Levenshtein
-from spellchecker import SpellChecker
+
+# Import custom modules
+from utils.helpers import spellCorrect, fuzzyMatch
 
 # Import constants and mappings
 from config.constants import (
@@ -20,27 +22,18 @@ class StyleClassification:
     """ Extract classification information from furniture queries with fuzzy matching and spell correction """
     
     def __init__(self):
-        """Initialize the style classification extractor"""
+        """ Initialize the style classification extractor """
         
         # Classification mappings with synonyms and variations
         self.classification_mappings = FURNITURE_CLASSIFICATION
         
-        # Fuzzy matching threshold
-        self.fuzzy_threshold = 0.9
-        
-        # Initialize spell checker if available
-        if SpellChecker:
-            self.spell = SpellChecker(distance=2)
-        else:
-            self.spell = None
-        
         # Build reverse mappings for quick lookup
         self.synonym_to_classification = {}
         self.all_synonyms = set()
-        self._build_reverse_mappings()
+        self._buildReverseMappings()
     
-    def _build_reverse_mappings(self):
-        """Build reverse mappings from synonyms to classifications"""
+    def _buildReverseMappings(self):
+        """ Build reverse mappings from synonyms to classifications """
         for category, classifications in self.classification_mappings.items():
             for classification, synonyms in classifications.items():
                 # Map the classification name to itself
@@ -54,8 +47,17 @@ class StyleClassification:
                     self.synonym_to_classification[synonym_lower] = key
                     self.all_synonyms.add(synonym_lower)
     
-    def _preprocess_query(self, query: str) -> str:
-        """Preprocess query to handle common variations"""
+    def _preprocessQuery(self, query: str) -> str:
+        """
+            Preprocesses the input query text to handle common linguistic and numerical variations, 
+            standardizing the text for downstream parsing and matching.
+            
+            Args:
+                query (str): The raw input query text.
+
+            Returns:
+                str: The preprocessed and standardized query string.
+        """
         query = query.lower().strip()
         
         # Handle number words
@@ -73,42 +75,19 @@ class StyleClassification:
         
         return query
     
-    def _spell_correct(self, text: str) -> str:
-        """Apply spell correction to the text"""
-        if not self.spell:
-            return text
-            
-        corrected_words = []
-        for word in text.split():
-            if len(word) > 2:  # Only correct words longer than 2 chars
-                corrected = self.spell.correction(word)
-                corrected_words.append(corrected if corrected else word)
-            else:
-                corrected_words.append(word)
-        return " ".join(corrected_words)
-    
-    def _fuzzy_match(self, phrase: str, candidates: set) -> Optional[str]:
-        """Perform fuzzy matching against known synonyms"""
-        best_match = None
-        best_score = 0
-        
-        for candidate in candidates:
-            try:
-                if Levenshtein:
-                    similarity = Levenshtein.ratio(phrase.lower(), candidate.lower())
-                else:
-                    similarity = SequenceMatcher(None, phrase.lower(), candidate.lower()).ratio()
-            except:
-                similarity = SequenceMatcher(None, phrase.lower(), candidate.lower()).ratio()
-            
-            if similarity > best_score and similarity >= self.fuzzy_threshold:
-                best_score = similarity
-                best_match = candidate
-        
-        return best_match
-    
-    def _extract_from_text(self, text: str) -> Dict[str, List[str]]:
-        """Extract classifications from preprocessed text"""
+    def _extractFromText(self, text: str) -> Dict[str, List[str]]:
+        """
+            Extracts detailed classifications (sub-features, materials, sizes, etc.) from 
+            preprocessed text by matching n-grams against known classification terms.
+
+            Args:
+                text (str): The preprocessed, lowercased input text query.
+
+            Returns:
+                Dict[str, List[str]]: A dictionary where keys are classification categories 
+                            (e.g., 'material', 'size') and values are lists of unique, detected 
+                            classification terms (e.g., ['leather', 'wood']). Empty categories are omitted.
+        """
         detected_classifications = {}
         words = text.split()
         
@@ -131,7 +110,13 @@ class StyleClassification:
                 
                 # Fuzzy match for phrases longer than 3 characters
                 elif len(phrase) > 5:
-                    fuzzy_match = self._fuzzy_match(phrase, self.all_synonyms)
+                    # Try fuzzy matching
+                    fuzzy_match = ""
+                    result = fuzzyMatch(phrase, self.all_synonyms, threshold=0.9)
+                    if result:
+                        fuzzy_match = result[0]
+                    else:
+                        pass
                     if fuzzy_match and fuzzy_match in self.synonym_to_classification:
                         category_class = self.synonym_to_classification[fuzzy_match]
                         category, classification = category_class.split(':', 1)
@@ -142,8 +127,18 @@ class StyleClassification:
         # Filter out empty categories
         return {k: v for k, v in detected_classifications.items() if v}
     
-    def _extract_contextual_patterns(self, text: str) -> Dict[str, List[str]]:
-        """Extract using regex patterns for common contexts"""
+    def _extractContextualPatterns(self, text: str) -> Dict[str, List[str]]:
+        """
+            Extracts contextual classifications (like seating capacity) from the text 
+            using predefined regular expression patterns and associated converter functions.
+
+            Args:
+                text (str): The preprocessed input text query.
+
+            Returns:
+                Dict[str, List[str]]: A dictionary containing the extracted classification, typically 
+                            with the key 'VariantType' and a list of standardized variant strings (e.g., {'VariantType': ['3 Seater']}).
+        """
         classifications = {}
         
         for pattern, converter in SEATER_PATTERNS:
@@ -158,8 +153,19 @@ class StyleClassification:
         
         return classifications
     
-    def _validate_classifications(self, classifications: Dict[str, List[str]]) -> Dict[str, List[str]]:
-        """Validate and clean the extracted classifications"""
+    def _validateClassifications(self, classifications: Dict[str, List[str]]) -> Dict[str, List[str]]:
+        """
+            Validates and cleans a dictionary of extracted classifications against a 
+            predefined knowledge base.
+
+            Args:
+                classifications (Dict[str, List[str]]): A dictionary of classification 
+                                    categories (keys) and lists of extracted terms (values).
+
+            Returns:
+                Dict[str, List[str]]: A cleaned dictionary containing only the validated 
+                                    categories and classification terms. Empty categories are removed.
+        """
         validated = {}
         
         for category, items in classifications.items():
@@ -175,27 +181,25 @@ class StyleClassification:
     
     def extractClassification(self, query: str) -> Dict[str, List[str]]:
         """
-        Extract classification information from query
-        
-        Args:
-            query (str): Input query to analyze
+            Extract classification information from query
             
-        Returns:
-            Dict[str, List[str]]: Dictionary with classification categories and their values
+            Args:
+                query (str): Input query to analyze
+                
+            Returns:
+                Dict[str, List[str]]: Dictionary with classification categories and their values
         """
         # Step 1: Preprocess the query
-        preprocessed = self._preprocess_query(query)
-        logger.debug(f"Preprocessed query: '{preprocessed}'")
+        preprocessed = self._preprocessQuery(query)
         
         # Step 2: Apply spell correction
-        spell_corrected = self._spell_correct(preprocessed)
-        logger.debug(f"Spell corrected: '{spell_corrected}'")
+        spell_corrected = spellCorrect(preprocessed)
         
         # Step 3: Extract using direct/fuzzy matching
-        text_classifications = self._extract_from_text(spell_corrected)
+        text_classifications = self._extractFromText(spell_corrected)
         
         # Step 4: Extract using contextual patterns
-        pattern_classifications = self._extract_contextual_patterns(spell_corrected)
+        pattern_classifications = self._extractContextualPatterns(spell_corrected)
 
         final_classifications = {}
         all_categories = set(text_classifications.keys()) | set(pattern_classifications.keys())
@@ -210,6 +214,6 @@ class StyleClassification:
                     final_classifications[category].append(item)
         
         # Step 5: Validate and clean results
-        validated_classifications = self._validate_classifications(final_classifications)
+        validated_classifications = self._validateClassifications(final_classifications)
         
         return validated_classifications
