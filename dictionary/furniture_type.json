@@ -1,21 +1,95 @@
 {
-    "Sofa":
-        [
-            "couch", "loveseat", "settee", "divan", "davenport",
-            "sectional", "fainting couch"
-        ],
-    "Armchair":
-        [
-            "chair", "easy chair", "wing chair", "recliner",
-            "club chair", "tub chair", "slipper chair"
-        ],
-    "pouffe":
-        [
-            "footstool", "pouf", "pouffe", "storage ottoman", "ottoman bench",
-            "cocktail ottoman", "footrest", "ottoman seat", "low stool",
-            "living room stool", "sofa stool", "cube ottoman", "padded stool",
-            "floor cushion", "upholstered stool", "ottoman table", "coffee table ottoman",
-            "shoe bench", "lounge ottoman", "round ottoman", "square ottoman",
-            "rectangle ottoman", "decorative stool", "multi-purpose stool", "accent stool"
-        ]
+    "Sofa": [
+        "couch",
+        "settee",
+        "divan",
+        "davenport",
+        "sectional",
+        "fainting couch"
+    ],
+    "Armchair": [
+        "easy chair",
+        "club chair",
+        "tub chair"
+    ],
+    "Bench": [
+        "bench",
+        "settee bench",
+        "dining bench",
+        "entryway bench",
+        "window bench",
+        "mudroom bench",
+        "bedroom bench",
+        "end-of-bed bench",
+        "piano bench",
+        "hall bench",
+        "storage bench",
+        "upholstered bench",
+        "backless bench",
+        "bench seat",
+        "wooden bench",
+        "padded bench",
+        "foyer bench",
+        "accent bench",
+        "vanity bench",
+        "dressing bench",
+        "shoe bench"
+    ],
+    "Side Table": [
+        "side table",
+        "end table",
+        "accent table",
+        "lamp table",
+        "occasional table",
+        "telephone table",
+        "chairside table",
+        "corner table",
+        "small table",
+        "snack table",
+        "living room side table",
+        "bedroom side table"
+    ],
+    "Coffee Table": [
+        "coffee table",
+        "cocktail table",
+        "center table",
+        "centre table",
+        "living room table",
+        "low table",
+        "tea table",
+        "lounge table",
+        "central table",
+        "drawing room table",
+        "sitting room table"
+    ],
+    "Console": [
+        "console",
+        "console table",
+        "entry table",
+        "entryway table",
+        "hallway table",
+        "behind-sofa table",
+        "foyer table",
+        "entrance table",
+        "corridor table",
+        "accent console",
+        "slim table",
+        "long narrow table"
+    ],
+    "pouffe": [
+        "footstool",
+        "pouf",
+        "pouffe",
+        "storage ottoman",
+        "ottoman bench",
+        "footrest",
+        "ottoman seat",
+        "living room stool",
+        "stool",
+        "padded stool",
+        "floor cushion",
+        "ottoman table",
+        "lounge ottoman",
+        "accent stool"
+    ]
 }
