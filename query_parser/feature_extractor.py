@@ -144,24 +144,26 @@ class FeatureExtractor:
                         contextual pattern matching.
         """
         detected = []
-        
+
         # Apply regular patterns
         for pattern, feature in FEATURE_CONTEXTUAL_PATTERNS:
             if re.search(pattern, text, re.IGNORECASE):
-                if feature not in detected:
-                    detected.append(feature)
-        
+                # Normalize feature to lowercase key in FURNITURE_CATEGORY
+                feature_lower = feature.lower()
+                if feature_lower in FURNITURE_CATEGORY and feature_lower not in detected:
+                    detected.append(feature_lower)
+
         # Apply fuzzy patterns
         for pattern, corrected_word in FUZZY_PATTERNS:
             matches = re.finditer(pattern, text, re.IGNORECASE)
             for match in matches:
-                # Replace the misspelled word and recheck patterns
                 corrected_text = text.replace(match.group(), corrected_word)
                 for context_pattern, feature in FEATURE_CONTEXTUAL_PATTERNS:
                     if re.search(context_pattern, corrected_text, re.IGNORECASE):
-                        if feature not in detected:
-                            detected.append(feature)
-        
+                        feature_lower = feature.lower()
+                        if feature_lower in FURNITURE_CATEGORY and feature_lower not in detected:
+                            detected.append(feature_lower)
+
         return detected
     
     def extractFeatures(self, text: str) -> List[str]:
@@ -181,9 +183,9 @@ class FeatureExtractor:
         keyword_features = self._getCategoriesFromText(text_lower)
         detected_features.extend(keyword_features)
         
-        # Method 2: Contextual phrase matching
-        contextual_features = self._extractContextualCategories(text_lower)
-        detected_features.extend(contextual_features)
+        # # Method 2: Contextual phrase matching
+        # contextual_features = self._extractContextualCategories(text_lower)
+        # detected_features.extend(contextual_features)
         
         # Remove duplicates while preserving order
         unique_features = []
