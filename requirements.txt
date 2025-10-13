@@ -16,3 +16,4 @@ numpy
 # Database
 psycopg2-binary
 dotenv
+boto3
