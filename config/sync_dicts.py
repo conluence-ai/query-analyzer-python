@@ -56,7 +56,8 @@ class S3Manager:
             response = self.s3.list_objects_v2(Bucket=os.getenv("S3_BUCKET_NAME"), Prefix=os.getenv("S3_FOLDER"))
 
             if 'Contents' not in response:
-                logger.error(f"No files found in s3://{os.getenv("S3_BUCKET_NAME")}/{os.getenv("S3_FOLDER")}")
+                # Use single quotes for the nested os.getenv calls
+                logger.error(f"No files found in s3://{os.getenv('S3_BUCKET_NAME')}/{os.getenv('S3_FOLDER')}")
                 return
             
             for obj in response['Contents']:
