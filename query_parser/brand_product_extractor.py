@@ -12,6 +12,9 @@ from spellchecker import SpellChecker
 from config.database import DatabaseManager
 from utils.helpers import fuzzyMatch
 
+# Import constants and mappings
+from config.constants import BRAND_TABLE, PRODUCT_TABLE
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -34,7 +37,7 @@ class BrandProductExtractor:
         self.spell = SpellChecker(distance=2)
         
         # Database manager
-        self.db = DatabaseManager()
+        self.db = DatabaseManager(use_cache=True, use_connection_pool=True)
         
         # Load product and brand data from database
         self.product_names = {}  # lowercase -> original name
@@ -46,38 +49,41 @@ class BrandProductExtractor:
         self.product_indicators = ['product', 'item', 'piece', 'furniture', 'want', 'need', 'looking for']
     
     def _loadDataFromDB(self):
-        """ Load product and brand names from database """
+        """ Load product and brand names from database (with caching) """
         try:
-            # Fetch product names
-            products = self.db.fetchProductNames()
+            # Fetch product names (will use cache if available)
+            products = self.db.fetchProductNames(use_cache=True)
             self.product_names = {p.lower(): p for p in products if p}
             
-            # Fetch brand names
-            brands = self.db.fetchBrandNames()
+            # Fetch brand names (will use cache if available)
+            brands = self.db.fetchBrandNames(use_cache=True)
             self.brand_names = {b.lower(): b for b in brands if b}
             
-            # Add brand and product names to spell checker's known words
+            # Add to spell checker
             self.spell.word_frequency.load_words(list(self.brand_names.keys()))
             self.spell.word_frequency.load_words(list(self.product_names.keys()))
             
-            # Also add multi-word names as individual words
             for name in list(self.brand_names.keys()) + list(self.product_names.keys()):
                 for word in name.split():
-                    if len(word) > 2:  # Skip very short words
+                    if len(word) > 2:
                         self.spell.word_frequency.load_words([word])
             
-            print(f"✓ Loaded {len(self.product_names)} products and {len(self.brand_names)} brands from database")
+            print(f"Loaded {len(self.product_names)} products and {len(self.brand_names)} brands")
         except Exception as e:
-            print(f"✗ Error loading products and brands: {e}")
+            print(f"Error loading products and brands: {e}")
             self.product_names = {}
             self.brand_names = {}
     
     def _refreshData(self):
         """
-            Refresh product and brand data from database
-            
-            Use this method when database content has been updated
+            Refresh product and brand data from database.
+            This will invalidate cache and fetch fresh data.
         """
+        # Clear cache for these tables
+        self.db.clearCache(BRAND_TABLE)
+        self.db.clearCache(PRODUCT_TABLE)
+        
+        # Reload data
         self._loadDataFromDB()
     
     def _calculateSimilarity(self, str1: str, str2: str) -> float:
