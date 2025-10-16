@@ -81,6 +81,10 @@ class FeatureExtractor:
         for window_size in [1, 2, 3]:
             for i in range(len(corrected_words) - window_size + 1):
                 phrase = ' '.join(corrected_words[i:i + window_size])
+
+                # normalize common suffixes
+                phrase = re.sub(r'(shaped|shapes)$', 'shape', phrase)
+
                 if phrase in self.synonym_to_feature:
                     main_feature = self.synonym_to_feature[phrase]
                     if self._hasContextualMatch(phrase, corrected_words, i):
@@ -186,6 +190,13 @@ class FeatureExtractor:
         # # Method 2: Contextual phrase matching
         # contextual_features = self._extractContextualCategories(text_lower)
         # detected_features.extend(contextual_features)
+        # --- Disambiguation: prevent both "l shape" and "c shape" from appearing together ---
+        if any("l shape" in f for f in detected_features) and any("c shape" in f for f in detected_features):
+            text_lower = text.lower()
+            if "l" in text_lower and not "c" in text_lower:
+                detected_features = [f for f in detected_features if f != "c shape"]
+            elif "c" in text_lower and not "l" in text_lower:
+                detected_features = [f for f in detected_features if f != "l shape"]
         
         # Remove duplicates while preserving order
         unique_features = []

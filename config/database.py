@@ -70,9 +70,9 @@ class DatabaseManager:
                         password=self.password,
                         dbname=self.dbname
                     )
-                    logger.info("✓ Database connection pool initialized")
+                    logger.info("Database connection pool initialized")
                 except Exception as e:
-                    logger.error(f"✗ Failed to initialize connection pool: {e}")
+                    logger.error(f"Failed to initialize connection pool: {e}")
                     self._connection_pool = None
     
     def _getConnection(self) -> psycopg2.extensions.connection:
@@ -159,7 +159,7 @@ class DatabaseManager:
         """
         with self._cache_lock:
             if cache_key in self._cache and self._isCacheValid(cache_key):
-                logger.debug(f"✓ Cache hit: {cache_key}")
+                logger.debug(f"Cache hit: {cache_key}")
                 return self._cache[cache_key]
         return None
     
@@ -174,7 +174,7 @@ class DatabaseManager:
         with self._cache_lock:
             self._cache[cache_key] = data
             self._cache_timestamps[cache_key] = datetime.now()
-            logger.debug(f"✓ Cached: {cache_key} ({len(data)} items)")
+            logger.debug(f"Cached: {cache_key} ({len(data)} items)")
     
     def clearCache(self, table: Optional[str] = None):
         """
@@ -191,12 +191,12 @@ class DatabaseManager:
                 for key in keys_to_delete:
                     del self._cache[key]
                     del self._cache_timestamps[key]
-                logger.info(f"✓ Cleared cache for table: {table}")
+                logger.info(f"Cleared cache for table: {table}")
             else:
                 # Clear all cache
                 self._cache.clear()
                 self._cache_timestamps.clear()
-                logger.info("✓ Cleared all cache")
+                logger.info("Cleared all cache")
     
     def _fetchData(self, column: str, table: str, where_clause: Optional[str] = None, 
                    use_cache: Optional[bool] = None) -> List[Any]:
@@ -256,7 +256,7 @@ class DatabaseManager:
             if should_cache:
                 self._saveToCache(cache_key, result)
             
-            logger.info(f"✓ Fetched {len(result)} items from {table}.{column}")
+            logger.info(f"Fetched {len(result)} items from {table}.{column}")
             return result
             
         except psycopg2.Error as e:
@@ -310,7 +310,7 @@ class DatabaseManager:
                 result.extend([row[0] for row in rows if row[0] is not None])
             
             cur.close()
-            logger.info(f"✓ Fetched {len(result)} items in batches from {table}.{column}")
+            logger.info(f"Fetched {len(result)} items in batches from {table}.{column}")
             return result
             
         except psycopg2.Error as e:
@@ -372,7 +372,7 @@ class DatabaseManager:
         logger.info("Prefetching all data into cache...")
         self.fetchBrandNames(use_cache=True)
         self.fetchProductNames(use_cache=True)
-        logger.info("✓ Prefetch complete")
+        logger.info("Prefetch complete")
     
     def closeConnectionPool(self):
         """
@@ -383,7 +383,7 @@ class DatabaseManager:
             if self._connection_pool:
                 self._connection_pool.closeall()
                 self._connection_pool = None
-                logger.info("✓ Connection pool closed")
+                logger.info("Connection pool closed")
     
     def getStats(self) -> Dict[str, Any]:
         """
