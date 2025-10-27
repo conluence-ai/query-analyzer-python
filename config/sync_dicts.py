@@ -26,7 +26,14 @@ class S3Manager:
         load_dotenv()
 
         # Configuration
-        self.LOCAL_DOWNLOAD_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.getenv("LOCAL_DOWNLOAD_FOLDER"))
+        self.LOCAL_DOWNLOAD_DIR = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            os.getenv("LOCAL_DOWNLOAD_FOLDER")
+        )
+
+        # S3 Configuration
+        self.S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+        self.S3_FOLDER = os.getenv("S3_FOLDER")
 
         # Initialize S3 Client
         try:
@@ -53,11 +60,11 @@ class S3Manager:
         # List and Download Files
         try:
             # List all objects within the specified prefix (folder)
-            response = self.s3.list_objects_v2(Bucket=os.getenv("S3_BUCKET_NAME"), Prefix=os.getenv("S3_FOLDER"))
+            response = self.s3.list_objects_v2(Bucket=self.S3_BUCKET_NAME, Prefix=self.S3_FOLDER)
 
             if 'Contents' not in response:
                 # Use single quotes for the nested os.getenv calls
-                logger.error(f"No files found in s3://{os.getenv('S3_BUCKET_NAME')}/{os.getenv('S3_FOLDER')}")
+                logger.error(f"No files found in s3://{self.S3_BUCKET_NAME}/{os.getenv('S3_FOLDER')}")
                 return
             
             for obj in response['Contents']:
@@ -67,7 +74,7 @@ class S3Manager:
                 local_path = os.path.join(self.LOCAL_DOWNLOAD_DIR, filename)
 
                 # Skip the folder key itself if it exists (e.g., "dictionary/")
-                if not s3_key.endswith('.json') or s3_key == os.getenv("S3_FOLDER"):
+                if not s3_key.endswith('.json') or s3_key == self.S3_FOLDER:
                     logger.warning("Skip the folder key itself if it exists")
                     continue
 
