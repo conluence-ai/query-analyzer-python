@@ -95,6 +95,15 @@ class FurnitureParser:
         features = self.feature_extractor.extractFeatures(query)
         styles = self.style_extractor.extractStyles(query)
         classifications = self.classification_extractor.extractClassification(query)
+
+        # Remove redundant product name if it matches product type
+        if product_name and product_types:
+            for pt in product_types:
+                # strip whitespace and compare
+                if product_name.strip().lower() in pt.lower():
+                    logger.info(f"Dropping product_name '{product_name}' because it is redundant with product_type '{pt}'")
+                    product_name = None
+                    break
         
         # STEP 4: Extract price from CLEANED query only
         price_range = self.price_extractor.extractPriceRange(cleaned_query_for_price)

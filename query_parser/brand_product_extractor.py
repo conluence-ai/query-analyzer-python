@@ -33,6 +33,9 @@ class BrandProductExtractor:
         self.fuzzy_threshold = 0.85
         self.loose_threshold = 0.70  # Lowered for better spell-corrected matching
         
+        # Minimum word length for partial matching (prevents "Mid" matching "MIDJ")
+        self.min_word_length_for_partial = 5
+        
         # Spell checker
         self.spell = SpellChecker(distance=2)
         
@@ -47,6 +50,17 @@ class BrandProductExtractor:
         # Common prepositions and keywords that indicate brand/product relationships
         self.brand_indicators = ['by', 'from', 'of', 'made by', 'designed by', 'brand']
         self.product_indicators = ['product', 'item', 'piece', 'furniture', 'want', 'need', 'looking for']
+        
+        # Common descriptive words that should NOT be matched as brands
+        self.common_descriptors = {
+            'mid', 'century', 'modern', 'classic', 'traditional', 'contemporary',
+            'vintage', 'retro', 'industrial', 'rustic', 'minimalist', 'luxury',
+            'premium', 'elegant', 'comfortable', 'soft', 'hard', 'inclined',
+            'straight', 'curved', 'round', 'square', 'platform', 'modular',
+            'sectional', 'reclining', 'adjustable', 'fixed', 'mobile', 'static',
+            'large', 'small', 'medium', 'tall', 'short', 'wide', 'narrow',
+            'deep', 'shallow', 'high', 'low', 'corner', 'center', 'side'
+        }
     
     def _loadDataFromDB(self):
         """ Load product and brand names from database (with caching) """
@@ -68,9 +82,9 @@ class BrandProductExtractor:
                     if len(word) > 2:
                         self.spell.word_frequency.load_words([word])
             
-            print(f"Loaded {len(self.product_names)} products and {len(self.brand_names)} brands")
+            logger.info(f"Loaded {len(self.product_names)} products and {len(self.brand_names)} brands")
         except Exception as e:
-            print(f"Error loading products and brands: {e}")
+            logger.error(f"Error loading products and brands: {e}")
             self.product_names = {}
             self.brand_names = {}
     
@@ -104,6 +118,30 @@ class BrandProductExtractor:
             # Fallback to SequenceMatcher
             return SequenceMatcher(None, str1.lower(), str2.lower()).ratio()
     
+    def _isCommonDescriptor(self, word: str) -> bool:
+        """
+            Check if a word is a common descriptor that shouldn't be matched as a brand
+            
+            Args:
+                word (str): Word to check
+                
+            Returns:
+                bool: True if it's a common descriptor
+        """
+        word_lower = word.lower()
+        
+        # Check exact match
+        if word_lower in self.common_descriptors:
+            return True
+        
+        # Check if word is part of common multi-word descriptors
+        multi_word_descriptors = ['mid century', 'inclined legs', 'with platform']
+        for descriptor in multi_word_descriptors:
+            if word_lower in descriptor:
+                return True
+        
+        return False
+    
     def _spellCorrectText(self, text: str) -> str:
         """
             Apply spell correction to text while preserving brand/product names
@@ -125,6 +163,11 @@ class BrandProductExtractor:
             
             # Clean word of punctuation for checking
             clean_word = re.sub(r'[^\w\s]', '', word).lower()
+            
+            # Skip common descriptors from spell correction
+            if self._isCommonDescriptor(clean_word):
+                corrected_words.append(word)
+                continue
             
             # Check if word is a known brand or product (or part of one)
             is_known = False
@@ -202,6 +245,7 @@ class BrandProductExtractor:
     def _extractBrandDirect(self, text: str) -> Optional[Tuple[str, float]]:
         """
             Extract brand by direct matching anywhere in text
+            FIXED: Prevents false positives from partial word matches
             
             Args:
                 text (str): Input text to analyze
@@ -210,20 +254,60 @@ class BrandProductExtractor:
                 Optional[Tuple[str, float]]: Tuple of (brand_name, confidence_score) or None
         """
         text_lower = text.lower()
-        best_match = None
-        best_score = 0
+        words_in_query = set(text_lower.split())
         
-        # Try to find exact brand name matches
+        # Check for common descriptors that shouldn't match brands
+        for word in words_in_query:
+            if self._isCommonDescriptor(word):
+                logger.debug(f"Skipping common descriptor: {word}")
+        
+        # Try to find exact brand name matches with proper word boundaries
         for brand_lower, brand_original in self.brand_names.items():
-            if brand_lower in text_lower:
-                # Calculate confidence based on word boundaries
-                pattern = rf'\b{re.escape(brand_lower)}\b'
-                if re.search(pattern, text_lower):
-                    return (brand_original, 1.0)
-                else:
-                    # Partial match, lower confidence
-                    if len(brand_lower) / len(text_lower) > 0.15:  # At least 15% of text
-                        return (brand_original, 0.9)
+            # CRITICAL FIX: Only match complete words, not partial matches
+            # Use word boundary regex to ensure we're matching complete words
+            pattern = rf'\b{re.escape(brand_lower)}\b'
+            
+            if re.search(pattern, text_lower):
+                # Additional validation: Check if this is actually a brand mention
+                # or just a coincidental substring match
+                
+                # If the brand name is very short (< 4 chars), require stronger evidence
+                if len(brand_lower) < 4:
+                    # For short brand names, require exact word match or brand indicator
+                    if brand_lower not in words_in_query:
+                        continue
+                    
+                    # Check if any brand indicator is present
+                    has_indicator = any(indicator in text_lower for indicator in self.brand_indicators)
+                    if not has_indicator:
+                        # Skip if it looks like a common word
+                        if self._isCommonDescriptor(brand_lower):
+                            continue
+                
+                # Check if the matched brand is actually part of a common descriptor phrase
+                # For example, "mid" in "mid century" shouldn't match brand "MIDJ"
+                match_start = text_lower.find(brand_lower)
+                if match_start >= 0:
+                    # Get context around the match
+                    context_start = max(0, match_start - 10)
+                    context_end = min(len(text_lower), match_start + len(brand_lower) + 10)
+                    context = text_lower[context_start:context_end]
+                    
+                    # Check if this is part of a common phrase
+                    skip_phrases = ['mid century', 'inclined', 'platform', 'with platform']
+                    should_skip = False
+                    for phrase in skip_phrases:
+                        if brand_lower in phrase and phrase in text_lower:
+                            # The brand match is actually part of a common phrase
+                            logger.debug(f"Skipping false positive: '{brand_lower}' is part of '{phrase}'")
+                            should_skip = True
+                            break
+                    
+                    if should_skip:
+                        continue
+                
+                logger.info(f"Found brand match: '{brand_original}' in '{text}'")
+                return (brand_original, 1.0)
         
         return None
     
@@ -232,7 +316,7 @@ class BrandProductExtractor:
             Extract product name using sliding window approach with spell correction
             
             Args:
-                text (str): Input text to analyze
+                text (str): Input query text
                 brand_name (str, optional): Brand name to exclude from matching
                 
             Returns:
@@ -292,6 +376,7 @@ class BrandProductExtractor:
     def _extractBrandWithPreprocessing(self, text: str) -> Optional[Tuple[str, float]]:
         """
             Extract brand with preprocessing to handle typos in multi-word brands
+            FIXED: Added validation to prevent false positives
             
             Args:
                 text (str): Input text to analyze
@@ -306,14 +391,36 @@ class BrandProductExtractor:
         if brand_with_indicators:
             return brand_with_indicators
         
-        # Second, try direct matching with fuzzy support for each brand
+        # Second, try direct matching (with improved validation)
+        direct_match = self._extractBrandDirect(text)
+        if direct_match:
+            return direct_match
+        
+        # Third, try fuzzy matching but with stricter thresholds for descriptive words
         best_match = None
         best_score = 0
         
         for brand_lower, brand_original in self.brand_names.items():
+            # Skip if brand name is too similar to common descriptors
+            if self._isCommonDescriptor(brand_lower):
+                continue
+            
             # Split brand into words
             brand_words = brand_lower.split()
             query_words = text_lower.split()
+            
+            # Skip if any query word is a common descriptor that partially matches brand
+            skip_brand = False
+            for query_word in query_words:
+                if self._isCommonDescriptor(query_word):
+                    # Check if this descriptor is too similar to the brand name
+                    similarity = self._calculateSimilarity(query_word, brand_lower)
+                    if 0.4 < similarity < 0.9:  # Partial match that's not exact
+                        skip_brand = True
+                        break
+            
+            if skip_brand:
+                continue
             
             # Try to find all brand words in query (allowing for typos)
             found_positions = []
@@ -324,6 +431,10 @@ class BrandProductExtractor:
                 best_word_pos = -1
                 
                 for i, query_word in enumerate(query_words):
+                    # Skip common descriptors
+                    if self._isCommonDescriptor(query_word):
+                        continue
+                    
                     # Calculate similarity
                     similarity = self._calculateSimilarity(brand_word, query_word)
                     
@@ -332,7 +443,8 @@ class BrandProductExtractor:
                         best_word_match = query_word
                         best_word_pos = i
                 
-                if best_word_score >= 0.75:  # Allow 75% similarity for typos
+                # Require higher threshold for matching
+                if best_word_score >= 0.85:  # Increased from 0.75
                     found_positions.append((best_word_pos, best_word_score))
             
             # If we found all brand words with good similarity
@@ -350,55 +462,12 @@ class BrandProductExtractor:
                         best_match = brand_original
                         logger.info(f"Fuzzy brand match: '{text}' -> '{brand_original}' (confidence: {avg_score:.2f})")
         
-        if best_match and best_score >= 0.75:
+        # Require higher threshold for fuzzy matches
+        if best_match and best_score >= 0.85:  # Increased from 0.75
             return (best_match, best_score)
         
         return None
     
-    def _extractBrand(self, text: str) -> Optional[Dict[str, any]]:
-        """
-            Extract only brand from query text
-            
-            Args:
-                text (str): Input query text
-                
-            Returns:
-                Dict with 'name' and 'confidence' keys or None
-        """
-        brand_result = self._extractBrandWithIndicators(text)
-        
-        if not brand_result:
-            brand_result = self._extractBrandDirect(text)
-        
-        if brand_result:
-            return {
-                'name': brand_result[0],
-                'confidence': brand_result[1]
-            }
-        
-        return None
-    
-    def _extractProduct(self, text: str, brand_name: Optional[str] = None) -> Optional[Dict[str, any]]:
-        """
-            Extract only product from query text
-            
-            Args:
-                text (str): Input query text
-                brand_name (str, optional): Known brand name to exclude from matching
-                
-            Returns:
-                Dict with 'name' and 'confidence' keys or None
-        """
-        product_result = self._extractProductWithWindow(text, brand_name)
-        
-        if product_result:
-            return {
-                'name': product_result[0],
-                'confidence': product_result[1]
-            }
-        
-        return None
-
     def extractProductBrand(self, text: str) -> Dict[str, Optional[Dict[str, any]]]:
         """
             Extract both brand and product from query text
@@ -415,10 +484,9 @@ class BrandProductExtractor:
             'brand': None,
             'product': None
         }
-        # Fix the logger call - use proper formatting
-        logger.info(f'Inside product and brand extractor. Loaded brands: {len(self.brand_names)}, products: {len(self.product_names)}')
+        logger.info(f'Processing query: "{text}" | Loaded brands: {len(self.brand_names)}, products: {len(self.product_names)}')
         
-        # Extract brand
+        # Extract brand with improved validation
         brand_result = self._extractBrandWithPreprocessing(text)
         
         if brand_result:
@@ -428,7 +496,7 @@ class BrandProductExtractor:
             }
             logger.info(f"Extracted brand: {brand_result[0]} (confidence: {brand_result[1]:.2f})")
         else:
-            logger.warning(f"No brand found in: {text}")
+            logger.info(f"No brand found in: {text}")
         
         # Extract product (exclude brand name from search)
         brand_name = brand_result[0] if brand_result else None
@@ -439,5 +507,8 @@ class BrandProductExtractor:
                 'name': product_result[0],
                 'confidence': product_result[1]
             }
+            logger.info(f"Extracted product: {product_result[0]} (confidence: {product_result[1]:.2f})")
+        else:
+            logger.info(f"No product found in: {text}")
         
         return result
