@@ -1,22 +1,6 @@
 {
   "_comment_structure": "Production-ready furniture feature dictionary for search. Consolidated duplicates, fixed spelling, normalized casing. Each key is the canonical term with all variants as synonyms.",
 
-  "_style": "STYLE FEATURES",
-  "modern": ["contemporary design", "modernist", "current style", "minimalist modern", "clean modern", "simple modern", "sleek modern", "modern aesthetic", "mod style", "21st century style"],
-  "contemporary": ["current", "present-day", "modern contemporary", "today's style", "up-to-date", "contemporary design", "contemporary aesthetic", "now style", "current trend", "contemporary furniture"],
-  "scandinavian": ["Nordic", "Scandi", "Danish design", "Swedish style", "Norwegian design", "minimalist Nordic", "Scandinavian modern", "hygge style", "Nordic minimalism", "Scandi style"],
-  "classic": ["classical", "traditional", "timeless", "conventional", "standard", "classic design", "classical style", "enduring", "ageless", "time-honored"],
-  "mid century": ["mid-century", "1950s style", "1960s style", "retro", "vintage modern", "MCM", "atomic age", "post-war design", "mid-century design", "50s-60s style", "mid century modern", "1950s modern", "1960s modern", "retro modern", "vintage contemporary", "atomic modern", "post-war modern", "Eames era", "modernist vintage"],
-  "minimalistic": ["minimal", "minimalist", "simple", "clean lines", "uncluttered", "sparse", "reductive", "essential", "bare", "understated"],
-  "art deco": ["deco", "1920s style", "1930s style", "geometric deco", "glamorous deco", "Jazz Age", "streamline moderne", "deco revival", "Art Deco style", "deco design"],
-  "eclectic": ["mixed style", "bohemian", "varied", "diverse", "assorted", "heterogeneous", "fusion style", "blended", "combined styles", "mixed design"],
-  "transitional": ["transitional style", "blended traditional", "modern traditional", "contemporary classic", "bridge style", "hybrid design", "transitional aesthetic", "mixed period", "transitional decor", "classic modern"],
-  "victorian": ["Victorian era", "19th century", "ornate Victorian", "Gothic Revival", "Queen Anne", "Victorian style", "Edwardian", "late Victorian", "Victorian period", "Victorian design"],
-  "rustic": ["country", "farmhouse", "rural", "natural wood", "cabin style", "lodge", "countryside", "rustic charm", "rough-hewn", "weathered"],
-  "bohemian": ["boho", "eclectic boho", "gypsy style", "free-spirited", "boho chic", "artistic", "unconventional", "bohemian style", "hippie chic", "nomadic"],
-  "neo classical": ["neoclassical", "classical revival", "Greek revival", "Roman inspired", "neo-classic", "classical modern", "new classical", "Empire style", "Regency", "Federal style"],
-  "chesterfield": ["tufted leather", "classic British", "deep buttoned", "scrolled arms", "capitone", "Chesterfield style", "English classic", "British traditional", "studded leather", "Victorian button"],
-
   "_base_and_legs": "BASE AND LEG FEATURES",
   "straight leg": ["square leg", "simple leg", "right leg", "flat leg", "conventional leg", "smooth leg", "straight member", "vertical leg", "upright leg", "linear support", "straight legs", "vertical legs", "upright legs", "linear supports"],
   "inclined leg": ["splayed leg", "angled leg", "slanted leg", "tilted leg", "leaning leg", "oblique leg", "sloped leg", "bent leg", "canted leg", "inclined legs", "angled legs", "slanted supports", "tilted legs", "splayed legs", "oblique supports"],

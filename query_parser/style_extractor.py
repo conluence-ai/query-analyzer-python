@@ -77,33 +77,43 @@ class StyleExtractor:
                         matching.
         """
         detected_styles = []
-        corrected_text = spellCorrect(text)
-        words = corrected_text.lower().split()
+        # Use original text to avoid pre-correction issues
+        text_lower = text.lower()
+        words = text_lower.split()
         
         # Try different window sizes for phrase matching
         for window_size in [3, 2, 1]:
             for i in range(len(words) - window_size + 1):
                 phrase = ' '.join(words[i:i + window_size])
                 
-                # Skip if already found exact match
-                if phrase in self.synonym_to_style:
-                    continue
+                # --- REMOVE: Check if phrase is an EXACT match ---
+                # This check belongs in _extractDirectMatches. If it's an exact match, 
+                # it should already be extracted and doesn't need fuzzy logic.
                 
                 # Skip very short phrases for fuzzy matching
                 if len(phrase) < 3:
                     continue
                 
-                # Try fuzzy matching
-                fuzzy_match = ""
+                # Try fuzzy matching against ALL style terms
                 result = fuzzyMatch(phrase, self.all_style_terms, threshold=0.8)
+                
                 if result:
-                    fuzzy_match = result[0]
-                else:
-                    pass
-                if fuzzy_match and fuzzy_match in self.synonym_to_style:
-                    style = self.synonym_to_style[fuzzy_match]
-                    if style not in detected_styles:
-                        detected_styles.append(style)
+                    # Get the most confident match
+                    fuzzy_match_term = result[0]
+                    
+                    # Ensure the fuzzy match is a known style synonym/name
+                    if fuzzy_match_term in self.synonym_to_style:
+                        style = self.synonym_to_style[fuzzy_match_term]
+                        if style not in detected_styles:
+                            detected_styles.append(style)
+                            
+                            # OPTIONAL: Break inner loops once a multi-word match is found
+                            # This prevents "mid century" being re-matched as "century"
+                            if window_size > 1:
+                                continue 
+
+        # We will now rely on Method 1 (_extractDirectMatches) + Method 3 + this Method 2 
+        # to ensure the "unique_styles" final step is correct.
         
         return detected_styles
     
