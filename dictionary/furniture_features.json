@@ -1,2468 +1,340 @@
 {
-    "straight leg": [
-        "square leg",
-        "simple leg",
-        "right leg",
-        "flat leg",
-        "legal leg",
-        "conventional leg",
-        "smooth leg",
-        "true stage",
-        "straight member",
-        "vertical legs",
-        "upright legs",
-        "linear supports"
-    ],
-    "inclined leg": [
-        "splayed leg",
-        "angled leg",
-        "slanted leg",
-        "tilted leg",
-        "leaning leg",
-        "oblique leg",
-        "sloped leg",
-        "bent leg",
-        "canted leg"
-    ],
-    "inclined legs": [
-        "angled legs",
-        "slanted supports",
-        "tilted legs",
-        "splayed legs",
-        "oblique supports"
-    ],
-    "tapered legs": [
-        "narrowing legs",
-        "conical legs",
-        "tapering supports",
-        "slimming legs",
-        "graduated legs"
-    ],
-    "ornate leg": [
-        "decorative leg",
-        "carved leg",
-        "embellished leg",
-        "cabriole leg",
-        "fluted leg",
-        "reeded leg",
-        "carved cabriole leg",
-        "scroll leg",
-        "baluster leg",
-        "bobbin leg",
-        "Flemish scroll leg",
-        "claw foot leg",
-        "clawed leg"
-    ],
-    "ornate legs": [
-        "decorative legs",
-        "carved legs",
-        "embellished legs",
-        "sculptured legs",
-        "detailed legs"
-    ],
-    "ornate": [
-        "decorative",
-        "embellished",
-        "elaborate",
-        "intricate",
-        "detailed"
-    ],
-    "planar leg": [
-        "flat leg",
-        "panel leg",
-        "slab leg",
-        "sheet leg",
-        "planar panel leg",
-        "flat panel leg",
-        "planar support leg",
-        "planar furniture leg",
-        "flat surface leg",
-        "panel-style leg"
-    ],
-    "planar legs": [
-        "flat legs",
-        "panel legs",
-        "slab legs",
-        "blade legs",
-        "sheet supports"
-    ],
-    "rounded legs": [
-        "curved legs",
-        "circular legs",
-        "cylindrical supports",
-        "tubular legs"
-    ],
-    "rounded leg base": [
-        "curved leg base",
-        "circular leg base",
-        "rounded supports"
-    ],
-    "block legs": [
-        "cubic legs",
-        "square legs",
-        "box-shaped supports",
-        "rectangular legs"
-    ],
-    "sleek legs": [
-        "slim legs",
-        "minimal legs",
-        "refined supports",
-        "streamlined legs"
-    ],
-    "geometric grid legs": [
-        "lattice legs",
-        "grid support",
-        "geometric pattern",
-        "structured grid"
-    ],
-    "leg integrated with structure": [
-        "built-in leg",
-        "structural leg",
-        "integrated leg",
-        "fixed leg",
-        "attached leg",
-        "frame leg",
-        "support leg",
-        "welded leg",
-        "metal structural leg",
-        "cantilever leg"
-    ],
-    "straight legs": [
-        "vertical legs",
-        "linear supports",
-        "upright legs",
-        "straight supports"
-    ],
-    "multiple legs": [
-        "many legs",
-        "multi-leg support",
-        "numerous supports",
-        "multiple supports"
-    ],
-    "1 leg": [
-        "single leg",
-        "mono support",
-        "one-point base",
-        "central support"
-    ],
-    "2 leg": [
-        "two-legged",
-        "dual support",
-        "bi-leg",
-        "twin supports"
-    ],
-    "3 leg": [
-        "three-legged",
-        "tripod",
-        "tri-leg",
-        "three-point support"
-    ],
-    "3 legs": [
-        "three-legged",
-        "tripod support",
-        "tri-leg"
-    ],
-    "4 leg": [
-        "four-legged",
-        "quad support",
-        "four-point base",
-        "quadruped"
-    ],
-    "4 legs": [
-        "four-legged",
-        "quad support",
-        "four-point base"
-    ],
-    "multiple leg base": [
-        "many legs",
-        "multi-leg",
-        "numerous supports",
-        "several legs"
-    ],
-    "four leg base": [
-        "quadruped base",
-        "four-footed base",
-        "four-legged base",
-        "quad-leg base",
-        "four-legged support",
-        "quadrupedal base",
-        "four-leg stand",
-        "quadpod base",
-        "four-foot stand",
-        "four points base"
-    ],
-    "three leg base": [
-        "tripod base",
-        "tripod leg",
-        "three-legged support",
-        "tri-leg base",
-        "three-point base",
-        "tripod stand"
-    ],
-    "sled base": [
-        "sled runner",
-        "flat base",
-        "sled frame",
-        "sled leg",
-        "runner base",
-        "sled chair base",
-        "sled-style leg",
-        "sled design base",
-        "curved runner base",
-        "tubular sled base"
-    ],
-    "cantilever base": [
-        "floating base",
-        "unsupported end base",
-        "cantilever leg",
-        "cantilever support",
-        "overhanging base",
-        "L-shaped base",
-        "single-sided support",
-        "suspended base",
-        "tubular cantilever base",
-        "offset base"
-    ],
-    "rocking base": [
-        "rocker base",
-        "curved rocker",
-        "rocking chair base",
-        "rocker runner",
-        "rocking legs",
-        "curved runner base",
-        "rocking frame",
-        "rocking bottom",
-        "rocker bottom",
-        "rocking support"
-    ],
-    "floating base": [
-        "suspended base",
-        "hovering base",
-        "wall-mounted base",
-        "cantilevered base"
-    ],
-    "plinth": [
-        "stand",
-        "platform",
-        "base",
-        "pedestal",
-        "block",
-        "footing",
-        "foundation block",
-        "support block",
-        "subbase",
-        "podium"
-    ],
-    "plinth base": [
-        "platform base",
-        "solid base",
-        "block base",
-        "foundation base"
-    ],
-    "platform": [
-        "base plate",
-        "stage",
-        "platform base",
-        "raised surface",
-        "flat base",
-        "podium",
-        "foundation plate",
-        "decking",
-        "slab",
-        "support base"
-    ],
-    "platform base": [
-        "flat platform",
-        "base plate",
-        "solid platform",
-        "foundation platform"
-    ],
-    "platform base, base plate": [
-        "flat platform",
-        "base plate",
-        "solid platform"
-    ],
-    "T base": [
-        "T-shaped base",
-        "T-leg base",
-        "T-style base",
-        "T-frame base",
-        "T-shaped support",
-        "t-type leg base"
-    ],
-    "t base": [
-        "T-shaped base",
-        "T-leg",
-        "T-frame",
-        "T-support"
-    ],
-    "X base": [
-        "X-shaped base",
-        "crisscross base",
-        "cross base",
-        "X-frame base",
-        "X-leg base",
-        "intersecting base",
-        "X-style support",
-        "metal X base",
-        "diagonal cross base",
-        "X pedestal"
-    ],
-    "x base": [
-        "X-shaped base",
-        "cross base",
-        "X-frame",
-        "intersecting base"
-    ],
-    "pedestal base": [
-        "central column",
-        "single support base",
-        "single pedestal",
-        "column base",
-        "central leg support",
-        "single post base",
-        "pillar base",
-        "round pedestal",
-        "solid support base",
-        "single-leg base"
-    ],
-    "pedestal": [
-        "column",
-        "pillar",
-        "central support",
-        "single post"
-    ],
-    "trestle": [
-        "support frame",
-        "crossbeam base",
-        "A-frame support",
-        "saw-horse legs",
-        "horizontal beam support",
-        "angled leg support",
-        "folding trestle",
-        "rigid beam frame",
-        "stretcher support",
-        "base frame"
-    ],
-    "trestle base": [
-        "A-frame base",
-        "crossbeam support",
-        "stretcher base",
-        "sawhorse base"
-    ],
-    "metal wire frame": [
-        "wire base",
-        "metal lattice",
-        "wire mesh frame",
-        "metal wire base",
-        "wire structure",
-        "wire cage frame",
-        "metal grid frame",
-        "wire skeleton",
-        "metal rod frame",
-        "tubular wire frame"
-    ],
-    "skirted base": [
-        "covered base",
-        "fabric covered base",
-        "skirted furniture base",
-        "upholstered base",
-        "draped base",
-        "fabric skirt base",
-        "skirted bottom",
-        "fabric wrap base",
-        "slipcovered base",
-        "valanced base"
-    ],
-    "feet": [
-        "pads",
-        "tips",
-        "glides",
-        "protectors",
-        "stoppers",
-        "end caps",
-        "feet pads",
-        "leg caps",
-        "floor protectors",
-        "furniture feet guards"
-    ],
-    "base integrated with structure": [
-        "built-in base",
-        "integrated base",
-        "structural base",
-        "fixed base",
-        "attached base",
-        "frame-integrated base",
-        "welded base"
-    ],
-    "boxy base": [
-        "cube base",
-        "square base",
-        "box-shaped support",
-        "rectangular base"
-    ],
-    "heavy base": [
-        "weighted base",
-        "substantial base",
-        "solid base",
-        "massive base"
-    ],
-    "geometric base": [
-        "angular base",
-        "faceted base",
-        "geometric form",
-        "structured base"
-    ],
-    "fluted base": [
-        "grooved base",
-        "channeled base",
-        "ridged support",
-        "fluted column"
-    ],
-    "flutted base": [
-        "grooved base",
-        "channeled base",
-        "fluted column",
-        "ridged base"
-    ],
-    "central base": [
-        "center support",
-        "middle pedestal",
-        "core base",
-        "central column"
-    ],
-    "cross leg 3d base": [
-        "crossed legs",
-        "X-shaped 3D base",
-        "intersecting supports",
-        "3D cross support"
-    ],
-    "conical base": [
-        "cone-shaped base",
-        "tapered base",
-        "pyramid base",
-        "funnel base"
-    ],
-    "conical": [
-        "cone-shaped",
-        "tapered",
-        "pyramid form",
-        "funnel shape"
-    ],
-    "drum base": [
-        "cylindrical base",
-        "round base",
-        "barrel support",
-        "drum-shaped base"
-    ],
-    "hollow base": [
-        "open base",
-        "void base",
-        "skeletal base",
-        "empty core base"
-    ],
-    "disc base": [
-        "flat disc",
-        "circular plate",
-        "round platform",
-        "disc-shaped base"
-    ],
-    "rounded base": [
-        "curved base",
-        "circular base",
-        "smooth base",
-        "round support"
-    ],
-    "3 star base": [
-        "three-arm base",
-        "tripod star",
-        "three-spoke support",
-        "tri-star base"
-    ],
-    "4 star base": [
-        "four-arm base",
-        "quad star",
-        "four-spoke support",
-        "quad-star base"
-    ],
-    "5 star base": [
-        "five-arm base",
-        "penta star",
-        "five-spoke support",
-        "penta-star base"
-    ],
-    "6 star base": [
-        "six-arm base",
-        "hexa star",
-        "six-spoke support",
-        "hexa-star base"
-    ],
-    "abstract base": [
-        "artistic base",
-        "non-traditional base",
-        "freeform support",
-        "sculptural base"
-    ],
-    "abstract": [
-        "artistic",
-        "non-traditional",
-        "freeform",
-        "unconventional"
-    ],
-    "metal ring base": [
-        "circular metal base",
-        "ring support system",
-        "hoop base",
-        "circular frame"
-    ],
-    "chrome metal": [
-        "chromed",
-        "metallic shine",
-        "chrome plating",
-        "polished chrome",
-        "bright chrome",
-        "mirror finish",
-        "reflective metal",
-        "electroplated chrome",
-        "shiny metal finish",
-        "decorative chrome"
-    ],
-    "painted metal": [
-        "enamel coated metal",
-        "lacquered metal",
-        "powder-coated metal",
-        "painted steel",
-        "painted aluminum",
-        "metal paint finish",
-        "coated metal",
-        "protective metal paint",
-        "varnished metal",
-        "metal with painted surface"
-    ],
-    "powder coated metal": [
-        "matte metal",
-        "textured metal",
-        "powder finish",
-        "textured powder coat",
-        "matte powder coat",
-        "textured metal finish",
-        "durable powder coating",
-        "rough finish metal",
-        "powder-coated surface",
-        "textured matte finish"
-    ],
-    "powder coated": [
-        "powder finish",
-        "durable coating",
-        "matte finish",
-        "textured coating"
-    ],
-    "brass coated metal": [
-        "brass plated",
-        "golden finish metal",
-        "brass finish",
-        "brass veneer",
-        "brass overlay",
-        "brass-tone metal",
-        "antique brass finish",
-        "brushed brass",
-        "polished brass",
-        "brass-colored metal"
-    ],
-    "nickel coated metal": [
-        "nickel plated",
-        "silver finish metal",
-        "nickel finish",
-        "nickel electroplated",
-        "bright nickel",
-        "satin nickel",
-        "matte nickel",
-        "brushed nickel",
-        "chemical nickel plating",
-        "nickel overlay"
-    ],
-    "marble": [
-        "stone",
-        "granite (by material family)",
-        "natural stone",
-        "marble stone",
-        "polished stone",
-        "marble slab",
-        "metamorphic rock",
-        "marble surface",
-        "marble tile",
-        "decorative stone"
-    ],
-    "glass": [
-        "transparent surface",
-        "crystal",
-        "clear glass",
-        "transparent material",
-        "glass panel",
-        "glass sheet",
-        "tempered glass",
-        "optical glass",
-        "glass pane",
-        "flat glass"
-    ],
-    "blown glass": [
-        "hand-blown glass",
-        "artisan glass",
-        "molded glass",
-        "artisan-blown"
-    ],
-    "murano glass": [
-        "Venetian glass",
-        "Italian art glass",
-        "handcrafted glass",
-        "Murano artisan glass"
-    ],
-    "crystal glass": [
-        "lead crystal",
-        "cut crystal",
-        "premium glass",
-        "crystal"
-    ],
-    "textured glass": [
-        "etched glass",
-        "frosted glass",
-        "patterned glass",
-        "relief glass"
-    ],
-    "wooden": [
-        "timber",
-        "oak",
-        "mahogany",
-        "hardwood",
-        "softwood",
-        "wood material",
-        "wooden plank",
-        "natural wood",
-        "laminated wood",
-        "wood grain"
-    ],
-    "wood": [
-        "timber",
-        "hardwood",
-        "softwood",
-        "natural wood",
-        "wooden material"
-    ],
-    "upholstered": [
-        "cushioned",
-        "padded",
-        "upholstered fabric",
-        "padded upholstery",
-        "cushioned seating",
-        "fabric-covered",
-        "soft upholstery",
-        "upholstered chair",
-        "tufted upholstery",
-        "cushioned furniture"
-    ],
-    "gold": [
-        "gilded",
-        "gold-plated",
-        "gold plated jewelry",
-        "fine gold plating",
-        "gold filled",
-        "vermeil",
-        "solid gold",
-        "gold leaf",
-        "gold coating",
-        "gold finish"
-    ],
-    "lacquered": [
-        "varnished",
-        "high-gloss",
-        "glossy finish",
-        "lacquer finish",
-        "coated finish",
-        "glossy lacquer",
-        "polished varnish",
-        "protective coating",
-        "shiny finish",
-        "enamel finish"
-    ],
-    "metal": [
-        "iron",
-        "steel",
-        "aluminum",
-        "stainless steel",
-        "brass",
-        "copper",
-        "wrought iron",
-        "galvanized metal",
-        "alloy metal",
-        "metal sheet"
-    ],
-    "brass": [
-        "bronze-like",
-        "golden metal",
-        "brass alloy",
-        "polished brass"
-    ],
-    "copper": [
-        "copper metal",
-        "reddish metal",
-        "copper alloy",
-        "patinated copper"
-    ],
-    "bronze": [
-        "copper alloy",
-        "bronzed",
-        "antique bronze",
-        "patinated bronze",
-        "cast bronze",
-        "aged bronze",
-        "bronze finish",
-        "bronzed metal",
-        "oxidized bronze",
-        "bronze plating"
-    ],
-    "wrapped polished brass": [
-        "brass covered",
-        "shiny brass",
-        "polished brass",
-        "lacquered brass",
-        "gleaming brass",
-        "brass finish",
-        "brass veneer",
-        "brass overlay",
-        "reflective brass",
-        "bright brass"
-    ],
-    "polycarbonate": [
-        "plastic",
-        "plexiglass",
-        "acrylic",
-        "transparent plastic",
-        "PC material"
-    ],
-    "acrylic": [
-        "plexiglass",
-        "lucite",
-        "clear plastic",
-        "PMMA"
-    ],
-    "rattan": [
-        "cane",
-        "wicker",
-        "natural vine",
-        "rattan palm",
-        "woven rattan"
-    ],
-    "structure in rattan": [
-        "woven frame",
-        "braided frame",
-        "rattan weaving",
-        "rattan lattice",
-        "handwoven frame"
-    ],
-    "onyx": [
-        "semi-precious stone",
-        "banded stone",
-        "translucent stone",
-        "onyx marble"
-    ],
-    "ceramic": [
-        "porcelain",
-        "clay material",
-        "glazed ceramic",
-        "fired clay"
-    ],
-    "concrete": [
-        "cement",
-        "industrial material",
-        "poured concrete",
-        "concrete composite"
-    ],
-    "combination of material": [
-        "mixed materials",
-        "multi-material",
-        "composite materials",
-        "hybrid materials"
-    ],
-    "multi material": [
-        "mixed materials",
-        "combination materials",
-        "hybrid construction",
-        "composite"
-    ],
-    "terrazzo": [
-        "chip flooring",
-        "mosaic composite",
-        "speckled surface",
-        "aggregate surface"
-    ],
-    "mosaic": [
-        "tile pattern",
-        "inlay design",
-        "tessellated surface",
-        "mosaic tiles"
-    ],
-    "resin": [
-        "epoxy resin",
-        "polymer",
-        "synthetic resin",
-        "cast resin"
-    ],
-    "painted": [
-        "coated",
-        "colored finish",
-        "painted surface",
-        "enameled"
-    ],
-    "mirror": [
-        "reflective surface",
-        "polished mirror",
-        "glass mirror",
-        "mirrored"
-    ],
-    "mirror finish": [
-        "reflective finish",
-        "polished mirror",
-        "high-gloss mirror",
-        "chrome-like"
-    ],
-    "glazed": [
-        "glossy finish",
-        "ceramic glaze",
-        "shiny coating",
-        "vitreous"
-    ],
-    "glazed finish": [
-        "ceramic glaze",
-        "glossy coating",
-        "vitreous finish",
-        "shiny glaze"
-    ],
-    "multicolor": [
-        "multi-hued",
-        "variegated colors",
-        "rainbow colored",
-        "polychrome"
-    ],
-    "veneer": [
-        "wood veneer",
-        "thin wood layer",
-        "decorative surface",
-        "laminated veneer"
-    ],
-    "laminate": [
-        "plastic laminate",
-        "synthetic surface",
-        "layered material",
-        "formica"
-    ],
-    "distressed": [
-        "aged finish",
-        "worn finish",
-        "rustic texture",
-        "weathered"
-    ],
-    "textured": [
-        "tactile surface",
-        "dimensional finish",
-        "relief surface",
-        "textured finish"
-    ],
-    "foam": [
-        "cushioning material",
-        "foam padding",
-        "upholstery foam",
-        "polyurethane foam"
-    ],
-    "adjustable arms": [
-        "moving arms",
-        "configurable arms",
-        "flexible arms",
-        "adjustable armrests",
-        "pivoting arms",
-        "articulating arms",
-        "adjustable supports",
-        "extendable arms",
-        "swivel arms",
-        "adjustable brackets"
-    ],
-    "splayed arms": [
-        "angled arms",
-        "flared arms",
-        "outward arms",
-        "spread arms",
-        "tapering arms",
-        "slanted arms",
-        "widened arms",
-        "open arms",
-        "extended arms",
-        "directional arms"
-    ],
-    "arms with metal detail": [
-        "metallic accent arms",
-        "metal-trimmed arms",
-        "metal-inlaid arms",
-        "metal-highlighted arms",
-        "metal-embellished arms",
-        "metal frame arms",
-        "metal-edged arms",
-        "arms with metal inserts",
-        "metal decorative arms",
-        "metal feature arms"
-    ],
-    "curved arms": [
-        "rounded arms",
-        "scroll arms",
-        "bow arms",
-        "arched arms",
-        "serpentine arms",
-        "flowing arms",
-        "crescent arms",
-        "curved armrests",
-        "gentle curve arms",
-        "soft curve arms"
-    ],
-    "tuxedo arms": [
-        "straight arms",
-        "box arms",
-        "squared arms",
-        "flat arms",
-        "vertical arms",
-        "panel arms",
-        "streamlined arms",
-        "formal arms",
-        "rectangular arms",
-        "sleek arms"
-    ],
-    "floor length arms": [
-        "full length arms",
-        "extended arms",
-        "long arms",
-        "floor-reaching arms",
-        "continuous arms",
-        "extended side arms",
-        "full height arms",
-        "elongated arms",
-        "base-length arms",
-        "legs-to-floor arms"
-    ],
-    "folded arms": [
-        "bent arms",
-        "creased arms",
-        "folded-over arms",
-        "collapsed arms",
-        "articulated arms",
-        "kinked arms",
-        "hinged arms",
-        "jointed arms",
-        "folded frame",
-        "articulated armrests"
-    ],
-    "flat arms": [
-        "planar arms",
-        "flat panel arms",
-        "straight arms",
-        "slab arms",
-        "broad arms",
-        "flush arms",
-        "wide flat arms",
-        "rectangular arms",
-        "flat surface arms",
-        "linear arms"
-    ],
-    "inclined arms": [
-        "slanted arms",
-        "angled arms",
-        "tilted arms",
-        "leaned arms",
-        "oblique arms",
-        "sloped arms",
-        "pitched arms",
-        "reclined arms",
-        "diagonal arms",
-        "inclined armrests"
-    ],
-    "thick arms": [
-        "wide arms",
-        "chunky arms",
-        "broad arms",
-        "heavy arms",
-        "substantial arms",
-        "robust arms",
-        "solid arms",
-        "padded wide arms",
-        "thick padded arms",
-        "thick cushioned arms"
-    ],
-    "modular arms": [
-        "detachable arms",
-        "removable arms",
-        "interchangeable arms",
-        "configurable arms",
-        "adjustable arms",
-        "flexible arms",
-        "add-on arms",
-        "modular armrests",
-        "adaptable arms",
-        "attachable arms"
-    ],
-    "rounded arms": [
-        "curvilinear arms",
-        "curved arms",
-        "scrolled arms",
-        "softened arms",
-        "arched arms",
-        "circular arms",
-        "bowed arms",
-        "rolled arms",
-        "crescent arms",
-        "bulbous arms"
-    ],
-    "pillow arms": [
-        "soft arms",
-        "cushion arms",
-        "padded arms",
-        "plush arms",
-        "pillow-style arms",
-        "cushioned armrests",
-        "upholstered arms",
-        "pillow topped arms",
-        "soft padded arms",
-        "pillow cushion arms"
-    ],
-    "without arms": [
-        "armless",
-        "side chair",
-        "no arm chair",
-        "armrest-free chair",
-        "armless seating",
-        "no-arm chair",
-        "armless frame",
-        "sleek side chair",
-        "minimal arms chair",
-        "armless design"
-    ],
-    "wrapped polished brass around arms and legs": [
-        "brass-wrapped arms and legs",
-        "brass-covered supports",
-        "brass-clad arms",
-        "brass-finished arms and legs"
-    ],
-    "wrapped polished brass around back and arms": [
-        "brass-wrapped back and arms",
-        "brass-covered frame",
-        "brass-clad back",
-        "brass-finished frame"
-    ],
-    "split back": [
-        "divided back",
-        "sectioned back",
-        "split-back design",
-        "two-part back",
-        "segmented back",
-        "bifurcated back",
-        "back with division",
-        "backrest with sections",
-        "separated back",
-        "parted back"
-    ],
-    "without division back": [
-        "continuous back",
-        "seamless back",
-        "unbroken back",
-        "solid back",
-        "smooth backrest",
-        "one-piece back",
-        "full back",
-        "continuous surface back",
-        "monolithic back",
-        "integral back"
-    ],
-    "curved back": [
-        "contoured back",
-        "arched back",
-        "rounded back",
-        "shaped back",
-        "ergonomic back",
-        "bow-back",
-        "flowing back",
-        "bent back",
-        "convex back",
-        "concave back"
-    ],
-    "open back": [
-        "cutout back",
-        "void back",
-        "open-frame back",
-        "open design back",
-        "pierced back",
-        "open slat back",
-        "back with openings",
-        "back cutouts",
-        "open lattice back",
-        "vacant back"
-    ],
-    "inclined back": [
-        "sloped back",
-        "angled back",
-        "reclined back",
-        "tilted back",
-        "leaned back",
-        "pitched back",
-        "backward slope back",
-        "leaned-back design",
-        "oblique back",
-        "adjusted angle back"
-    ],
-    "adjustable back": [
-        "reclining back",
-        "movable back",
-        "adjustable backrest",
-        "tilt-back",
-        "flexible back",
-        "articulating back",
-        "adjustable angle back",
-        "reclining seat back",
-        "changeable back",
-        "modifiable backrest"
-    ],
-    "interrupted back": [
-        "disconnected back",
-        "segmented back",
-        "broken back",
-        "open section back",
-        "interrupted design back",
-        "separated backrest",
-        "fractured back",
-        "discontinuous back",
-        "spaced back",
-        "partial back"
-    ],
-    "adjustable headrest back": [
-        "movable headrest",
-        "adjustable head support",
-        "flexible headrest",
-        "reclining headrest",
-        "tilting headrest",
-        "adjustable neck support",
-        "movable back cushion",
-        "adjustable pillow back",
-        "articulated headrest",
-        "reclining head support"
-    ],
-    "rod frame back": [
-        "spindle back",
-        "bar back",
-        "tubular back",
-        "rod backrest",
-        "turned spindle back",
-        "slatted rod back",
-        "framed rod back",
-        "rounded bar back",
-        "metal rod back",
-        "vertical rod back"
-    ],
-    "rod frame": [
-        "spindle frame",
-        "bar frame",
-        "rod structure",
-        "spindle construction"
-    ],
-    "slatted back": [
-        "ribbed back",
-        "panelled back",
-        "slat back",
-        "barred back",
-        "louvered back",
-        "striped back",
-        "paneled slat back",
-        "wooden slat back",
-        "batten back",
-        "spaced back"
-    ],
-    "wing back design": [
-        "winged back",
-        "side wings",
-        "wingback chair",
-        "wing chair back",
-        "side panelled back",
-        "winged side panels",
-        "enveloping back",
-        "sheltered back",
-        "wrapped back",
-        "flared back wings"
-    ],
-    "metal embellishments back": [
-        "metal accent back",
-        "metallic detailed back",
-        "metal trim back",
-        "metal inlay back",
-        "metal studded back",
-        "metal frame back",
-        "metal applied back",
-        "metal decorative back",
-        "metal ornamented back",
-        "metal feature back"
-    ],
-    "metal embellishments on back": [
-        "metal accents back",
-        "metal trim back",
-        "metal decorative back",
-        "metal detailed back"
-    ],
-    "partial back": [
-        "mid-height back",
-        "short back",
-        "low back",
-        "half back",
-        "partial height back",
-        "cropped back",
-        "knee-high back",
-        "intermediate back",
-        "low profile back",
-        "truncated back"
-    ],
-    "low back": [
-        "short back",
-        "low profile back",
-        "cropped back",
-        "reduced height back",
-        "short height back",
-        "shallow back",
-        "low-rise back",
-        "minimal back",
-        "sitting back",
-        "compact back"
-    ],
-    "high back": [
-        "tall back",
-        "extended back",
-        "elevated back",
-        "high-rise back",
-        "towering back"
-    ],
-    "standard back": [
-        "regular back",
-        "traditional back",
-        "mid-height back",
-        "average back",
-        "classic back"
-    ],
-    "split seat": [
-        "divided seat",
-        "two-part seat",
-        "parted seat",
-        "dual seat",
-        "sectioned seat"
-    ],
-    "with division seat": [
-        "sectioned seat",
-        "divided seat panel",
-        "partitioned seat"
-    ],
-    "without division seat": [
-        "continuous seat",
-        "one-piece seat",
-        "solid seat",
-        "unbroken seat",
-        "seamless seat"
-    ],
-    "inclined seat": [
-        "sloped seat",
-        "angled seat",
-        "tilted seat",
-        "reclining seat",
-        "pitched seat"
-    ],
-    "curved seat": [
-        "contoured seat",
-        "arched seat",
-        "shaped seat",
-        "ergonomic seat",
-        "bowed seat"
-    ],
-    "unupholstered seat": [
-        "bare seat",
-        "exposed seat",
-        "non-padded seat",
-        "seat without covering",
-        "plain seat"
-    ],
-    "upholstered seat": [
-        "padded seat",
-        "cushioned seat",
-        "fabric-covered seat",
-        "soft seat"
-    ],
-    "curved shape": [
-        "rounded profile",
-        "organic shape",
-        "flowing design",
-        "soft curves",
-        "arched form",
-        "circular design",
-        "smooth contours",
-        "wave shape"
-    ],
-    "curved": [
-        "rounded",
-        "arched",
-        "bent",
-        "bowed"
-    ],
-    "straight shape": [
-        "linear profile",
-        "clean lines",
-        "geometric design",
-        "angular profile",
-        "structured shape",
-        "minimal design",
-        "sharp edges",
-        "contemporary lines"
-    ],
-    "modular shape": [
-        "sectional shape",
-        "configurable design",
-        "modular configuration",
-        "flexible arrangement",
-        "component design",
-        "adaptable shape",
-        "multi-piece design",
-        "customizable layout"
-    ],
-    "geometric shape": [
-        "angular shape",
-        "structured design",
-        "contemporary geometry",
-        "modern lines",
-        "architectural form",
-        "precise angles",
-        "clean geometry",
-        "minimalist design"
-    ],
-    "geometric": [
-        "angular",
-        "structured",
-        "faceted",
-        "polygonal"
-    ],
-    "organic shape": [
-        "natural form",
-        "curved shape",
-        "flowing design",
-        "irregular shape",
-        "biomorphic",
-        "freeform",
-        "sculptural shape",
-        "fluid design"
-    ],
-    "organic": [
-        "natural form",
-        "freeform",
-        "biomorphic",
-        "flowing"
-    ],
-    "l shape": [
-        "L-shaped",
-        "corner shape",
-        "right angle",
-        "sectional shape",
-        "L-configuration",
-        "corner design",
-        "angle shape"
-    ],
-    "oblong shape": [
-        "elongated shape",
-        "oval shape",
-        "elliptical",
-        "stretched shape",
-        "lengthened form",
-        "extended shape",
-        "capsule shape"
-    ],
-    "oblong": [
-        "elongated",
-        "elliptical",
-        "oval",
-        "stretched"
-    ],
-    "angular shape": [
-        "sharp shape",
-        "geometric shape",
-        "pointed design",
-        "edged form",
-        "linear shape",
-        "structured design",
-        "faceted shape"
-    ],
-    "c shape": [
-        "C-shaped",
-        "curved shape",
-        "crescent shape",
-        "arc shape",
-        "bow shape",
-        "curved design",
-        "semi-circular"
-    ],
-    "round shape": [
-        "circular",
-        "curved shape",
-        "spherical",
-        "rounded design",
-        "disc shape",
-        "ring shape",
-        "orbital design"
-    ],
-    "round": [
-        "circular",
-        "disc-shaped",
-        "spherical top",
-        "round form"
-    ],
-    "square shape": [
-        "rectangular",
-        "boxy",
-        "cubic shape",
-        "geometric square",
-        "four-sided",
-        "quadratic",
-        "box shape",
-        "block shape"
-    ],
-    "square": [
-        "quadratic",
-        "four-sided",
-        "equal-sided",
-        "square form"
-    ],
-    "rectangle shape": [
-        "oblong",
-        "elongated rectangle",
-        "linear shape",
-        "stretched square",
-        "extended rectangle",
-        "horizontal shape"
-    ],
-    "rectangle": [
-        "oblong",
-        "box-shaped",
-        "four-sided",
-        "rectangular"
-    ],
-    "rectangular": [
-        "box-shaped",
-        "oblong",
-        "four-sided",
-        "elongated"
-    ],
-    "hexagonal shape": [
-        "six sided",
-        "geometric hexagon",
-        "multi-sided",
-        "polygonal",
-        "honeycomb shape",
-        "six-point design",
-        "hexagon form"
-    ],
-    "hexagonal": [
-        "six-sided",
-        "hexagon",
-        "six-point"
-    ],
-    "sinuous shape": [
-        "flowing shape",
-        "serpentine",
-        "wavy",
-        "undulating"
-    ],
-    "pebble shape": [
-        "rounded shape",
-        "stone-like",
-        "smooth oval"
-    ],
-    "oval": [
-        "elliptical",
-        "egg-shaped",
-        "oblong circular",
-        "ovoid"
-    ],
-    "triangular": [
-        "three-sided",
-        "delta-shaped",
-        "angular triangle",
-        "tri-form"
-    ],
-    "octagonal": [
-        "eight-sided",
-        "octagon form",
-        "eight-point"
-    ],
-    "barrel": [
-        "cylindrical",
-        "drum-shaped",
-        "rounded barrel form",
-        "curved barrel"
-    ],
-    "free form": [
-        "irregular form",
-        "organic form",
-        "freehand shape",
-        "asymmetric"
-    ],
-    "semi-circular": [
-        "half-circle",
-        "arc-shaped",
-        "crescent form",
-        "half-round"
-    ],
-    "semi circular": [
-        "half-circle",
-        "arc-shaped",
-        "crescent",
-        "semi-round"
-    ],
-    "circle round": [
-        "circular",
-        "round form",
-        "disc-shaped",
-        "spherical"
-    ],
-    "fabric": [
-        "textile",
-        "cloth",
-        "material",
-        "upholstery fabric",
-        "fabric material",
-        "soft furnishing",
-        "drapery fabric"
-    ],
-    "genuine leather": [
-        "real leather",
-        "authentic leather",
-        "full grain leather",
-        "top grain leather",
-        "natural leather",
-        "100% leather"
-    ],
-    "faux leather": [
-        "leatherette",
-        "PU leather",
-        "synthetic leather",
-        "vegan leather",
-        "artificial leather",
-        "pleather",
-        "vinyl leather",
-        "eco leather",
-        "bonded leather"
-    ],
-    "micro fiber": [
-        "microfiber",
-        "synthetic fibre",
-        "polyester fiber",
-        "synthetic fabric",
-        "performance fabric",
-        "tech fabric"
-    ],
-    "cotton blend": [
-        "mixed cotton",
-        "cotton polyester",
-        "cotton poly blend",
-        "blended cotton",
-        "cotton mix",
-        "poly cotton",
-        "cotton synthetic blend"
-    ],
-    "cotton": [
-        "natural fiber",
-        "100% cotton",
-        "pure cotton",
-        "cotton fabric",
-        "organic cotton",
-        "natural cotton",
-        "cotton material"
-    ],
-    "velvet": [
-        "velour",
-        "plush",
-        "crushed velvet",
-        "luxury velvet",
-        "soft velvet",
-        "pile fabric",
-        "napped fabric"
-    ],
-    "linen": [
-        "flax fabric",
-        "natural linen",
-        "pure linen",
-        "100% linen",
-        "linen fabric",
-        "organic linen",
-        "European linen",
-        "Belgian linen"
-    ],
-    "polyester": [
-        "synthetic fabric",
-        "poly fabric",
-        "man-made fiber",
-        "artificial fabric",
-        "performance fabric",
-        "wrinkle-resistant fabric",
-        "easy-care fabric"
-    ],
-    "wool": [
-        "sheep fiber",
-        "natural wool",
-        "pure wool",
-        "100% wool",
-        "woolen fabric",
-        "merino wool",
-        "virgin wool",
-        "wool blend"
-    ],
-    "boucle": [
-        "looped yarn",
-        "textured fabric",
-        "nubby fabric",
-        "curly fabric",
-        "loop pile fabric",
-        "twisted yarn fabric",
-        "dimensional weave"
-    ],
-    "saddle leather": [
-        "cowhide",
-        "full grain leather",
-        "thick leather",
-        "rustic leather",
-        "distressed leather",
-        "natural cowhide",
-        "heavy leather",
-        "ranch leather"
-    ],
-    "outdoor fabric": [
-        "weatherproof textile",
-        "water resistant fabric",
-        "UV resistant fabric",
-        "marine fabric",
-        "sunbrella fabric",
-        "all-weather fabric",
-        "fade resistant fabric",
-        "patio fabric"
-    ],
-    "felt": [
-        "compressed fiber",
-        "wool felt",
-        "needle felt",
-        "felted fabric",
-        "non-woven fabric",
-        "pressed wool",
-        "industrial felt"
-    ],
-    "silk": [
-        "mulberry silk",
-        "natural silk",
-        "pure silk",
-        "100% silk",
-        "silk fabric",
-        "raw silk",
-        "dupioni silk",
-        "luxury silk"
-    ],
-    "embossed fabric": [
-        "raised pattern textile",
-        "textured fabric",
-        "dimensional fabric",
-        "relief fabric",
-        "pressed pattern fabric",
-        "sculpted fabric",
-        "3D fabric"
-    ],
-    "dual tone fabric": [
-        "two-color fabric",
-        "bi-color fabric",
-        "two-tone material",
-        "color block fabric",
-        "contrasting fabric",
-        "dual color upholstery"
-    ],
-    "multi tone upholstery": [
-        "multicolor upholstery",
-        "multi-colored fabric",
-        "variegated fabric",
-        "rainbow upholstery",
-        "ombre fabric",
-        "gradient fabric",
-        "multi-hue fabric"
-    ],
-    "camel hair fabric": [
-        "animal hair textile",
-        "camel wool",
-        "luxury hair fabric",
-        "exotic fiber",
-        "natural camel fiber",
-        "premium animal hair"
-    ],
-    "distressed leather": [
-        "aged leather",
-        "vintage leather",
-        "weathered leather",
-        "worn leather",
-        "antique leather",
-        "rustic leather",
-        "patina leather"
-    ],
-    "suede": [
-        "nubuck",
-        "brushed leather",
-        "soft leather",
-        "velvet leather",
-        "microsuede",
-        "faux suede",
-        "suede finish"
-    ],
-    "quilted": [
-        "stitched",
-        "padded",
-        "embroidered",
-        "tufted",
-        "sewn"
-    ],
-    "tufted": [
-        "buttoned",
-        "quilted",
-        "pinched",
-        "puckered",
-        "pleated"
-    ],
-    "leather piping": [
-        "leather trim",
-        "leather edging",
-        "leather cord",
-        "leather piping cord",
-        "leather welt",
-        "leather binding"
-    ],
-    "fabric piping": [
-        "fabric trim",
-        "fabric edging",
-        "fabric cord",
-        "fabric binding",
-        "fabric welt",
-        "fabric welt cord"
-    ],
-    "contrast piping": [
-        "accented piping",
-        "contrasting trim",
-        "contrasting binding",
-        "highlight piping",
-        "color pop piping",
-        "contrast welt"
-    ],
-    "braid piping": [
-        "braided edge",
-        "braided trim",
-        "braid trim",
-        "braided cord",
-        "plaited piping",
-        "braided binding"
-    ],
-    "two tone piping": [
-        "dual color piping",
-        "bicolor piping",
-        "contrasting piping",
-        "two-color piping"
-    ],
-    "diamond quilting": [
-        "diamond stitch",
-        "diamond pattern quilting",
-        "diamond grid quilting",
-        "diamond quilt design",
-        "crosshatch quilting"
-    ],
-    "geometric pattern quilting": [
-        "pattern stitch",
-        "geometric stitch",
-        "geometric quilting",
-        "shaped quilting",
-        "modern quilting patterns"
-    ],
-    "square quilting": [
-        "square stitch",
-        "square pattern quilting",
-        "patchwork squares",
-        "checkered quilting",
-        "grid quilting"
-    ],
-    "channel quilting": [
-        "striped quilting",
-        "straight line quilting",
-        "row quilting",
-        "linear quilting",
-        "matchstick quilting"
-    ],
-    "floral patterns quilting": [
-        "flower stitch",
-        "floral quilting",
-        "flower pattern quilting",
-        "botanical quilting",
-        "floral motif quilting"
-    ],
-    "diamond tufting": [
-        "diamond buttoning",
-        "diamond stitch tufting",
-        "button tufting",
-        "diamond pattern tufting"
-    ],
-    "biscuit tufting": [
-        "cushion tufting",
-        "pillow tufting",
-        "button tufting",
-        "biscuit buttoning",
-        "padded tufting"
-    ],
-    "button tufting": [
-        "buttoned quilting",
-        "diamond tufting",
-        "capitone tufting",
-        "deep button quilting",
-        "button back upholstery"
-    ],
-    "channel tufting": [
-        "strip tufting",
-        "linear tufting",
-        "parallel tufting",
-        "channel quilting",
-        "vertical tufting"
-    ],
-    "built in usb port": [
-        "integrated usb",
-        "USB charging",
-        "built-in charging"
-    ],
-    "integrated magazine rack": [
-        "built-in rack",
-        "magazine holder",
-        "storage compartment",
-        "media storage",
-        "reading material holder",
-        "built-in organizer"
-    ],
-    "with integrated magazine rack": [
-        "built-in magazine holder",
-        "magazine storage",
-        "integrated rack"
-    ],
-    "with castors": [
-        "rolling",
-        "wheeled",
-        "mobile",
-        "caster wheels",
-        "swivel wheels",
-        "movable",
-        "on wheels"
-    ],
-    "castors": [
-        "wheels",
-        "casters",
-        "rolling wheels",
-        "swivel casters"
-    ],
-    "with storage": [
-        "storage-equipped",
-        "built-in storage",
-        "storage compartment"
-    ],
-    "with storage space": [
-        "storage compartment",
-        "enclosed storage",
-        "storage area"
-    ],
-    "with pouf": [
-        "with ottoman",
-        "ottoman included"
-    ],
-    "with shelf": [
-        "shelved",
-        "shelf included"
-    ],
-    "open shelves": [
-        "exposed shelving",
-        "open storage",
-        "visible shelves",
-        "open compartments"
-    ],
-    "optional loose cushions": [
-        "removable cushions",
-        "detachable cushions",
-        "loose back cushions",
-        "reversible cushions",
-        "replaceable cushions",
-        "separate cushions"
-    ],
-    "optional quilted cushions": [
-        "removable quilted cushions",
-        "tufted removable cushions",
-        "quilted loose cushions",
-        "detachable quilted padding",
-        "removable padded cushions"
-    ],
-    "integrated side table": [
-        "built-in table",
-        "attached table",
-        "side surface",
-        "arm table",
-        "console surface",
-        "integrated work surface"
-    ],
-    "with bookshelf": [
-        "library compartment",
-        "book storage",
-        "shelf unit"
-    ],
-    "with removable headrest": [
-        "detachable headrest",
-        "removable head support"
-    ],
-    "with movable armrest": [
-        "adjustable armrest",
-        "movable arm"
-    ],
-    "with bolster headrest": [
-        "pillow headrest",
-        "bolster cushion"
-    ],
-    "with footstool": [
-        "with ottoman",
-        "footrest included"
-    ],
-    "with writing table": [
-        "desk arm",
-        "attached table",
-        "writing surface"
-    ],
-    "with tray table": [
-        "serving tray",
-        "tray attachment"
-    ],
-    "with handle": [
-        "grip",
-        "knob",
-        "pull handle",
-        "carrying handle",
-        "hand grip",
-        "lever",
-        "pull tab",
-        "finger pull",
-        "handle grip"
-    ],
-    "with attached tray": [
-        "tray attachment",
-        "built-in tray",
-        "fixed tray"
-    ],
-    "attached tray": [
-        "fixed tray",
-        "built-in tray",
-        "permanent tray"
-    ],
-    "with drawers": [
-        "drawer storage",
-        "pull-out drawers",
-        "enclosed storage"
-    ],
-    "with flowerpot insert": [
-        "planter insert",
-        "flower holder",
-        "built-in planter"
-    ],
-    "with ice bucket": [
-        "integrated ice bucket",
-        "built-in cooler",
-        "ice container"
-    ],
-    "with usb charging": [
-        "USB ports",
-        "charging station",
-        "power outlets"
-    ],
-    "with usb/charging": [
-        "USB charging",
-        "charging ports",
-        "power supply"
-    ],
-    "with built in speaker": [
-        "integrated speakers",
-        "audio system",
-        "built-in sound"
-    ],
-    "removable tray": [
-        "detachable tray",
-        "lift-off tray",
-        "separate tray"
-    ],
-    "removable tray top": [
-        "detachable tray",
-        "lift-off top",
-        "removable surface"
-    ],
-    "with drink table": [
-        "beverage holder",
-        "drink surface",
-        "cocktail attachment"
-    ],
-    "with lamp": [
-        "integrated lamp",
-        "built-in light",
-        "lamp fixture"
-    ],
-    "swivel": [
-        "rotating",
-        "swiveling",
-        "turnable"
-    ],
-    "stackable": [
-        "nested",
-        "stackable design",
-        "nesting"
-    ],
-    "nesting": [
-        "nested",
-        "stacking",
-        "interlocking"
-    ],
-    "foldable": [
-        "collapsible",
-        "folding",
-        "fold-away"
-    ],
-    "with tray top": [
-        "tray surface",
-        "tray-style top"
-    ],
-    "with tray": [
-        "tray included",
-        "serving tray"
-    ],
-    "rotating top": [
-        "swivel top",
-        "turntable surface",
-        "revolving top"
-    ],
-    "extendable": [
-        "expandable",
-        "extending",
-        "adjustable length"
-    ],
-    "height adjustable manual & electric": [
-        "adjustable height",
-        "variable height",
-        "lift mechanism"
-    ],
-    "folding table": [
-        "collapsible table",
-        "fold-away table",
-        "portable table"
-    ],
-    "mono block": [
-        "single piece",
-        "one-piece construction",
-        "solid block",
-        "monolithic"
-    ],
-    "slatted structure": [
-        "ribbed frame",
-        "louvered structure",
-        "horizontal slats",
-        "slat construction"
-    ],
-    "layered structure": [
-        "stacked layers",
-        "tiered construction",
-        "multi-level build"
-    ],
-    "layered": [
-        "stacked",
-        "tiered",
-        "multi-layer",
-        "stratified"
-    ],
-    "sculptural": [
-        "artistic form",
-        "sculptured design",
-        "three-dimensional art",
-        "sculpted"
-    ],
-    "sculptured": [
-        "sculpted",
-        "artistic form",
-        "three-dimensional",
-        "carved"
-    ],
-    "sculptured structure": [
-        "sculpted frame",
-        "artistic structure",
-        "3D design"
-    ],
-    "mesh frame": [
-        "wire mesh",
-        "grid frame",
-        "lattice structure",
-        "mesh construction"
-    ],
-    "metal frame": [
-        "steel frame",
-        "metal structure",
-        "metal skeleton",
-        "metal construction"
-    ],
-    "wooden frame": [
-        "wood structure",
-        "timber frame",
-        "wooden skeleton",
-        "wood construction"
-    ],
-    "metal ring structure": [
-        "circular metal frame",
-        "ring support",
-        "hoop structure",
-        "metal ring frame"
-    ],
-    "carved wooden structure": [
-        "engraved wood",
-        "sculpted wood",
-        "carved frame"
-    ],
-    "curved wooden structure": [
-        "bent wood frame",
-        "arched wood structure",
-        "curved timber"
-    ],
-    "upholstered shell": [
-        "padded shell",
-        "upholstered body",
-        "fabric-covered shell"
-    ],
-    "graphics printed top": [
-        "patterned top",
-        "printed surface",
-        "decorative graphics"
-    ],
-    "chamfered edges": [
-        "beveled edges",
-        "angled edges",
-        "cut edges"
-    ],
-    "bevelled edges": [
-        "angled edges",
-        "chamfered corners",
-        "beveled borders"
-    ],
-    "rounded edges": [
-        "smooth edges",
-        "curved edges",
-        "soft corners"
-    ],
-    "base protruding on top": [
-        "exposed base",
-        "visible base through top",
-        "base extension"
-    ],
-    "split top": [
-        "divided top",
-        "sectioned top",
-        "two-part top"
-    ],
-    "upper top & lower shelf": [
-        "two-tier",
-        "dual-level",
-        "shelf under top"
-    ],
-    "live edge": [
-        "natural edge",
-        "bark edge",
-        "organic edge"
-    ],
-    "sunken": [
-        "recessed",
-        "indented",
-        "depressed surface"
-    ],
-    "rim": [
-        "edge",
-        "border",
-        "perimeter detail"
-    ],
-    "metal detail": [
-        "metal accents",
-        "metal trim",
-        "metal embellishment"
-    ],
-    "single table": [
-        "standalone table",
-        "individual table",
-        "single unit"
-    ],
-    "nesting tables": [
-        "stacking tables",
-        "nested set",
-        "tiered tables"
-    ],
-    "yin yang": [
-        "interlocking tables",
-        "complementary pair",
-        "curved pair"
-    ],
-    "cluster tables": [
-        "grouped tables",
-        "multiple units",
-        "table collection"
-    ],
-    "clip table": [
-        "snap-on table",
-        "modular clip system",
-        "attachable table"
-    ],
-    "belts": [
-        "straps",
-        "belt detail",
-        "strap accent"
-    ],
-    "buckles": [
-        "clasps",
-        "fasteners",
-        "buckle detail"
-    ],
-    "metal clips": [
-        "metal fasteners",
-        "clips",
-        "metal clasps"
-    ],
-    "zipper details": [
-        "zippered accents",
-        "zipper trim",
-        "zip detail"
-    ],
-    "zipper Detail": [
-        "zipper",
-        "zip accent",
-        "zippered"
-    ],
-    "floating sofa": [
-        "cantilevered sofa",
-        "suspended sofa",
-        "wall-mounted sofa"
-    ],
-    "floating": [
-        "wall-mounted",
-        "suspended",
-        "cantilever design"
-    ],
-    "floating bench": [
-        "suspended bench",
-        "wall-mounted bench",
-        "cantilevered bench"
-    ],
-    "pebble": [
-        "stone shaped",
-        "pebble-like",
-        "smooth stone"
-    ],
-    "funky": [
-        "quirky",
-        "playful",
-        "unconventional"
-    ],
-    "crystal shape": [
-        "gem shaped",
-        "crystalline",
-        "faceted"
-    ],
-    "layered effect": [
-        "stacked look",
-        "tiered effect",
-        "layered design"
-    ],
-    "unique back with screen": [
-        "partitioned back",
-        "screen back",
-        "divided back"
-    ],
-    "engraving with light": [
-        "illuminated engraving",
-        "backlit engraving",
-        "lit carving"
-    ],
-    "metal tips on legs": [
-        "metal capped legs",
-        "metal leg tips",
-        "leg caps"
-    ],
-    "metal tips": [
-        "metal caps",
-        "metal ends",
-        "capped tips"
-    ],
-    "legs with castors": [
-        "wheeled legs",
-        "rolling legs",
-        "caster-equipped"
-    ],
-    "fringes detail on base": [
-        "fringe trim",
-        "fringe decoration",
-        "tasseled base"
-    ],
-    "cylindrical back": [
-        "tube back",
-        "round back",
-        "cylindrical backrest"
-    ],
-    "sinuous curve": [
-        "wave curve",
-        "serpentine curve",
-        "flowing curve"
-    ],
-    "ball like": [
-        "orb shape",
-        "spherical",
-        "ball-shaped"
-    ],
-    "printed": [
-        "patterned",
-        "graphic print",
-        "printed design"
-    ],
-    "braided": [
-        "woven",
-        "plaited",
-        "interwoven"
-    ],
-    "fully upholstered": [
-        "completely padded",
-        "fully covered",
-        "all-over upholstery"
-    ],
-    "with belt": [
-        "strap detail",
-        "belt accent",
-        "belted"
-    ],
-    "nail trimming": [
-        "nailhead trim",
-        "studded",
-        "nail detail"
-    ],
-    "nail head trims": [
-        "nailhead detail",
-        "studded trim",
-        "decorative nails"
-    ],
-    "with buckle": [
-        "buckle accent",
-        "buckle detail",
-        "buckled"
-    ],
-    "layered thick cushion effect": [
-        "plush cushion",
-        "deep cushioning",
-        "multi-layer padding",
-        "thick padding",
-        "luxurious cushioning",
-        "overstuffed cushion",
-        "pillow-top effect",
-        "cloud cushioning"
-    ],
-    "gemstones": [
-        "decorative stones",
-        "jewel accents",
-        "gem embellishments"
-    ],
-    "wall mounted": [
-        "wall-hung",
-        "fixed to wall",
-        "wall-attached"
-    ],
-    "mesh seat": [
-        "woven seat",
-        "perforated seat",
-        "lattice seat"
-    ],
-    "multiple levels": [
-        "tiered",
-        "multi-level",
-        "stacked levels"
-    ],
-    "inlay, maquetry": [
-        "inlaid design",
-        "marquetry work",
-        "embedded pattern"
-    ],
-    "carving": [
-        "carved detail",
-        "sculptured surface",
-        "engraved design"
-    ],
-    "with light": [
-        "integrated lighting",
-        "LED lights",
-        "illuminated"
-    ],
-    "led lights": [
-        "LED lighting",
-        "light strips",
-        "LED illumination"
-    ],
-    "laser cut design": [
-        "laser-cut pattern",
-        "precision cut",
-        "laser etching"
-    ],
-    "modular re-configurable": [
-        "reconfigurable",
-        "modular system",
-        "adaptable design"
-    ],
-    "hammered": [
-        "hammered finish",
-        "textured metal",
-        "beaten surface"
-    ],
-    "hammered detail": [
-        "hand-hammered",
-        "textured metalwork",
-        "beaten metal"
-    ],
-    "chizzled": [
-        "chiseled detail",
-        "carved texture",
-        "sculptured surface"
-    ],
-    "chisseled detail": [
-        "chiseled surface",
-        "carved details",
-        "hand-carved"
-    ],
-    "star shape 3d base": [
-        "three-dimensional star",
-        "sculptural star base",
-        "geometric star"
-    ],
-    "camouflage": [
-        "camo pattern",
-        "military pattern",
-        "disguised pattern"
-    ],
-    "human like": [
-        "anthropomorphic",
-        "humanoid form",
-        "figure-like"
-    ],
-    "dove tail joints": [
-        "dovetail joinery",
-        "interlocking joints",
-        "traditional joinery"
-    ],
-    "striped": [
-        "lined pattern",
-        "striped design",
-        "linear pattern"
-    ]
+  "_comment_structure": "Production-ready furniture feature dictionary for search. Consolidated duplicates, fixed spelling, normalized casing. Each key is the canonical term with all variants as synonyms.",
+
+  "_style": "STYLE FEATURES",
+  "modern": ["contemporary design", "modernist", "current style", "minimalist modern", "clean modern", "simple modern", "sleek modern", "modern aesthetic", "mod style", "21st century style"],
+  "contemporary": ["current", "present-day", "modern contemporary", "today's style", "up-to-date", "contemporary design", "contemporary aesthetic", "now style", "current trend", "contemporary furniture"],
+  "scandinavian": ["Nordic", "Scandi", "Danish design", "Swedish style", "Norwegian design", "minimalist Nordic", "Scandinavian modern", "hygge style", "Nordic minimalism", "Scandi style"],
+  "classic": ["classical", "traditional", "timeless", "conventional", "standard", "classic design", "classical style", "enduring", "ageless", "time-honored"],
+  "mid century": ["mid-century", "1950s style", "1960s style", "retro", "vintage modern", "MCM", "atomic age", "post-war design", "mid-century design", "50s-60s style", "mid century modern", "1950s modern", "1960s modern", "retro modern", "vintage contemporary", "atomic modern", "post-war modern", "Eames era", "modernist vintage"],
+  "minimalistic": ["minimal", "minimalist", "simple", "clean lines", "uncluttered", "sparse", "reductive", "essential", "bare", "understated"],
+  "art deco": ["deco", "1920s style", "1930s style", "geometric deco", "glamorous deco", "Jazz Age", "streamline moderne", "deco revival", "Art Deco style", "deco design"],
+  "eclectic": ["mixed style", "bohemian", "varied", "diverse", "assorted", "heterogeneous", "fusion style", "blended", "combined styles", "mixed design"],
+  "transitional": ["transitional style", "blended traditional", "modern traditional", "contemporary classic", "bridge style", "hybrid design", "transitional aesthetic", "mixed period", "transitional decor", "classic modern"],
+  "victorian": ["Victorian era", "19th century", "ornate Victorian", "Gothic Revival", "Queen Anne", "Victorian style", "Edwardian", "late Victorian", "Victorian period", "Victorian design"],
+  "rustic": ["country", "farmhouse", "rural", "natural wood", "cabin style", "lodge", "countryside", "rustic charm", "rough-hewn", "weathered"],
+  "bohemian": ["boho", "eclectic boho", "gypsy style", "free-spirited", "boho chic", "artistic", "unconventional", "bohemian style", "hippie chic", "nomadic"],
+  "neo classical": ["neoclassical", "classical revival", "Greek revival", "Roman inspired", "neo-classic", "classical modern", "new classical", "Empire style", "Regency", "Federal style"],
+  "chesterfield": ["tufted leather", "classic British", "deep buttoned", "scrolled arms", "capitone", "Chesterfield style", "English classic", "British traditional", "studded leather", "Victorian button"],
+
+  "_base_and_legs": "BASE AND LEG FEATURES",
+  "straight leg": ["square leg", "simple leg", "right leg", "flat leg", "conventional leg", "smooth leg", "straight member", "vertical leg", "upright leg", "linear support", "straight legs", "vertical legs", "upright legs", "linear supports"],
+  "inclined leg": ["splayed leg", "angled leg", "slanted leg", "tilted leg", "leaning leg", "oblique leg", "sloped leg", "bent leg", "canted leg", "inclined legs", "angled legs", "slanted supports", "tilted legs", "splayed legs", "oblique supports"],
+  "tapered leg": ["narrowing leg", "conical leg", "tapering support", "slimming leg", "graduated leg", "tapered legs", "narrowing legs", "conical legs", "tapering supports", "slimming legs", "graduated legs"],
+  "ornate leg": ["decorative leg", "carved leg", "embellished leg", "cabriole leg", "fluted leg", "reeded leg", "carved cabriole leg", "scroll leg", "baluster leg", "bobbin leg", "Flemish scroll leg", "claw foot leg", "clawed leg", "ornate legs", "decorative legs", "carved legs", "embellished legs", "sculptured legs", "detailed legs", "ornate", "decorative", "embellished", "elaborate", "intricate", "detailed"],
+  "planar leg": ["flat leg", "panel leg", "slab leg", "sheet leg", "planar panel leg", "flat panel leg", "planar support leg", "planar furniture leg", "flat surface leg", "panel-style leg", "planar legs", "flat legs", "panel legs", "slab legs", "blade legs", "sheet supports"],
+  "rounded leg": ["curved leg", "circular leg", "cylindrical support", "tubular leg", "rounded legs", "curved legs", "circular legs", "cylindrical supports", "tubular legs", "rounded leg base", "curved leg base", "circular leg base", "rounded supports"],
+  "block leg": ["cubic leg", "square leg", "box-shaped support", "rectangular leg", "block legs", "cubic legs", "square legs", "box-shaped supports", "rectangular legs"],
+  "sleek leg": ["slim leg", "minimal leg", "refined support", "streamlined leg", "sleek legs", "slim legs", "minimal legs", "refined supports", "streamlined legs"],
+  "geometric grid leg": ["lattice leg", "grid support", "geometric pattern", "structured grid", "geometric grid legs", "lattice legs"],
+  "leg integrated with structure": ["built-in leg", "structural leg", "integrated leg", "fixed leg", "attached leg", "frame leg", "support leg", "welded leg", "metal structural leg", "cantilever leg"],
+  "multiple leg": ["many legs", "multi-leg support", "numerous supports", "multiple supports", "multiple legs", "several legs", "multiple leg base"],
+  
+  "1 leg": ["single leg", "mono support", "one-point base", "central support"],
+  "2 leg": ["two-legged", "dual support", "bi-leg", "twin supports"],
+  "3 leg": ["three-legged", "tripod", "tri-leg", "three-point support", "3 legs"],
+  "4 leg": ["four-legged", "quad support", "four-point base", "quadruped", "4 legs"],
+  
+  "four leg base": ["quadruped base", "four-footed base", "four-legged base", "quad-leg base", "four-legged support", "quadrupedal base", "four-leg stand", "quadpod base", "four-foot stand", "four points base"],
+  "three leg base": ["tripod base", "tripod leg", "three-legged support", "tri-leg base", "three-point base", "tripod stand"],
+  
+  "sled base": ["sled runner", "flat base", "sled frame", "sled leg", "runner base", "sled chair base", "sled-style leg", "sled design base", "curved runner base", "tubular sled base"],
+  "cantilever base": ["floating base", "unsupported end base", "cantilever leg", "cantilever support", "overhanging base", "L-shaped base", "single-sided support", "suspended base", "tubular cantilever base", "offset base"],
+  "rocking base": ["rocker base", "curved rocker", "rocking chair base", "rocker runner", "rocking legs", "curved runner base", "rocking frame", "rocking bottom", "rocker bottom", "rocking support"],
+  
+  "plinth": ["stand", "platform", "base", "pedestal", "block", "footing", "foundation block", "support block", "subbase", "podium", "plinth base", "platform base", "solid base", "block base", "foundation base"],
+  "platform": ["base plate", "stage", "platform base", "raised surface", "flat base", "podium", "foundation plate", "decking", "slab", "support base"],
+  
+  "T base": ["T-shaped base", "T-leg base", "T-style base", "T-frame base", "T-shaped support", "t-type leg base", "t base", "T-leg", "T-frame", "T-support"],
+  "X base": ["X-shaped base", "crisscross base", "cross base", "X-frame base", "X-leg base", "intersecting base", "X-style support", "metal X base", "diagonal cross base", "X pedestal", "x base", "X-frame"],
+  
+  "pedestal base": ["central column", "single support base", "single pedestal", "column base", "central leg support", "single post base", "pillar base", "round pedestal", "solid support base", "single-leg base", "pedestal", "column", "pillar", "central support", "single post"],
+  
+  "trestle": ["support frame", "crossbeam base", "A-frame support", "saw-horse legs", "horizontal beam support", "angled leg support", "folding trestle", "rigid beam frame", "stretcher support", "base frame", "trestle base", "A-frame base", "crossbeam support", "stretcher base", "sawhorse base"],
+  
+  "metal wire frame": ["wire base", "metal lattice", "wire mesh frame", "metal wire base", "wire structure", "wire cage frame", "metal grid frame", "wire skeleton", "metal rod frame", "tubular wire frame"],
+  "skirted base": ["covered base", "fabric covered base", "skirted furniture base", "upholstered base", "draped base", "fabric skirt base", "skirted bottom", "fabric wrap base", "slipcovered base", "valanced base"],
+  "feet": ["pads", "tips", "glides", "protectors", "stoppers", "end caps", "feet pads", "leg caps", "floor protectors", "furniture feet guards"],
+  "base integrated with structure": ["built-in base", "integrated base", "structural base", "fixed base", "attached base", "frame-integrated base", "welded base"],
+  
+  "boxy base": ["cube base", "square base", "box-shaped support", "rectangular base"],
+  "heavy base": ["weighted base", "substantial base", "solid base", "massive base"],
+  "geometric base": ["angular base", "faceted base", "geometric form", "structured base"],
+  "fluted base": ["grooved base", "channeled base", "ridged support", "fluted column", "flutted base", "ridged base"],
+  "central base": ["center support", "middle pedestal", "core base", "central column"],
+  "cross leg 3d base": ["crossed legs", "X-shaped 3D base", "intersecting supports", "3D cross support"],
+  "conical base": ["cone-shaped base", "tapered base", "pyramid base", "funnel base", "conical", "cone-shaped", "tapered", "pyramid form", "funnel shape"],
+  "drum base": ["cylindrical base", "round base", "barrel support", "drum-shaped base"],
+  "hollow base": ["open base", "void base", "skeletal base", "empty core base"],
+  "disc base": ["flat disc", "circular plate", "round platform", "disc-shaped base"],
+  "rounded base": ["curved base", "circular base", "smooth base", "round support"],
+  "3 star base": ["three-arm base", "tripod star", "three-spoke support", "tri-star base"],
+  "4 star base": ["four-arm base", "quad star", "four-spoke support", "quad-star base"],
+  "5 star base": ["five-arm base", "penta star", "five-spoke support", "penta-star base"],
+  "6 star base": ["six-arm base", "hexa star", "six-spoke support", "hexa-star base"],
+  "abstract base": ["artistic base", "non-traditional base", "freeform support", "sculptural base", "abstract", "artistic", "non-traditional", "freeform", "unconventional"],
+  "ring base": ["circular metal base", "ring support system", "hoop base", "circular frame", "metal ring base", "metal ring structure", "circular metal frame", "ring support", "hoop structure", "metal ring frame"],
+
+  "_materials": "MATERIAL AND FINISH FEATURES",
+  "chrome metal": ["chromed", "metallic shine", "chrome plating", "polished chrome", "bright chrome", "mirror finish", "reflective metal", "electroplated chrome", "shiny metal finish", "decorative chrome"],
+  "painted metal": ["enamel coated metal", "lacquered metal", "powder-coated metal", "painted steel", "painted aluminum", "metal paint finish", "coated metal", "protective metal paint", "varnished metal", "metal with painted surface"],
+  "powder coated": ["powder coated metal", "matte metal", "textured metal", "powder finish", "textured powder coat", "matte powder coat", "textured metal finish", "durable powder coating", "rough finish metal", "powder-coated surface", "textured matte finish", "matte finish", "textured coating", "durable coating"],
+  "brass coated metal": ["brass plated", "golden finish metal", "brass finish", "brass veneer", "brass overlay", "brass-tone metal", "antique brass finish", "brushed brass", "polished brass", "brass-colored metal"],
+  "nickel coated metal": ["nickel plated", "silver finish metal", "nickel finish", "nickel electroplated", "bright nickel", "satin nickel", "matte nickel", "brushed nickel", "chemical nickel plating", "nickel overlay"],
+  
+  "marble": ["stone", "granite (by material family)", "natural stone", "marble stone", "polished stone", "marble slab", "metamorphic rock", "marble surface", "marble tile", "decorative stone"],
+  "glass": ["transparent surface", "crystal", "clear glass", "transparent material", "glass panel", "glass sheet", "tempered glass", "optical glass", "glass pane", "flat glass"],
+  "blown glass": ["hand-blown glass", "artisan glass", "molded glass", "artisan-blown"],
+  "murano glass": ["Venetian glass", "Italian art glass", "handcrafted glass", "Murano artisan glass"],
+  "crystal glass": ["lead crystal", "cut crystal", "premium glass", "crystal"],
+  "textured glass": ["etched glass", "frosted glass", "patterned glass", "relief glass"],
+  
+  "wooden": ["timber", "oak", "mahogany", "hardwood", "softwood", "wood material", "wooden plank", "natural wood", "laminated wood", "wood grain", "wood", "wooden material"],
+  
+  "upholstered": ["cushioned", "padded", "upholstered fabric", "padded upholstery", "cushioned seating", "fabric-covered", "soft upholstery", "upholstered chair", "tufted upholstery", "cushioned furniture"],
+  "gold": ["gilded", "gold-plated", "gold plated jewelry", "fine gold plating", "gold filled", "vermeil", "solid gold", "gold leaf", "gold coating", "gold finish"],
+  "lacquered": ["varnished", "high-gloss", "glossy finish", "lacquer finish", "coated finish", "glossy lacquer", "polished varnish", "protective coating", "shiny finish", "enamel finish"],
+  "metal": ["iron", "steel", "aluminum", "stainless steel", "brass", "copper", "wrought iron", "galvanized metal", "alloy metal", "metal sheet"],
+  "brass": ["bronze-like", "golden metal", "brass alloy", "polished brass"],
+  "copper": ["copper metal", "reddish metal", "copper alloy", "patinated copper"],
+  "bronze": ["copper alloy", "bronzed", "antique bronze", "patinated bronze", "cast bronze", "aged bronze", "bronze finish", "bronzed metal", "oxidized bronze", "bronze plating"],
+  "wrapped polished brass": ["brass covered", "shiny brass", "polished brass", "lacquered brass", "gleaming brass", "brass finish", "brass veneer", "brass overlay", "reflective brass", "bright brass", "wrapped polished brass around back and arms", "brass-wrapped back and arms", "brass-covered frame", "brass-clad back", "brass-finished frame", "wrapped polished brass around arms and legs", "brass-wrapped arms and legs", "brass-covered supports", "brass-clad arms", "brass-finished arms and legs"],
+  
+  "polycarbonate": ["plastic", "plexiglass", "acrylic", "transparent plastic", "PC material"],
+  "acrylic": ["plexiglass", "lucite", "clear plastic", "PMMA"],
+  "rattan": ["cane", "wicker", "natural vine", "rattan palm", "woven rattan", "structure in rattan", "woven frame", "braided frame", "rattan weaving", "rattan lattice", "handwoven frame"],
+  
+  "onyx": ["semi-precious stone", "banded stone", "translucent stone", "onyx marble"],
+  "ceramic": ["porcelain", "clay material", "glazed ceramic", "fired clay"],
+  "concrete": ["cement", "industrial material", "poured concrete", "concrete composite"],
+  "multi material": ["mixed materials", "multi-material", "composite materials", "hybrid materials", "combination of material", "combination materials", "hybrid construction", "composite"],
+  "terrazzo": ["chip flooring", "mosaic composite", "speckled surface", "aggregate surface"],
+  "mosaic": ["tile pattern", "inlay design", "tessellated surface", "mosaic tiles"],
+  "resin": ["epoxy resin", "polymer", "synthetic resin", "cast resin"],
+  "painted": ["coated", "colored finish", "painted surface", "enameled"],
+  "mirror": ["reflective surface", "polished mirror", "glass mirror", "mirrored", "mirror finish", "reflective finish", "high-gloss mirror", "chrome-like"],
+  "glazed": ["glossy finish", "ceramic glaze", "shiny coating", "vitreous", "glazed finish", "glossy coating", "vitreous finish", "shiny glaze"],
+  "multicolor": ["multi-hued", "variegated colors", "rainbow colored", "polychrome"],
+  "veneer": ["wood veneer", "thin wood layer", "decorative surface", "laminated veneer"],
+  "laminate": ["plastic laminate", "synthetic surface", "layered material", "formica"],
+  "distressed": ["aged finish", "worn finish", "rustic texture", "weathered"],
+  "textured": ["tactile surface", "dimensional finish", "relief surface", "textured finish"],
+  "foam": ["cushioning material", "foam padding", "upholstery foam", "polyurethane foam"],
+
+  "_arms": "ARM FEATURES",
+  "adjustable arms": ["moving arms", "configurable arms", "flexible arms", "adjustable armrests", "pivoting arms", "articulating arms", "adjustable supports", "extendable arms", "swivel arms", "adjustable brackets"],
+  "splayed arms": ["angled arms", "flared arms", "outward arms", "spread arms", "tapering arms", "slanted arms", "widened arms", "open arms", "extended arms", "directional arms"],
+  "arms with metal detail": ["metallic accent arms", "metal-trimmed arms", "metal-inlaid arms", "metal-highlighted arms", "metal-embellished arms", "metal frame arms", "metal-edged arms", "arms with metal inserts", "metal decorative arms", "metal feature arms"],
+  "curved arms": ["rounded arms", "scroll arms", "bow arms", "arched arms", "serpentine arms", "flowing arms", "crescent arms", "curved armrests", "gentle curve arms", "soft curve arms"],
+  "tuxedo arms": ["straight arms", "box arms", "squared arms", "flat arms", "vertical arms", "panel arms", "streamlined arms", "formal arms", "rectangular arms", "sleek arms"],
+  "floor length arms": ["full length arms", "extended arms", "long arms", "floor-reaching arms", "continuous arms", "extended side arms", "full height arms", "elongated arms", "base-length arms", "legs-to-floor arms"],
+  "folded arms": ["bent arms", "creased arms", "folded-over arms", "collapsed arms", "articulated arms", "kinked arms", "hinged arms", "jointed arms", "folded frame", "articulated armrests"],
+  "flat arms": ["planar arms", "flat panel arms", "straight arms", "slab arms", "broad arms", "flush arms", "wide flat arms", "rectangular arms", "flat surface arms", "linear arms"],
+  "inclined arms": ["slanted arms", "angled arms", "tilted arms", "leaned arms", "oblique arms", "sloped arms", "pitched arms", "reclined arms", "diagonal arms", "inclined armrests"],
+  "thick arms": ["wide arms", "chunky arms", "broad arms", "heavy arms", "substantial arms", "robust arms", "solid arms", "padded wide arms", "thick padded arms", "thick cushioned arms"],
+  "modular arms": ["detachable arms", "removable arms", "interchangeable arms", "configurable arms", "adjustable arms", "flexible arms", "add-on arms", "modular armrests", "adaptable arms", "attachable arms"],
+  "rounded arms": ["curvilinear arms", "curved arms", "scrolled arms", "softened arms", "arched arms", "circular arms", "bowed arms", "rolled arms", "crescent arms", "bulbous arms"],
+  "pillow arms": ["soft arms", "cushion arms", "padded arms", "plush arms", "pillow-style arms", "cushioned armrests", "upholstered arms", "pillow topped arms", "soft padded arms", "pillow cushion arms"],
+  "without arms": ["armless", "side chair", "no arm chair", "armrest-free chair", "armless seating", "no-arm chair", "armless frame", "sleek side chair", "minimal arms chair", "armless design"],
+
+  "_back": "BACK FEATURES",
+  "split back": ["divided back", "sectioned back", "split-back design", "two-part back", "segmented back", "bifurcated back", "back with division", "backrest with sections", "separated back", "parted back"],
+  "without division back": ["continuous back", "seamless back", "unbroken back", "solid back", "smooth backrest", "one-piece back", "full back", "continuous surface back", "monolithic back", "integral back"],
+  "curved back": ["contoured back", "arched back", "rounded back", "shaped back", "ergonomic back", "bow-back", "flowing back", "bent back", "convex back", "concave back"],
+  "open back": ["cutout back", "void back", "open-frame back", "open design back", "pierced back", "open slat back", "back with openings", "back cutouts", "open lattice back", "vacant back"],
+  "inclined back": ["sloped back", "angled back", "reclined back", "tilted back", "leaned back", "pitched back", "backward slope back", "leaned-back design", "oblique back", "adjusted angle back"],
+  "adjustable back": ["reclining back", "movable back", "adjustable backrest", "tilt-back", "flexible back", "articulating back", "adjustable angle back", "reclining seat back", "changeable back", "modifiable backrest"],
+  "interrupted back": ["disconnected back", "segmented back", "broken back", "open section back", "interrupted design back", "separated backrest", "fractured back", "discontinuous back", "spaced back", "partial back"],
+  "adjustable headrest back": ["movable headrest", "adjustable head support", "flexible headrest", "reclining headrest", "tilting headrest", "adjustable neck support", "movable back cushion", "adjustable pillow back", "articulated headrest", "reclining head support"],
+  "rod frame back": ["spindle back", "bar back", "tubular back", "rod backrest", "turned spindle back", "slatted rod back", "framed rod back", "rounded bar back", "metal rod back", "vertical rod back", "rod frame", "spindle frame", "bar frame", "rod structure", "spindle construction"],
+  "slatted back": ["ribbed back", "panelled back", "slat back", "barred back", "louvered back", "striped back", "paneled slat back", "wooden slat back", "batten back", "spaced back"],
+  "wing back design": ["winged back", "side wings", "wingback chair", "wing chair back", "side panelled back", "winged side panels", "enveloping back", "sheltered back", "wrapped back", "flared back wings"],
+  "metal embellishments back": ["metal accent back", "metallic detailed back", "metal trim back", "metal inlay back", "metal studded back", "metal frame back", "metal applied back", "metal decorative back", "metal ornamented back", "metal feature back", "metal embellishments on back", "metal accents back", "metal decorative back", "metal detailed back"],
+  "partial back": ["mid-height back", "short back", "low back", "half back", "partial height back", "cropped back", "knee-high back", "intermediate back", "low profile back", "truncated back"],
+  "low back": ["short back", "low profile back", "cropped back", "reduced height back", "short height back", "shallow back", "low-rise back", "minimal back", "sitting back", "compact back"],
+  "high back": ["tall back", "extended back", "elevated back", "high-rise back", "towering back"],
+  "standard back": ["regular back", "traditional back", "mid-height back", "average back", "classic back"],
+
+  "_seat": "SEAT FEATURES",
+  "split seat": ["divided seat", "two-part seat", "parted seat", "dual seat", "sectioned seat", "with division seat", "divided seat panel", "partitioned seat"],
+  "without division seat": ["continuous seat", "one-piece seat", "solid seat", "unbroken seat", "seamless seat"],
+  "inclined seat": ["sloped seat", "angled seat", "tilted seat", "reclining seat", "pitched seat"],
+  "curved seat": ["contoured seat", "arched seat", "shaped seat", "ergonomic seat", "bowed seat"],
+  "unupholstered seat": ["bare seat", "exposed seat", "non-padded seat", "seat without covering", "plain seat"],
+  "upholstered seat": ["padded seat", "cushioned seat", "fabric-covered seat", "soft seat"],
+
+  "_shape": "SHAPE FEATURES",
+  "curved": ["rounded", "arched", "bent", "bowed", "curved shape", "rounded profile", "organic shape", "flowing design", "soft curves", "arched form", "circular design", "smooth contours", "wave shape"],
+  "straight shape": ["linear profile", "clean lines", "geometric design", "angular profile", "structured shape", "minimal design", "sharp edges", "contemporary lines"],
+  "modular": ["sectional", "configurable", "component design", "adaptable", "modular shape", "sectional shape", "configurable design", "modular configuration", "flexible arrangement", "multi-piece design", "customizable layout"],
+  "geometric": ["angular", "structured", "faceted", "polygonal", "geometric shape", "angular shape", "structured design", "contemporary geometry", "modern lines", "architectural form", "precise angles", "clean geometry", "minimalist design"],
+  "organic": ["natural form", "freeform", "biomorphic", "flowing", "organic shape", "curved shape", "flowing design", "irregular shape", "sculptural shape", "fluid design"],
+  "l shape": ["L-shaped", "corner shape", "right angle", "sectional shape", "L-configuration", "corner design", "angle shape"],
+  "oblong": ["elongated", "elliptical", "oval", "stretched", "oblong shape", "elongated shape", "oval shape", "stretched shape", "lengthened form", "extended shape", "capsule shape"],
+  "angular shape": ["sharp shape", "geometric shape", "pointed design", "edged form", "linear shape", "structured design", "faceted shape"],
+  "c shape": ["C-shaped", "curved shape", "crescent shape", "arc shape", "bow shape", "curved design", "semi-circular"],
+  "round": ["circular", "disc-shaped", "spherical", "round form", "round shape", "curved shape", "rounded design", "disc shape", "ring shape", "orbital design"],
+  "square": ["quadratic", "four-sided", "equal-sided", "square form", "square shape", "rectangular", "boxy", "cubic shape", "geometric square", "box shape", "block shape"],
+  "rectangle": ["oblong", "box-shaped", "four-sided", "rectangular", "elongated", "rectangle shape", "elongated rectangle", "linear shape", "stretched square", "extended rectangle", "horizontal shape"],
+  "hexagonal": ["six-sided", "hexagon", "six-point", "hexagonal shape", "six sided", "geometric hexagon", "multi-sided", "polygonal", "honeycomb shape", "hexagon form"],
+  "sinuous shape": ["flowing shape", "serpentine", "wavy", "undulating"],
+  "oval": ["elliptical", "egg-shaped", "oblong circular", "ovoid"],
+  "triangular": ["three-sided", "delta-shaped", "angular triangle", "tri-form"],
+  "octagonal": ["eight-sided", "octagon form", "eight-point"],
+  "barrel": ["cylindrical", "drum-shaped", "rounded barrel form", "curved barrel"],
+  "semi-circular": ["half-circle", "arc-shaped", "crescent form", "half-round", "semi circular", "crescent", "semi-round"],
+
+  "_upholstery": "UPHOLSTERY MATERIALS",
+  "fabric": ["textile", "cloth", "material", "upholstery fabric", "fabric material", "soft furnishing", "drapery fabric"],
+  "genuine leather": ["real leather", "authentic leather", "full grain leather", "top grain leather", "natural leather", "100% leather"],
+  "faux leather": ["leatherette", "PU leather", "synthetic leather", "vegan leather", "artificial leather", "pleather", "vinyl leather", "eco leather", "bonded leather"],
+  "micro fiber": ["microfiber", "synthetic fibre", "polyester fiber", "synthetic fabric", "performance fabric", "tech fabric"],
+  "cotton blend": ["mixed cotton", "cotton polyester", "cotton poly blend", "blended cotton", "cotton mix", "poly cotton", "cotton synthetic blend", "cotton", "natural fiber", "100% cotton", "pure cotton", "cotton fabric", "organic cotton", "natural cotton", "cotton material"],
+  "velvet": ["velour", "plush", "crushed velvet", "luxury velvet", "soft velvet", "pile fabric", "napped fabric"],
+  "linen": ["flax fabric", "natural linen", "pure linen", "100% linen", "linen fabric", "organic linen", "European linen", "Belgian linen"],
+  "polyester": ["synthetic fabric", "poly fabric", "man-made fiber", "artificial fabric", "performance fabric", "wrinkle-resistant fabric", "easy-care fabric"],
+  "wool": ["sheep fiber", "natural wool", "pure wool", "100% wool", "woolen fabric", "merino wool", "virgin wool", "wool blend"],
+  "boucle": ["looped yarn", "textured fabric", "nubby fabric", "curly fabric", "loop pile fabric", "twisted yarn fabric", "dimensional weave"],
+  "saddle leather": ["cowhide", "full grain leather", "thick leather", "rustic leather", "distressed leather", "natural cowhide", "heavy leather", "ranch leather"],
+  "outdoor fabric": ["weatherproof textile", "water resistant fabric", "UV resistant fabric", "marine fabric", "sunbrella fabric", "all-weather fabric", "fade resistant fabric", "patio fabric"],
+  "felt": ["compressed fiber", "wool felt", "needle felt", "felted fabric", "non-woven fabric", "pressed wool", "industrial felt"],
+  "silk": ["mulberry silk", "natural silk", "pure silk", "100% silk", "silk fabric", "raw silk", "dupioni silk", "luxury silk"],
+  "embossed fabric": ["raised pattern textile", "textured fabric", "dimensional fabric", "relief fabric", "pressed pattern fabric", "sculpted fabric", "3D fabric"],
+  "dual tone fabric": ["two-color fabric", "bi-color fabric", "two-tone material", "color block fabric", "contrasting fabric", "dual color upholstery"],
+  "multi tone upholstery": ["multicolor upholstery", "multi-colored fabric", "variegated fabric", "rainbow upholstery", "ombre fabric", "gradient fabric", "multi-hue fabric"],
+  "camel hair fabric": ["animal hair textile", "camel wool", "luxury hair fabric", "exotic fiber", "natural camel fiber", "premium animal hair"],
+  "distressed leather": ["aged leather", "vintage leather", "weathered leather", "worn leather", "antique leather", "rustic leather", "patina leather"],
+  "suede": ["nubuck", "brushed leather", "soft leather", "velvet leather", "microsuede", "faux suede", "suede finish"],
+
+  "_piping_quilting": "PIPING AND QUILTING FEATURES",
+  "quilted": ["stitched", "padded", "embroidered", "tufted", "sewn"],
+  "tufted": ["buttoned", "quilted", "pinched", "puckered", "pleated"],
+  "leather piping": ["leather trim", "leather edging", "leather cord", "leather piping cord", "leather welt", "leather binding"],
+  "fabric piping": ["fabric trim", "fabric edging", "fabric cord", "fabric binding", "fabric welt", "fabric welt cord"],
+  "contrast piping": ["accented piping", "contrasting trim", "contrasting binding", "highlight piping", "color pop piping", "contrast welt"],
+  "braid piping": ["braided edge", "braided trim", "braid trim", "braided cord", "plaited piping", "braided binding"],
+  "two tone piping": ["dual color piping", "bicolor piping", "contrasting piping", "two-color piping"],
+  "diamond quilting": ["diamond stitch", "diamond pattern quilting", "diamond grid quilting", "diamond quilt design", "crosshatch quilting"],
+  "geometric pattern quilting": ["pattern stitch", "geometric stitch", "geometric quilting", "shaped quilting", "modern quilting patterns"],
+  "square quilting": ["square stitch", "square pattern quilting", "patchwork squares", "checkered quilting", "grid quilting"],
+  "channel quilting": ["striped quilting", "straight line quilting", "row quilting", "linear quilting", "matchstick quilting"],
+  "floral patterns quilting": ["flower stitch", "floral quilting", "flower pattern quilting", "botanical quilting", "floral motif quilting"],
+  "diamond tufting": ["diamond buttoning", "diamond stitch tufting", "button tufting", "diamond pattern tufting"],
+  "biscuit tufting": ["cushion tufting", "pillow tufting", "button tufting", "biscuit buttoning", "padded tufting"],
+  "button tufting": ["buttoned quilting", "diamond tufting", "capitone tufting", "deep button quilting", "button back upholstery"],
+  "channel tufting": ["strip tufting", "linear tufting", "parallel tufting", "channel quilting", "vertical tufting"],
+
+  "_accessories": "ACCESSORIES AND FEATURES",
+  "built in usb port": ["integrated usb", "USB charging", "built-in charging", "with usb charging", "USB ports", "charging station", "power outlets", "with usb/charging", "charging ports", "power supply"],
+  "integrated magazine rack": ["built-in rack", "magazine holder", "storage compartment", "media storage", "reading material holder", "built-in organizer", "with integrated magazine rack", "built-in magazine holder", "magazine storage"],
+  "with castors": ["rolling", "wheeled", "mobile", "caster wheels", "swivel wheels", "movable", "on wheels", "castors", "wheels", "casters", "rolling wheels", "swivel casters"],
+  "with storage": ["storage-equipped", "built-in storage", "storage compartment", "with storage space", "enclosed storage", "storage area"],
+  "with pouf": ["with ottoman", "ottoman included"],
+  "with shelf": ["shelved", "shelf included"],
+  "open shelves": ["exposed shelving", "open storage", "visible shelves", "open compartments"],
+  "optional loose cushions": ["removable cushions", "detachable cushions", "loose back cushions", "reversible cushions", "replaceable cushions", "separate cushions"],
+  "optional quilted cushions": ["removable quilted cushions", "tufted removable cushions", "quilted loose cushions", "detachable quilted padding", "removable padded cushions"],
+  "integrated side table": ["built-in table", "attached table", "side surface", "arm table", "console surface", "integrated work surface"],
+  "with bookshelf": ["library compartment", "book storage", "shelf unit"],
+  "with removable headrest": ["detachable headrest", "removable head support"],
+  "with movable armrest": ["adjustable armrest", "movable arm"],
+  "with bolster headrest": ["pillow headrest", "bolster cushion"],
+  "with footstool": ["with ottoman", "footrest included"],
+  "with writing table": ["desk arm", "attached table", "writing surface"],
+  "with tray table": ["serving tray", "tray attachment"],
+  "with handle": ["grip", "knob", "pull handle", "carrying handle", "hand grip", "lever", "pull tab", "finger pull", "handle grip"],
+  "attached tray": ["fixed tray", "built-in tray", "permanent tray", "with attached tray", "tray attachment"],
+  "with drawers": ["drawer storage", "pull-out drawers", "enclosed storage"],
+  "with flowerpot insert": ["planter insert", "flower holder", "built-in planter"],
+  "with ice bucket": ["integrated ice bucket", "built-in cooler", "ice container"],
+  "with built in speaker": ["integrated speakers", "audio system", "built-in sound"],
+  "removable tray": ["detachable tray", "lift-off tray", "separate tray", "removable tray top", "lift-off top", "removable surface"],
+  "with drink table": ["beverage holder", "drink surface", "cocktail attachment"],
+  "with lamp": ["integrated lamp", "built-in light", "lamp fixture"],
+  "swivel": ["rotating", "swiveling", "turnable", "swivel base", "rotating base", "turntable base", "swiveling support"],
+  "stackable": ["nested", "stackable design", "nesting", "stacking", "interlocking"],
+  "foldable": ["collapsible", "folding", "fold-away"],
+  "with tray": ["tray included", "serving tray", "with tray top", "tray surface", "tray-style top"],
+
+  "_structure": "STRUCTURE FEATURES",
+  "mono block": ["single piece", "one-piece construction", "solid block", "monolithic"],
+  "slatted structure": ["ribbed frame", "louvered structure", "horizontal slats", "slat construction"],
+  "layered": ["stacked", "tiered", "multi-layer", "stratified", "layered structure", "stacked layers", "tiered construction", "multi-level build", "layered effect", "stacked look", "tiered effect", "layered design"],
+  "sculptural": ["artistic form", "sculptured design", "three-dimensional art", "sculpted", "sculptured", "sculptured structure", "sculpted frame", "artistic structure", "3D design"],
+  "mesh frame": ["wire mesh", "grid frame", "lattice structure", "mesh construction"],
+  "metal frame": ["steel frame", "metal structure", "metal skeleton", "metal construction"],
+  "wooden frame": ["wood structure", "timber frame", "wooden skeleton", "wood construction"],
+  "carved wooden structure": ["engraved wood", "sculpted wood", "carved frame"],
+  "curved wooden structure": ["bent wood frame", "arched wood structure", "curved timber"],
+  "upholstered shell": ["padded shell", "upholstered body", "fabric-covered shell"],
+
+  "_top_features": "TOP FEATURES (TABLES/CONSOLES)",
+  "graphics printed top": ["patterned top", "printed surface", "decorative graphics"],
+  "chamfered edges": ["beveled edges", "angled edges", "cut edges", "bevelled edges", "chamfered corners", "beveled borders"],
+  "rounded edges": ["smooth edges", "curved edges", "soft corners"],
+  "base protruding on top": ["exposed base", "visible base through top", "base extension"],
+  "split top": ["divided top", "sectioned top", "two-part top"],
+  "upper top & lower shelf": ["two-tier", "dual-level", "shelf under top"],
+  "live edge": ["natural edge", "bark edge", "organic edge"],
+  "rim": ["edge", "border", "perimeter detail"],
+  "metal detail": ["metal accents", "metal trim", "metal embellishment"],
+
+  "_table_types": "TABLE TYPE FEATURES",
+  "single table": ["standalone table", "individual table", "single unit"],
+  "nesting tables": ["stacking tables", "nested set", "tiered tables"],
+  "yin yang": ["interlocking tables", "complementary pair", "curved pair"],
+  "cluster tables": ["grouped tables", "multiple units", "table collection"],
+  "clip table": ["snap-on table", "modular clip system", "attachable table"],
+
+  "_mechanisms": "MECHANISM FEATURES",
+  "rotating top": ["swivel top", "turntable surface", "revolving top"],
+  "extendable": ["expandable", "extending", "adjustable length"],
+  "height adjustable manual & electric": ["adjustable height", "variable height", "lift mechanism"],
+  "folding table": ["collapsible table", "fold-away table", "portable table"],
+
+  "_unique_features": "UNIQUE AND SPECIAL FEATURES",
+  "belts": ["straps", "belt detail", "strap accent", "with belt", "strap detail", "belt accent", "belted"],
+  "buckles": ["clasps", "fasteners", "buckle detail", "with buckle", "buckle accent", "buckled"],
+  "metal clips": ["metal fasteners", "clips", "metal clasps"],
+  "zipper details": ["zippered accents", "zipper trim", "zip detail", "zipper Detail", "zipper", "zip accent", "zippered"],
+  "floating": ["wall-mounted", "suspended", "cantilever design", "floating sofa", "cantilevered sofa", "suspended sofa", "wall-mounted sofa", "floating bench", "suspended bench", "wall-mounted bench", "cantilevered bench"],
+  "pebble": ["stone shaped", "pebble-like", "smooth stone", "pebble shape", "rounded shape", "stone-like", "smooth oval"],
+  "funky": ["quirky", "playful", "unconventional"],
+  "crystal shape": ["gem shaped", "crystalline", "faceted"],
+  "unique back with screen": ["partitioned back", "screen back", "divided back"],
+  "engraving with light": ["illuminated engraving", "backlit engraving", "lit carving"],
+  "metal tips": ["metal caps", "metal ends", "capped tips", "metal tips on legs", "metal capped legs", "metal leg tips", "leg caps"],
+  "legs with castors": ["wheeled legs", "rolling legs", "caster-equipped"],
+  "fringes detail on base": ["fringe trim", "fringe decoration", "tasseled base"],
+  "cylindrical back": ["tube back", "round back", "cylindrical backrest"],
+  "sinuous curve": ["wave curve", "serpentine curve", "flowing curve"],
+  "ball like": ["orb shape", "spherical", "ball-shaped"],
+  "printed": ["patterned", "graphic print", "printed design"],
+  "braided": ["woven", "plaited", "interwoven"],
+  "fully upholstered": ["completely padded", "fully covered", "all-over upholstery"],
+  "nailhead trim": ["nailhead detail", "studded trim", "decorative nails", "nail trimming", "studded", "nail detail", "nail head trims"],
+  "layered thick cushion effect": ["plush cushion", "deep cushioning", "multi-layer padding", "thick padding", "luxurious cushioning", "overstuffed cushion", "pillow-top effect", "cloud cushioning"],
+  "gemstones": ["decorative stones", "jewel accents", "gem embellishments"],
+  "wall mounted": ["wall-hung", "fixed to wall", "wall-attached"],
+  "mesh seat": ["woven seat", "perforated seat", "lattice seat"],
+  "multiple levels": ["tiered", "multi-level", "stacked levels"],
+  "inlay, maquetry": ["inlaid design", "marquetry work", "embedded pattern"],
+  "carving": ["carved detail", "sculptured surface", "engraved design"],
+  "with light": ["integrated lighting", "LED lights", "illuminated", "led lights", "LED lighting", "light strips", "LED illumination"],
+  "laser cut design": ["laser-cut pattern", "precision cut", "laser etching"],
+  "modular re-configurable": ["reconfigurable", "modular system", "adaptable design"],
+  "hammered": ["hammered finish", "textured metal", "beaten surface", "hammered detail", "hand-hammered", "textured metalwork", "beaten metal"],
+  "chiseled detail": ["chiseled surface", "carved details", "hand-carved", "chizzled", "chisseled detail", "carved texture", "sculptured surface"],
+  "star shape 3d base": ["three-dimensional star", "sculptural star base", "geometric star"],
+  "camouflage": ["camo pattern", "military pattern", "disguised pattern"],
+  "human inspired": ["anthropomorphic", "humanoid form", "figure-like", "human like", "anthropomorphic design", "human-like form", "figure-inspired"],
+
+  "_project_function": "PROJECT TYPE AND FUNCTION",
+  "office": ["workspace", "commercial office", "corporate", "business setting"],
+  "residential": ["home", "domestic", "living space", "personal residence"],
+  "public spaces": ["public area", "communal space", "shared environment", "public venue"],
+  "hospitality": ["hotel", "restaurant", "hospitality industry", "guest facilities"],
+  "indoor": ["interior", "inside", "indoor use", "interior space"],
+  "acoustic": ["sound absorbing", "noise reducing", "acoustic treatment", "sound dampening"],
+  "outdoor": ["exterior", "outdoor use", "patio", "garden furniture"]
 }
