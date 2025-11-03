@@ -59,6 +59,131 @@ class FeatureExtractor:
             category = CATEGORY_MAPPINGS.get(main_feature, 'Other')
             self.feature_to_category[main_feature] = category
 
+    def _normalizeTense(self, word: str) -> List[str]:
+        """
+        Generate common word forms for better matching.
+        Returns list of variations to check.
+        
+        Args:
+            word: Single word to normalize
+            
+        Returns:
+            List of word variations (original + common forms)
+        """
+        variations = [word]
+        
+        # Handle -ed suffix (rounded -> round)
+        if word.endswith('ed'):
+            base = word[:-2]
+            variations.append(base)
+            # Handle doubled consonants (padded -> pad)
+            if len(base) >= 2 and base[-1] == base[-2]:
+                variations.append(base[:-1])
+        
+        # Handle -ing suffix (reclining -> recline)
+        if word.endswith('ing'):
+            base = word[:-3]
+            variations.append(base)
+            variations.append(base + 'e')  # recline
+            
+        # Add -ed form if not already present (round -> rounded)
+        if not word.endswith('ed'):
+            variations.append(word + 'ed')
+            # Handle doubled consonants (pad -> padded)
+            if len(word) >= 2 and word[-1] in 'bdfglmnprst' and word[-2] not in 'aeiou':
+                variations.append(word + word[-1] + 'ed')
+        
+        # Add -ing form
+        if not word.endswith('ing'):
+            variations.append(word + 'ing')
+            if word.endswith('e'):
+                variations.append(word[:-1] + 'ing')
+        
+        return variations
+
+    def _normalizePhrase(self, phrase: str) -> List[str]:
+        """
+        Generate variations of a phrase by normalizing each word.
+        
+        Args:
+            phrase: Multi-word phrase
+            
+        Returns:
+            List of phrase variations
+        """
+        words = phrase.split()
+        if len(words) == 1:
+            return self._normalizeTense(words[0])
+        
+        # For multi-word phrases, normalize each word and combine
+        all_variations = [[word] + self._normalizeTense(word) for word in words]
+        
+        # Generate combinations (limit to avoid explosion)
+        phrase_variations = [phrase]  # original
+        
+        # Try normalizing each position
+        for i, word_vars in enumerate(all_variations):
+            for var in word_vars[1:]:  # skip original
+                new_phrase = words.copy()
+                new_phrase[i] = var
+                phrase_variations.append(' '.join(new_phrase))
+        
+        return phrase_variations
+
+    def _contextAwareSpellCorrect(self, text: str) -> str:
+        """
+        Apply spell correction with context awareness for furniture terms.
+        
+        Args:
+            text: Input text
+            
+        Returns:
+            Corrected text
+        """
+        words = text.lower().split()
+        corrected_words = []
+        
+        for i, word in enumerate(words):
+            # Get context (previous and next word)
+            prev_word = words[i-1] if i > 0 else ""
+            next_word = words[i+1] if i < len(words) - 1 else ""
+            
+            # Apply spell correction
+            corrected = spellCorrect(word)
+            
+            # Context-based correction override
+            # If the corrected word doesn't make sense in furniture context,
+            # try fuzzy matching against known terms
+            if corrected != word:
+                # Check if corrected word + context matches any furniture feature
+                context_phrase = f"{prev_word} {corrected} {next_word}".strip()
+                
+                # Try fuzzy match on the context phrase
+                for window_size in [3, 2, 1]:
+                    phrase_parts = context_phrase.split()
+                    if len(phrase_parts) >= window_size:
+                        for j in range(len(phrase_parts) - window_size + 1):
+                            test_phrase = ' '.join(phrase_parts[j:j + window_size])
+                            
+                            # Check if any known synonym is close
+                            match_result = fuzzyMatch(test_phrase, self.all_synonyms, threshold=0.85)
+                            if match_result:
+                                # Found a better match in furniture context
+                                matched_term = match_result[0]
+                                matched_words = matched_term.split()
+                                
+                                # If our corrected word is part of this match, use it
+                                if len(matched_words) > 1 and corrected in matched_words:
+                                    # Use the corresponding word from the matched term
+                                    idx = matched_words.index(corrected) if corrected in matched_words else -1
+                                    if idx >= 0:
+                                        corrected = matched_words[idx]
+                                    break
+            
+            corrected_words.append(corrected)
+        
+        return ' '.join(corrected_words)
+
     def _getCategoriesFromText(self, text: str) -> List[str]:
         """
             Extract features by direct keyword matching and fuzzy matching
@@ -73,11 +198,11 @@ class FeatureExtractor:
         detected = []
         words = text.split()
 
-        # Step 0: Spell correction
-        corrected_text = spellCorrect(text)
+        # Step 0: Context-aware spell correction
+        corrected_text = self._contextAwareSpellCorrect(text)
         corrected_words = corrected_text.split()
         
-        # First pass: Exact match
+        # First pass: Exact match with tense normalization
         for window_size in [1, 2, 3]:
             for i in range(len(corrected_words) - window_size + 1):
                 phrase = ' '.join(corrected_words[i:i + window_size])
@@ -85,11 +210,22 @@ class FeatureExtractor:
                 # normalize common suffixes
                 phrase = re.sub(r'(shaped|shapes)$', 'shape', phrase)
 
+                # Try original phrase first
                 if phrase in self.synonym_to_feature:
                     main_feature = self.synonym_to_feature[phrase]
                     if self._hasContextualMatch(phrase, corrected_words, i):
                         if main_feature not in detected:
                             detected.append(main_feature)
+                else:
+                    # Try normalized versions
+                    phrase_variations = self._normalizePhrase(phrase)
+                    for variation in phrase_variations:
+                        if variation in self.synonym_to_feature:
+                            main_feature = self.synonym_to_feature[variation]
+                            if self._hasContextualMatch(phrase, corrected_words, i):
+                                if main_feature not in detected:
+                                    detected.append(main_feature)
+                                    break
 
         # Second pass: Fuzzy matching for n-grams
         for window_size in [2, 3, 1]:  # prefer multi-word matches first
@@ -100,15 +236,23 @@ class FeatureExtractor:
                     continue
 
                 if phrase not in self.synonym_to_feature:
-                    # Try fuzzy matching
-                    fuzzy_match = ""
-                    result = fuzzyMatch(phrase, self.all_synonyms, threshold=0.95)
-                    if result:
-                        fuzzy_match = result[0]
-                    else:
-                        pass
-                    if fuzzy_match:
-                        main_feature = self.synonym_to_feature[fuzzy_match]
+                    # Try fuzzy matching on normalized versions
+                    best_match = None
+                    best_score = 0
+                    
+                    phrase_variations = self._normalizePhrase(phrase)
+                    for variation in phrase_variations:
+                        result = fuzzyMatch(variation, self.all_synonyms, threshold=0.85)
+                        if result:
+                            # fuzzyMatch returns (match, score)
+                            match_str = result[0]
+                            score = result[1] if len(result) > 1 else 1.0
+                            if score > best_score:
+                                best_match = match_str
+                                best_score = score
+                    
+                    if best_match:
+                        main_feature = self.synonym_to_feature[best_match]
                         if self._hasContextualMatch(phrase, corrected_words, i):
                             if main_feature not in detected:
                                 detected.append(main_feature)
@@ -202,7 +346,7 @@ class FeatureExtractor:
         unique_features = []
         seen = set()
         for feature in detected_features:
-            if feature not in seen:
+            if feature not in seen and '_' not in feature:
                 unique_features.append(feature)
                 seen.add(feature)
         

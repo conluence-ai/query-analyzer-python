@@ -24,3 +24,4 @@ class ParserResult:
     extras: Optional[List[str]]
     confidence_score: float
     original_query: Optional[str]
+    suggested_query: Optional[str]
