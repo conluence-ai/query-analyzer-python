@@ -303,6 +303,36 @@ class ProductTypeExtractor:
         
         return None
     
+    def _applyCorrection(self, original_text: str, text_clean: str, matched_categories: List[str]) -> str:
+        """
+        Reconstruct the corrected query by replacing misspelled furniture terms
+        with their most probable canonical form, preferring longer / more specific terms.
+        """
+        corrected_text = original_text
+
+        # Sort by length to prefer longer, more specific terms first
+        matched_categories = sorted(matched_categories, key=len, reverse=True)
+
+        for cat in matched_categories:
+            cat_lower = cat.lower()
+            words = re.findall(r'\b\w{3,}\b', text_clean)
+
+            for word in words:
+                if word != cat_lower:
+                    ratio = SequenceMatcher(None, word, cat_lower).ratio()
+
+                    # If similarity is high enough, replace
+                    if ratio >= 0.75:
+                        # Only replace if this cat is not a substring of another word (avoid double replacement)
+                        corrected_text = re.sub(
+                            r'\b' + re.escape(word) + r'\b',
+                            cat_lower,
+                            corrected_text,
+                            flags=re.IGNORECASE
+                        )
+
+        return corrected_text
+    
     @lru_cache(maxsize=2000)
     def classifyProductType(self, text: str) -> Tuple[List[str], List[float]]:
         """
@@ -325,25 +355,32 @@ class ProductTypeExtractor:
             return ["Unknown"], [0.0]
 
         text_clean = text.lower().strip()
+        corrected_query = text
         
         # Strategy 1: Exact regex matching (highest confidence)
         exact_matches = self._exactMatch(text_clean)
         if exact_matches:
-            return exact_matches
+            return (*exact_matches, corrected_query)
 
         # Strategy 2: Fuzzy string matching
         fuzzy_matches = self._fuzzyMatch(text_clean)
         if fuzzy_matches:
-            return fuzzy_matches
+            categories, confidences = fuzzy_matches
+            corrected_query = self._applyCorrection(text, text_clean, categories)
+            return categories, confidences, corrected_query
 
         # Strategy 3: Vector similarity matching
         vector_matches = self._vectorMatch(text_clean)
         if vector_matches:
-            return vector_matches
+            categories, confidences = vector_matches
+            corrected_query = self._applyCorrection(text, text_clean, categories)
+            return categories, confidences, corrected_query
 
         # Strategy 4: Partial word matching
         partial_matches = self._partialMatch(text_clean)
         if partial_matches:
-            return partial_matches
+            categories, confidences = partial_matches
+            corrected_query = self._applyCorrection(text, text_clean, categories)
+            return categories, confidences, corrected_query
 
         return ["Unknown"], [0.0]

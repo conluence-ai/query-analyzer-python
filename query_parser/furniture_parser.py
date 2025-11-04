@@ -91,8 +91,8 @@ class FurnitureParser:
             logger.info(f"Cleaned query after removing product: {cleaned_query_for_price}")
         
         # STEP 3: Extract other features from ORIGINAL query
-        product_types, product_confidence = self.product_type_extractor.classifyProductType(query)
-        features = self.feature_extractor.extractFeatures(query)
+        product_types, product_confidence, corrected_query = self.product_type_extractor.classifyProductType(query)
+        features, corrected_query = self.feature_extractor.extractFeatures(corrected_query)
         styles = self.style_extractor.extractStyles(query)
         classifications = self.classification_extractor.extractClassification(query)
 
@@ -134,16 +134,6 @@ class FurnitureParser:
             if should_invalidate:
                 price_range = None
 
-        # STEP 6: Generate suggested query based on actual extracted results
-        suggested_query = self._generateSuggestedQuery(
-            query, 
-            product_types, 
-            features, 
-            styles,
-            brand_name,
-            product_name
-        )
-
         result = ParserResult(
             product_type=product_types if product_types != ["Unknown"] else [],
             brand_name=brand_name,
@@ -156,114 +146,8 @@ class FurnitureParser:
             classification_summary=classifications,
             extras=[],
             original_query=query,
-            suggested_query=suggested_query
+            suggested_query=corrected_query if corrected_query != query else None
         )
-        
-        return result
-    
-    def _generateSuggestedQuery(self, query: str, product_types: list, features: list, 
-                                 styles: list, brand_name: str = None, product_name: str = None) -> str:
-        """
-            Generate a spell-corrected version of the query based on extracted results
-            
-            Args:
-                query: Original query text
-                product_types: Extracted product types
-                features: Extracted features
-                styles: Extracted styles
-                brand_name: Extracted brand name
-                product_name: Extracted product name
-                
-            Returns:
-                Corrected query string, or None if no corrections needed
-        """
-        try:
-            from utils.helpers import fuzzyMatch
-            
-            # Build a dictionary of detected terms
-            detected_terms = set()
-            
-            # Add all detected terms (lowercase for matching)
-            if product_types:
-                detected_terms.update([pt.lower() for pt in product_types])
-            if features:
-                detected_terms.update([f.lower() for f in features])
-            if styles:
-                detected_terms.update([s.lower() for s in styles])
-            if brand_name:
-                detected_terms.add(brand_name.lower())
-            if product_name:
-                detected_terms.add(product_name.lower())
-            
-            # If nothing was detected, return None
-            if not detected_terms:
-                return None
-            
-            words = query.lower().split()
-            corrected_words = []
-            used_terms = set()  # Track which terms we've already used
-            has_corrections = False
-            
-            i = 0
-            while i < len(words):
-                word = words[i]
-                corrected_word = word
-                best_match = None
-                best_match_length = 0
-                
-                # Try to match multi-word phrases first (up to 3 words)
-                for window_size in [3, 2, 1]:
-                    if i + window_size <= len(words):
-                        phrase = ' '.join(words[i:i + window_size])
-                        
-                        # Check exact match first
-                        if phrase in detected_terms and phrase not in used_terms:
-                            best_match = phrase
-                            best_match_length = window_size
-                            break
-                        
-                        # Check fuzzy match
-                        fuzzy_result = fuzzyMatch(phrase, detected_terms - used_terms, threshold=0.75)
-                        if fuzzy_result:
-                            matched_term = fuzzy_result[0]
-                            if matched_term not in used_terms:
-                                best_match = matched_term
-                                best_match_length = window_size
-                                break
-                
-                # If we found a match, use it
-                if best_match:
-                    corrected_words.append(best_match)
-                    used_terms.add(best_match)
-                    
-                    # Check if correction was made
-                    original_phrase = ' '.join(words[i:i + best_match_length])
-                    if best_match != original_phrase:
-                        has_corrections = True
-                    
-                    # Skip the matched words
-                    i += best_match_length
-                else:
-                    # No match found, keep original word
-                    corrected_words.append(word)
-                    i += 1
-            
-            # Only return suggested query if corrections were made
-            if has_corrections:
-                suggested = ' '.join(corrected_words)
-                
-                # Preserve original capitalization of first letter
-                if query and query[0].isupper():
-                    suggested = suggested[0].upper() + suggested[1:] if len(suggested) > 1 else suggested.upper()
-                
-                logger.info(f"Generated suggested query: '{query}' -> '{suggested}'")
-                return suggested
-            
-            return None
-            
-        except Exception as e:
-            logger.warning(f"Could not generate suggested query: {e}")
-            return None
         
         return result
     
