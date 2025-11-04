@@ -188,7 +188,7 @@ class StyleExtractor:
         unique_styles = []
         seen = set()
         for style in detected_styles:
-            if style not in seen:
+            if style not in seen and '_' not in style:
                 unique_styles.append(style)
                 seen.add(style)
         
