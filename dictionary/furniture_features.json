@@ -139,6 +139,16 @@
   "high back": ["tall back", "extended back", "elevated back", "high-rise back", "towering back"],
   "standard back": ["regular back", "traditional back", "mid-height back", "average back", "classic back"],
 
+  "metal legs": [
+        "steel legs",
+        "chrome legs",
+        "iron legs"
+    ],
+  "metal arms":[
+        "steel arms",
+        "chrome arms",
+        "iron arms"
+    ],
   "_seat": "SEAT FEATURES",
   "split seat": ["divided seat", "two-part seat", "parted seat", "dual seat", "sectioned seat", "with division seat", "divided seat panel", "partitioned seat"],
   "without division seat": ["continuous seat", "one-piece seat", "solid seat", "unbroken seat", "seamless seat"],
